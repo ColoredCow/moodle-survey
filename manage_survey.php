@@ -9,7 +9,6 @@ $context = context_system::instance();
 $PAGE->set_context($context);
 $PAGE->set_url(new moodle_url('/local/moodle_survey/manage_survey.php'));
 $PAGE->set_title(get_string('managesurvey', 'local_moodle_survey'));
-$PAGE->set_heading(get_string('managesurvey', 'local_moodle_survey'));
 
 $search = optional_param('search', '', PARAM_RAW_TRIMMED);
 $status = optional_param('status', 'all', PARAM_ALPHA);
@@ -20,12 +19,15 @@ echo $OUTPUT->header();
 
 // Add Create Survey button
 $createurl = new moodle_url('/local/moodle_survey/create_survey.php');
-echo html_writer::div($OUTPUT->single_button($createurl, get_string('createsurvey', 'local_moodle_survey')), 'create-survey-button');
+$createbutton = html_writer::div($OUTPUT->single_button($createurl, get_string('createsurvey', 'local_moodle_survey')), 'create-survey-button');
+$heading = html_writer::tag('h4', get_string('managesurvey', 'local_moodle_survey'));
+$content = $heading . ' ' . $createbutton;
+echo html_writer::tag('div', $content, array('class' => 'survey-header'));
 
 // Filter form
 echo html_writer::start_tag('form', ['method' => 'get', 'action' => $PAGE->url]);
 echo html_writer::start_div('filter-form'); // Add a CSS class for the form container
-echo html_writer::empty_tag('input', ['type' => 'text', 'name' => 'search', 'value' => $search, 'placeholder' => get_string('search', 'local_moodle_survey'), 'class' => 'search-input']); // Add a CSS class for the input element
+echo html_writer::empty_tag('input', ['type' => 'date', 'placeholder' => get_string('createdat', 'local_moodle_survey'), 'class' => 'date-input']);
 
 $statusoptions = [
     'all' => get_string('all', 'local_moodle_survey'),
@@ -34,7 +36,7 @@ $statusoptions = [
 ];
 echo html_writer::select($statusoptions, 'status', $status, ['class' => 'status-select']); // Add a CSS class for the select element
 
-echo html_writer::empty_tag('input', ['type' => 'submit', 'value' => get_string('filter', 'local_moodle_survey'), 'class' => 'filter-button']); // Add a CSS class for the submit button
+echo html_writer::empty_tag('input', ['type' => 'text', 'name' => 'search', 'value' => $search, 'placeholder' => get_string('search', 'local_moodle_survey'), 'class' => 'search-input']);
 
 echo html_writer::end_div();
 echo html_writer::end_tag('form');

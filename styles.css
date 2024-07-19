@@ -6,10 +6,10 @@
 /* Styles for nav-pills */
 #tabs ul {
     list-style: none;
-    padding: 0;
     display: flex;
     border-bottom: 1px solid #ddd;
     margin-bottom: 20px;
+    padding-bottom: 30px !important;
 }
 
 #tabs ul li {
@@ -22,18 +22,21 @@
     text-decoration: none;
     border: 1px solid transparent;
     border-radius: 4px;
-    color: #007bff;
+    color: black !important;
 }
 
 #tabs ul li a:hover {
-    background-color: #f8f9fa;
-    border-color: #ddd;
+    background-color: #f8f9fa !important;
+    border-color: transparent !important;
 }
 
 #tabs ul li.active a {
-    color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
+    color: rgb(10, 10, 10) !important;
+    background-color: #fff !important;
+    border-bottom: 5px solid black !important;
+    border-left-color: transparent !important;
+    border-right-color: transparent !important;
+    border-top-color: transparent !important;
 }
 
 #tabs > div {
@@ -47,12 +50,26 @@
 /* Styles for filter-form */
 .filter-form {
     display: flex;
+    justify-content: space-between;
+    background-color: #F6F6F6;
     gap: 10px; /* Adds 5px gap between child elements */
+    padding: 20px 24px;
     margin-bottom: 20px;
+    margin-top: 17px;
+
+    .search-input, .custom-select, .date-input {
+        width: 290px;
+        height: 39px;
+    }
 }
 
 .search-input,
 .status-select,
 .filter-button {
     padding: 5px; /* Optional: Add padding to elements for better spacing */
+}
+
+.survey-header {
+    display: flex;
+    justify-content: space-between;
 }

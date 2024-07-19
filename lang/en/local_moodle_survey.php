@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'Saishiko Surveys';
-$string['managesurvey'] = 'Manage Surveys';
+$string['managesurvey'] = 'Surveys';
 $string['createsurvey'] = 'Create New Survey';
 $string['surveyname'] = 'Survey Name';
 $string['surveydescription'] = 'Survey Description';
@@ -54,3 +54,4 @@ $string['inactive'] = 'Inactive';
 $string['filter'] = 'Filter';
 $string['search'] = 'Search';
 $string['all'] = 'All';
+$string['createdat'] = 'Created At';
