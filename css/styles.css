@@ -149,7 +149,6 @@
     font-weight: 400;
     color: #232323;
     display: grid;
-    margin: 0px;
 }
 
 .mform .form-group {
@@ -237,14 +236,6 @@
     margin-top: 40px;
     width: 749px;
 
-    .custom-action-btn {
-        padding: 12px 14px;
-        border: 1px solid #F16824;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: 500;
-    }
-
     .custom-submit-button {
         background-color: #F16824;
         color: white;
@@ -256,6 +247,14 @@
         padding-inline: 34px;
         text-decoration: none;
     }
+}
+
+.custom-action-btn, .question-score-remove-btn  {
+    padding: 12px 14px;
+    border: 1px solid #F16824;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
 }
 
 .question-category-section {
@@ -287,7 +286,7 @@
         gap: 8px;
     }
 }
-/* Style for the custom checkbox */
+
 input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
@@ -300,13 +299,11 @@ input[type="checkbox"] {
     display: inline-block;
 }
 
-/* Style when checkbox is checked */
 input[type="checkbox"]:checked {
     background-color: #FFF0E6;
     border: 1px solid #F16824;
 }
 
-/* Style for the tick mark */
 input[type="checkbox"]:checked::before {
     content: '';
     position: absolute;
@@ -320,7 +317,25 @@ input[type="checkbox"]:checked::before {
     background-color: transparent;
 }
 
-/* Optional: Add focus outline for accessibility */
 input[type="checkbox"]:focus {
     outline-offset: 2px;
+}
+
+.checkbox-label {
+    margin: 0px !important;
+}
+
+.select-schools-section {
+    margin-bottom: 38px !important;
+}
+
+.question-score-remove-option {
+    align-items: center;
+    display: flex;
+
+    .question-score-remove-btn {
+        margin-top: 25px;
+        text-decoration: none;
+        color: #F16824;
+    }
 }

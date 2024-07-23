@@ -83,7 +83,16 @@ $string['publishsurveybtn'] = 'Save & Publish';
 $string['targetaudience'] = 'TARGET AUDIENCE';
 $string['accesstoresponse'] = 'ACCESS TO RESPONSES';
 $string['assigntoschool'] = 'ASSIGN TO SCHOOL';
-$string['students'] = 'Students';
-$string['studentsid'] = 'students';
-$string['teachers'] = 'Teachers';
-$string['teachersid'] = 'teachers';
+$string['targetaudiencevalues'] = [
+    'students' => 'Students',
+    'teachers' => 'Teachers',
+];
+$string['accesstoresponsevalues'] = [
+    'principal' => 'Principal',
+    'teacher' => 'Teacher',
+    'counsellor' => 'Counsellor',
+];
+$string['assigntoschools'] = [
+    'state_of_school'  => 'State of School',
+    'select_school' => 'Select School',
+];
