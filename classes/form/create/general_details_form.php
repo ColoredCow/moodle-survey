@@ -3,7 +3,7 @@ namespace local_moodle_survey\form\create;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once("$CFG->libdir/customformslib.php");
+require_once($CFG->dirroot . '/local/moodle_survey/lib/customformslib.php');
 
 class general_details_form extends \customformlib {
     public function definition() {

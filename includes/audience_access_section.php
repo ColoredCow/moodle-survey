@@ -37,7 +37,7 @@
     </div>
 
     <?php 
-        require_once($CFG->dirroot . '/lib/customformslib.php');
+        require_once($CFG->dirroot . '/local/moodle_survey/lib/customformslib.php');
         $buttonsform = new \customformlib(true, get_string('publishsurveybtn', 'local_moodle_survey'));
         $buttonsform->display();
     ?>

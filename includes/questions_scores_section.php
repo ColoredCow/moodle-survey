@@ -22,7 +22,7 @@ $plusicon = new \moodle_url('/local/moodle_survey/pix/plus-icon.svg');
         </button>
     </div>
     <?php 
-        require_once($CFG->dirroot . '/lib/customformslib.php');
+        require_once($CFG->dirroot . '/local/moodle_survey/lib/customformslib.php');
         $buttonsform = new \customformlib(true, get_string('submit', 'local_moodle_survey'));
         $buttonsform->display();
     ?>
