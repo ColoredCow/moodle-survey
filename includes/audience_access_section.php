@@ -12,7 +12,7 @@
             <h5><?php echo get_string('targetaudience', 'local_moodle_survey') ?></h5>
         </div>
         <div class="accordion-body question-score-form">
-            <?php echo $mform->targetAudienceForm() ?>
+            <?php echo $mform->display() ?>
         </div>
     </div>
     

@@ -149,6 +149,7 @@
     font-weight: 400;
     color: #232323;
     display: grid;
+    margin: 0px;
 }
 
 .mform .form-group {
@@ -273,4 +274,53 @@
     width: 749px;
     border-bottom: 1px solid #D9D9D9;
     margin-bottom: 25px;
+}
+
+.audience-access-form {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 25px;
+
+    .checkbox-section {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+}
+/* Style for the custom checkbox */
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: #FFF0E6;
+    border: 1px solid #F16824;
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+}
+
+/* Style when checkbox is checked */
+input[type="checkbox"]:checked {
+    background-color: #FFF0E6;
+    border: 1px solid #F16824;
+}
+
+/* Style for the tick mark */
+input[type="checkbox"]:checked::before {
+    content: '';
+    position: absolute;
+    left: 30%;
+    top: 11%;
+    width: 8px;
+    height: 14px;
+    border: solid #F16824;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+    background-color: transparent;
+}
+
+/* Optional: Add focus outline for accessibility */
+input[type="checkbox"]:focus {
+    outline-offset: 2px;
 }
