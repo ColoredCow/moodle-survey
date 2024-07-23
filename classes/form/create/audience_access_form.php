@@ -59,10 +59,10 @@ class audience_access_form extends \customformlib {
     private function get_checkbox_input_fields($sections_values){
         $mform = $this->_form;
         $mform->addElement('html', '<div class="audience-access-form">');
-        foreach($sections_values as $key => $accesstoresponsevalue) {
+        foreach($sections_values as $key => $access_to_response_value) {
             $mform->addElement('html', '<div class="checkbox-section">');
             $mform->addElement('html', '<input type="checkbox" id="' . $key . '" name="' . $key . '" class="form-control">');
-            $mform->addElement('html', '<label for="question" class="checkbox-label">' . $accesstoresponsevalue . '</label>');
+            $mform->addElement('html', '<label for="question" class="checkbox-label">' . $access_to_response_value . '</label>');
             $mform->addElement('html', '</div>');
         }
         $mform->addElement('html', '</div>');
