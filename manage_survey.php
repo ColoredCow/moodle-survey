@@ -13,7 +13,7 @@ $PAGE->set_title(get_string('managesurvey', 'local_moodle_survey'));
 $search = optional_param('search', '', PARAM_RAW_TRIMMED);
 $status = optional_param('status', 'all', PARAM_ALPHA);
 
-$PAGE->requires->css(new moodle_url('/local/moodle_survey/styles.css'));
+$PAGE->requires->css(new moodle_url('/local/moodle_survey/css/styles.css'));
 
 echo $OUTPUT->header();
 

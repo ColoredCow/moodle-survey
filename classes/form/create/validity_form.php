@@ -9,10 +9,15 @@ class validity_form extends \moodleform {
     public function definition() {
         $mform = $this->_form;
 
-        // Add elements for validity
-        $mform->addElement('text', 'validity', get_string('validity', 'local_moodle_survey'));
-        $mform->setType('validity', PARAM_NOTAGS);
-
-        $this->add_action_buttons();
+        $mform = $this->_form;
+        $mform->addElement('html', '<div class="form-section">');
+        $mform->addElement('html', '<div class="form-group">');
+        $mform->addElement('html', '<label for="question">' . get_string('surveyvaliditystartdatelabel', 'local_moodle_survey') . '</label>');
+        $mform->addElement('html', '<input type="date" id="question" name="question" class="form-control">');
+        $mform->addElement('html', '</div>');
+        $mform->addElement('html', '<div class="form-group">');
+        $mform->addElement('html', '<label for="question">' . get_string('surveyvalidityenddatelabel', 'local_moodle_survey') . '</label>');
+        $mform->addElement('html', '<input type="date" id="question" name="question" class="form-control">');
+        $mform->addElement('html', '</div></div>');
     }
 }
