@@ -119,7 +119,7 @@ function createQuestionScoreSection() {
         </div>
         <div class="associated-option-section">
             <label class="form-label">Associated Option</label>
-            <input type="text" class="question-associatedoption" name="associatedoption[]" placeholder="Interpreted as">
+            <input type="text" class="question-associatedoption" name="associatedoption[]" placeholder="ex: never">
         </div>
         <div class="question-score-remove-option">
             <a href="#" class="question-score-remove-btn">Remove</a>
