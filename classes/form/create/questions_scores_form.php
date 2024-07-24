@@ -3,50 +3,82 @@ namespace local_moodle_survey\form\create;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/local/moodle_survey/lib/customformslib.php');
-
-class questions_scores_form extends \customformlib {
+class questions_scores_form extends \moodleform {
     public function definition() {
         $mform = $this->_form;
-        $mform->addElement('html', '<div class="form-section">');
-        $mform->addElement('html', '<div class="form-group">');
-        $mform->addElement('html', '<label for="question">' . get_string('questionlabel', 'local_moodle_survey') . '</label>');
-        $mform->addElement('html', '<input type="text" id="question" name="question" class="form-control" placeholder="' . get_string('questionplaceholder', 'local_moodle_survey') . '">');
+        $attributes = $mform->getAttributes();
+        $attributes['class'] = "create-survey-form";
+        $mform->setAttributes($attributes);
+        $this->get_question_score_form($mform);
+        $this->get_form_action_button($mform);
+    }
+
+    protected function get_question_score_form($mform) {
+        static $question_count = 1;
+    
+        $iconurl = new \moodle_url('/local/moodle_survey/pix/arrow-down.svg');
+        $mform->addElement('html', '<div class="accordion">');
+        $mform->addElement('html', '<div id="question-template" class="accordion-item question-item-section" data-question-number"' . $question_count . '">');
+        $mform->addElement('html', '<div class="accordion-header general-details-section">');
+        $mform->addElement('html', '<img src="' . $iconurl . '" alt="Icon" class="accordion-icon">');
+        $mform->addElement('html', '<h5>Question <span class="question-number">' . $question_count . '</span></h5>');
+        $mform->addElement('html', '</div><div class="accordion-body question-score-form">');
+        $this->get_survey_question_field($mform);
+        $this->get_question_category_section($mform);
         $mform->addElement('html', '<div class="new-option-section question-score-option-section" id="question-score-option-section">');
-        $mform->addElement('html', $this->get_question_score_section());
+        $this->get_question_score_section($mform);
+        $mform->addElement('html', '</div></div></div>');
         $mform->addElement('html', '</div>');
-        $mform->addElement('html', '<div id="new-sections-container"></div>');
-        $mform->addElement('html', $this->get_add_new_option_button(get_string('addnewscorebuttonid', 'local_moodle_survey'), get_string('addnewscorebutton', 'local_moodle_survey')));
-        $mform->addElement('html', $this->get_question_category_section());
-        $mform->addElement('html', '</div></div>');
     }
     
-    protected function get_question_score_section() {
-        $section = '<div class="question-score-section">';
-        $section .= '<div><label for="from" class="form-label">' . get_string('score', 'local_moodle_survey') . '</label>';
-        $section .= '<input type="number" id="number" class="question-score" name="score[]" min="1" max="10"></div>';
-        $section .= '<div class="associated-option-section"><label for="associatedoption" class="form-label">' . get_string('associatedoption', 'local_moodle_survey') . '</label>';
-        $section .= '<input type="text" id="associatedoption" class="question-associatedoption" name="associatedoption[]" placeholder="' . get_string('interpretedasplaceholder', 'local_moodle_survey') . '"></div>';
-        $section .= '</div>';
-        return $section;
+    protected function get_question_score_section($mform) {
+        $mform->addElement('html', '<div class="question-score-section">');
+        $mform->addElement('text', 'questionscore[]', get_string('score', 'local_moodle_survey'), 'min="1" max="10" class=""');
+        $mform->addElement('html', '</div>');
+        $mform->addElement('html', '<div class="associated-option-section">');
+        $mform->addElement('text', 'associatedoption[]', get_string('associatedoption', 'local_moodle_survey'), 'maxlength="100" size="30" placeholder="' . get_string('interpretedasplaceholder', 'local_moodle_survey') . '"');
+        $mform->setType('associatedoption[]', PARAM_NOTAGS);
+        $mform->addRule('associatedoption[]', null, 'required', null, 'client');
+        $mform->addElement('html', '</div>');
     }
 
-    protected function get_question_category_section() {
-        $section = '<div class="question-category-section">';
-        $section .= '<div class="question-category-selection"><label for="category" class="form-label">' . get_string('questioncategory', 'local_moodle_survey') . '</label>';
-        $section .= '<select id="id_name" name="status" class="form-control question-score-category-selection" required>';
-        $section .= '<option value="0">' . get_string('inactive', 'local_moodle_survey') . '</option>';
-        $section .= '<option value="1">' . get_string('active', 'local_moodle_survey') . '</option>';
-        $section .= '</select></div>';
-        $section .= '<div id="question-category-selection"></div>';
-        $section .= $this->get_add_new_option_button(get_string('addnewcategoryid', 'local_moodle_survey'), get_string('addnewcategory', 'local_moodle_survey'));
-        $section .= '</div>';
-        return $section;
+    protected function get_survey_question_field($mform){
+        $mform->addElement('text', 'question', get_string('questionlabel', 'local_moodle_survey'), 'maxlength="100" size="30" class=""');
+        $mform->setType('question', PARAM_NOTAGS);
+        $mform->addRule('question', null, 'required', null, 'client');
     }
 
-    protected function get_add_new_option_button($buttonid, $buttonlabel) {
+    protected function get_question_category_section($mform) {
+        $mform->addElement('html', '<div class="question-category-section"><div class="question-category-selection">');
+        $options = [];
+        $questioncategories = [
+            ['id' => 1, 'label' => 'Category 1'],
+            ['id' => 2, 'label' => 'Category 2'],
+            ['id' => 3, 'label' => 'Category 3'],
+        ];
+        foreach ($questioncategories as $category) {
+            $options[$category['id']] = $category['label'];
+        }
+        $mform->addElement('select', 'question_category_id', get_string('questioncategory', 'local_moodle_survey'), $options);
+        $mform->setType('question_category_id', PARAM_INT);
+        $mform->addRule('question_category_id', null, 'required', null, 'client');
+        $mform->addElement('html', '</div></div>');
+    }
+
+    protected function get_add_new_option_button($buttonid, $buttonlabel, $mform, $containerid) {
+        $mform->addElement('html', '<div id="' . $containerid . '">');
         $iconurl = new \moodle_url('/local/moodle_survey/pix/plus-icon.svg');
-        $button = '<button type="button" id="' . $buttonid . '" class="add-new-button"><img src="' . $iconurl . '" alt="Icon" class="plus-icon">' . $buttonlabel . '</button>';
-        return $button;
+        $mform->addElement('html', '<button type="button" id="' . $buttonid . '" class="add-new-button"><img src="' . $iconurl . '" alt="Icon" class="plus-icon">' . $buttonlabel . '</button>');
+        $mform->addElement('html', '</div>');
+    }
+
+    public function get_form_action_button($mform) {
+        $submitbutton = $mform->createElement('submit', 'submitbutton1', get_string('savechanges'), ['class' => 'custom-form-action-btn custom-submit-button']);
+        $cancelbutton = $mform->createElement('cancel', 'cancelbutton1', get_string('cancel'), ['class' => 'custom-form-action-btn custom-cancel-button']);
+        $this->get_add_new_option_button("add-new-question-button", get_string('addnewquestion', 'local_moodle_survey'), $mform, "");
+        $mform->addElement('html', '<div class="custom-form-action-buttons">');
+        $mform->addElement($cancelbutton);
+        $mform->addElement($submitbutton); 
+        $mform->addElement('html', '</div>');
     }
 }
