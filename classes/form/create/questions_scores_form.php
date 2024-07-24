@@ -9,26 +9,26 @@ class questions_scores_form extends \moodleform {
         $attributes = $mform->getAttributes();
         $attributes['class'] = "create-survey-form";
         $mform->setAttributes($attributes);
+        $mform->addElement('html', '<div class="accordion">');
         $this->get_question_score_form($mform);
+        $mform->addElement('html', '</div>');
         $this->get_form_action_button($mform);
     }
 
     protected function get_question_score_form($mform) {
         static $question_count = 1;
-    
         $iconurl = new \moodle_url('/local/moodle_survey/pix/arrow-down.svg');
-        $mform->addElement('html', '<div class="accordion">');
         $mform->addElement('html', '<div id="question-template" class="accordion-item question-item-section" data-question-number"' . $question_count . '">');
         $mform->addElement('html', '<div class="accordion-header general-details-section">');
         $mform->addElement('html', '<img src="' . $iconurl . '" alt="Icon" class="accordion-icon">');
-        $mform->addElement('html', '<h5>Question <span class="question-number">' . $question_count . '</span></h5>');
+        $mform->addElement('html', '<h5>Question <span id="question-number">' . $question_count . '</span></h5>');
         $mform->addElement('html', '</div><div class="accordion-body question-score-form">');
         $this->get_survey_question_field($mform);
         $this->get_question_category_section($mform);
         $mform->addElement('html', '<div class="new-option-section question-score-option-section" id="question-score-option-section">');
         $this->get_question_score_section($mform);
         $mform->addElement('html', '</div></div></div>');
-        $mform->addElement('html', '</div>');
+        $mform->addElement('html', '<div class="new-sections-container"></div>');
     }
     
     protected function get_question_score_section($mform) {

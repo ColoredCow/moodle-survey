@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize the click event for adding new questions
     document.getElementById('add-new-question-button').addEventListener('click', function() {
-        const template = document.getElementById('question-template');
+        const template = document.getElementsByClassName('accordion');
         const newQuestion = template.cloneNode(true);
         const sectionsContainer = newQuestion.querySelector('#new-sections-container');
         if (sectionsContainer) {
@@ -230,3 +230,20 @@ function initializeAccordion(section) {
         });
     });
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    let questionCount = 1;
+    
+    document.getElementById('add-new-question-button').addEventListener('click', function() {
+        questionCount++;
+        
+        const template = document.getElementById('question-template').innerHTML;
+        const newQuestionHtml = template.replace(/TEMPLATE_NUM/g, questionCount);
+        
+        const newSection = document.createElement('div');
+        newSection.className = "accordion-item question-item-section";
+        newSection.innerHTML = newQuestionHtml;
+        newSection.querySelector('#question-number').innerText = questionCount;
+        document.querySelector('.new-sections-container').appendChild(newSection);
+    });
+});
