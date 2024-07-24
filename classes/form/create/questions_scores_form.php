@@ -32,7 +32,8 @@ class questions_scores_form extends \moodleform {
     }
     
     protected function get_question_score_section($mform) {
-        $mform->addElement('text', 'questionscore[]', get_string('score', 'local_moodle_survey'), 'min="1" max="10" class=""');
+        $mform->addElement('text', 'questionscore[]', get_string('score', 'local_moodle_survey'), ['type' => 'number', 'min' => 0, 'step' => 1]);
+        $mform->setType('questionscore[]', PARAM_INT);
         $mform->addElement('html', '<div class="associated-option-section">');
         $mform->addElement('text', 'associatedoption[]', get_string('associatedoption', 'local_moodle_survey'), 'maxlength="100" size="30" placeholder="' . get_string('interpretedasplaceholder', 'local_moodle_survey') . '"');
         $mform->setType('associatedoption[]', PARAM_NOTAGS);

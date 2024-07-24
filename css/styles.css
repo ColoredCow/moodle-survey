@@ -109,7 +109,7 @@
     }
 }
 
-.question-score-form {
+.question-score-form, accordion-body {
     margin-left: 35px;
     margin-top: 20px;
     width: 661px;
