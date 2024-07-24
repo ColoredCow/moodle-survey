@@ -159,9 +159,9 @@
 }
 
 .question-score-section {
-    display: flex;
     gap: 20px;
     width: 100%;
+    margin-left: 35px;
 }
 
 .question-score {
@@ -178,10 +178,8 @@
 }
 
 .question-interpretedas, .question-associatedoption {
-    width: 429px;
-    border: 1px solid #949494 !important;
     border-radius: 8px;
-    padding-left: 16px;
+    padding-left: 35px;
 }
 
 .mform .form-section {
