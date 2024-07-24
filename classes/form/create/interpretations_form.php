@@ -14,18 +14,6 @@ class interpretations_form extends \moodleform {
         $mform->addElement('html', '</div>');
         $this->get_form_action_button($mform);
     }
-    
-    // protected function get_question_score_section() {
-    //     $section = '<div class="question-score-section">';
-    //     $section .= '<div><label for="from" class="form-label">' . get_string('scorefrom', 'local_moodle_survey') . '</label>';
-    //     $section .= '<input type="number" class="question-score" id="number" name="scorefrom[]" min="1" max="10"></div>';
-    //     $section .= '<div><label for="to" class="form-label">' . get_string('scoreto', 'local_moodle_survey') . '</label>';
-    //     $section .= '<input type="number" class="question-score" id="number" name="scoreto[]" min="1" max="10"></div>';
-    //     $section .= '<div><label for="interpretedas" class="form-label">' . get_string('interpretedas', 'local_moodle_survey') . '</label>';
-    //     $section .= '<input type="text" id="interpretedas" class="question-interpretedas" name="interpretedas[]" placeholder="' . get_string('interpretedasplaceholder', 'local_moodle_survey') . '"></div>';
-    //     $section .= '</div>';
-    //     return $section;
-    // }
 
     protected function get_question_score_form($mform) {
         static $question_count = 1;

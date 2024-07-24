@@ -348,3 +348,17 @@ input[type="checkbox"]:focus {
         color: #F16824;
     }
 }
+
+#fitem_id_survey_collection_responses_start_date, #fitem_id_survey_collection_responses_end_date {
+    display: flex;
+    gap: 25px;
+}
+
+#fitem_id_survey_collection_responses_end_date {
+    margin-top: 16px;
+}
+
+.survey-collection-responses-date-section {
+    margin-left: 35px;
+    margin-bottom: 25px;
+}
