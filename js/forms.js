@@ -17,23 +17,18 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-function createQuestionScoreSection() {
-    var newSection = document.createElement('div');
-    newSection.className = 'new-option-section question-score-option-section';
-
-    newSection.innerHTML = `
-        <div>
-            <label for="score" class="form-label">Score</label>
-            <input type="number" id="number" class="question-score" name="score[]" min="1" max="10">
-        </div>
-        <div class="associated-option-section">
-            <label for="associatedoption" class="form-label">Associated option</label>
-            <input type="text" id="associatedoption" class="question-associatedoption" name="associatedoption[]" placeholder="ex: never">
-        </div>
-    `;
-
-    return newSection;
-}
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('add-category-button').addEventListener('click', function() {
+        var container = document.getElementById('new-category-input-container');
+        var newSelect = document.createElement('select');
+        newSelect.name = 'category';
+        newSelect.className = 'form-control category-select';
+        newSelect.required = true;
+        newSelect.innerHTML = '<option value="0">Inactive</option>' +
+                            '<option value="1">Active</option>';
+        container.appendChild(newSelect);
+    });
+});
 
 function createQuestionCategorySelectionSection() {
     var newSection = document.createElement('div');
@@ -114,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function createQuestionScoreSection() {
     const section = document.createElement('div');
-    section.className = 'question-score-section';
+    section.className = 'question-score-section new-option-section';
     section.innerHTML = `
         <div>
             <label class="form-label">Score</label>
@@ -122,9 +117,17 @@ function createQuestionScoreSection() {
         </div>
         <div class="associated-option-section">
             <label class="form-label">Associated Option</label>
-            <input type="text" class="question-associatedoption" name="associatedoption[]" placeholder="Interpreted as">
+            <input type="text" class="question-associatedoption" name="associatedoption[]" placeholder="ex: never">
+        </div>
+        <div class="question-score-remove-option">
+            <a href="#" class="question-score-remove-btn">Remove</a>
         </div>
     `;
+
+    section.querySelector('.question-score-remove-btn').addEventListener('click', function(event) {
+        event.preventDefault();
+        section.remove();
+    });
     return section;
 }
 
