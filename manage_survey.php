@@ -34,7 +34,7 @@ $statusoptions = [
     'active' => get_string('active', 'local_moodle_survey'),
     'inactive' => get_string('inactive', 'local_moodle_survey')
 ];
-echo html_writer::select($statusoptions, 'status', $status, ['class' => 'status-select']); // Add a CSS class for the select element
+echo html_writer::select($statusoptions, 'status', $status, null, ['class' => 'status-select']);
 
 echo html_writer::empty_tag('input', ['type' => 'text', 'name' => 'search', 'value' => $search, 'placeholder' => get_string('search', 'local_moodle_survey'), 'class' => 'search-input']);
 
@@ -43,7 +43,7 @@ echo html_writer::end_tag('form');
 
 
 // Fetch and display surveys based on filters
-$sql = "SELECT * FROM mdl_moodle_survey WHERE 1=1";
+$sql = "SELECT * FROM {cc_surveys} WHERE 1=1";
 $params = [];
 
 if ($search) {

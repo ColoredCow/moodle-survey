@@ -9,7 +9,7 @@ $PAGE->set_url(new moodle_url('/local/moodle_survey/edit_survey.php', ['id' => $
 $PAGE->set_title(get_string('editsurvey', 'local_moodle_survey'));
 $PAGE->set_heading(get_string('editsurvey', 'local_moodle_survey'));
 
-$survey = $DB->get_record('moodle_survey', ['id' => $id], '*', MUST_EXIST);
+$survey = $DB->get_record('cc_surveys', ['id' => $id], '*', MUST_EXIST);
 
 $mform = new \local_moodle_survey\form\edit_survey_form(null, ['survey' => $survey]);
 

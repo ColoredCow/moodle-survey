@@ -3,51 +3,52 @@ namespace local_moodle_survey\form\create;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/local/moodle_survey/lib/customformslib.php');
+class general_details_form extends \moodleform {
+    protected $surveycategories;
 
-class general_details_form extends \customformlib {
+    public function __construct($surveycategories=[]) {
+        $this->surveycategories = $surveycategories;
+        parent::__construct();
+    }
+
     public function definition() {
         $mform = $this->_form;
+        $attributes = $mform->getAttributes();
+        $attributes['class'] = "create-survey-form";
+        $mform->setAttributes($attributes);
 
-        // Add custom HTML for form heading
-        $mform->addElement('html', '<div class="form-section">');
+        // Add form sections using Moodle form API
         $this->add_survey_name_field($mform);
         $this->add_survey_category_field($mform);
         $this->add_survey_description_field($mform);
-        $mform->addElement('html', '</div>');
-
-
+ 
         // Add action buttons
-        $this->add_custom_action_buttons_helper(true, get_string('submit', 'local_moodle_survey'));
+        $submitbutton = $mform->createElement('submit', 'submitbutton1', get_string('savechanges'), ['class' => 'custom-form-action-btn custom-submit-button']);
+        $cancelbutton = $mform->createElement('cancel', 'cancelbutton1', get_string('cancel'), ['class' => 'custom-form-action-btn custom-cancel-button']);
+        $mform->addElement('html', '<div class="custom-form-action-buttons">');
+        $mform->addElement($cancelbutton);
+        $mform->addElement($submitbutton); 
+        $mform->addElement('html', '</div>');
     }
 
-
     private function add_survey_category_field($mform) {
-        $iconurl = new \moodle_url('/local/moodle_survey/pix/plus-icon.svg');
-
-        $mform->addElement('html', '<div class="form-group">');
-        $mform->addElement('html', '<label for="survey_category">' . get_string('surveycategory', 'local_moodle_survey') . '</label>');
-        $mform->addElement('html', '<select id="survey_category" name="status" class="form-control" required>');
-        $mform->addElement('html', '<option value="0">' . get_string('inactive', 'local_moodle_survey') . '</option>');
-        $mform->addElement('html', '<option value="1">' . get_string('active', 'local_moodle_survey') . '</option>');
-        $mform->addElement('html', '</select>');
-        $mform->addElement('html', '<div class="new-option-section">');
-        $mform->addElement('html', '<div id="new-category-input-container"></div>');
-        $mform->addElement('html', '<button type="button" id="add-category-button" class="add-new-button"><img src="' . $iconurl . '" alt="Icon" class="plus-icon">' . get_string('newsurveycategory', 'local_moodle_survey') . '</button>');
-        $mform->addElement('html', '</div> </div>');
+        $options = [];
+        foreach ($this->surveycategories as $category) {
+            $options[$category->id] = $category->label;
+        }
+        $mform->addElement('select', 'category_id', get_string('surveycategory', 'local_moodle_survey'), $options);
+        $mform->setType('category_id', PARAM_INT);
+        $mform->addRule('category_id', null, 'required', null, 'client');
     }
 
     private function add_survey_description_field($mform) {
-        $mform->addElement('html', '<div class="form-group">');
-        $mform->addElement('html', '<label for="id_description">' . get_string('surveydescription', 'local_moodle_survey') . '</label>');
-        $mform->addElement('html', '<textarea id="id_description" placeholder="' . get_string('surveydescriptionplaceholder', 'local_moodle_survey') . '" name="description" wrap="virtual" rows="5" cols="100" class="form-control"></textarea>');
-        $mform->addElement('html', '</div>');
+        $mform->addElement('textarea', 'description', get_string('surveydescription', 'local_moodle_survey'), 'wrap="virtual" rows="5" cols="100" class=""');
+        $mform->setType('description', PARAM_TEXT);
     }
-    
+
     private function add_survey_name_field($mform) {
-        $mform->addElement('html', '<div class="form-group">');
-        $mform->addElement('html', '<label for="survey_name">' . get_string('surveyname', 'local_moodle_survey') . '</label>');
-        $mform->addElement('html', '<input id="survey_name" placeholder="' . get_string('surveynameplaceholder', 'local_moodle_survey') . '" name="name" class="form-control" />');
-        $mform->addElement('html', '</div>');
+        $mform->addElement('text', 'name', get_string('surveyname', 'local_moodle_survey'), 'maxlength="100" size="30" class=""');
+        $mform->setType('name', PARAM_NOTAGS);
+        $mform->addRule('name', null, 'required', null, 'client');
     }
 }

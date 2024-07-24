@@ -63,6 +63,14 @@
     }
 }
 
+.create-survey-form .fa-exclamation-circle {
+    display: none;
+}
+
+.create-survey-form .fdescription {
+    display: none;
+}
+
 .search-input,
 .status-select,
 .filter-button {

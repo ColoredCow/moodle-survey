@@ -229,32 +229,35 @@
     margin-right: 9px;
 }
 
-.form-action-buttons {
+.custom-form-action-buttons {
     display: flex;
     justify-content: flex-end;
-    gap: 20px;
+    gap: 10px;
     margin-top: 40px;
     width: 749px;
 
-    .custom-action-btn {
-        padding: 12px 14px;
-        border: 1px solid #F16824;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: 500;
-    }
-
-    .custom-submit-button {
+    .custom-submit-button input {
         background-color: #F16824;
+        border: 1px solid #F16824;
         color: white;
+        border-radius: 8px;
     }
 
-    .custom-cancel-button {
+    .custom-cancel-button input {
         background-color: #FFFFFF;
+        border: 1px solid #F16824 !important;
+        border-radius: 8px;
         color: #F16824;
         padding-inline: 34px;
-        text-decoration: none;
     }
+}
+
+.create-survey-form .fdescription  {
+    display: none;
+}
+
+.create-survey-form .fa-exclamation-circle {
+    display: none;
 }
 
 .question-category-section {

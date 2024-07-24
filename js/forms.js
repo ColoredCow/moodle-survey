@@ -17,19 +17,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('add-category-button').addEventListener('click', function() {
-        var container = document.getElementById('new-category-input-container');
-        var newSelect = document.createElement('select');
-        newSelect.name = 'category';
-        newSelect.className = 'form-control category-select';
-        newSelect.required = true;
-        newSelect.innerHTML = '<option value="0">Inactive</option>' +
-                            '<option value="1">Active</option>';
-        container.appendChild(newSelect);
-    });
-});
-
 function createQuestionScoreSection() {
     var newSection = document.createElement('div');
     newSection.className = 'new-option-section question-score-option-section';

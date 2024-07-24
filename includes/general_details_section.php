@@ -9,18 +9,25 @@
         <div class="accordion-body general-details">
             <?php
             require_once($CFG->dirroot . '/local/moodle_survey/classes/form/create/general_details_form.php');
-            $mform = new \local_moodle_survey\form\create\general_details_form();
-            if ($mform->is_cancelled()) {
+            require_once($CFG->dirroot . '/local/moodle_survey/classes/model/survey.php');
+            $dbhelper = new \local_moodle_survey\model\survey();
+
+            $surveycategories = $dbhelper->get_all_survey_categories();
+            $mform1 = new \local_moodle_survey\form\create\general_details_form($surveycategories);
+            if ($mform1->is_cancelled()) {
                 redirect(new moodle_url('/local/moodle_survey/manage_survey.php'));
-            } else if ($data = $mform->get_data()) {
+            } else if ($data = $mform1->get_data()) {
                 $record = new stdClass();
                 $record->name = $data->name;
                 $record->description = $data->description;
-                $record->status = $data->status;
-                $DB->insert_record('moodle_survey', $record);
-                redirect(new moodle_url('/local/moodle_survey/manage_survey.php'));
+                $record->category_id = $data->category_id;
+                $record->status = 'draft';
+                
+                $newsurveyid = $dbhelper->create_survey($record);
+                
+                redirect(new moodle_url('/local/moodle_survey/edit_survey.php', ['id' => $newsurveyid]));
             }
-            $mform->display();
+            $mform1->display();
             ?>
         </div>
     </div>
