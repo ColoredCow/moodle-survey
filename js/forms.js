@@ -3,10 +3,6 @@ function addQuestionField() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    handleAccordion();
-});
-
-function handleAccordion() {
     var accHeaders = document.querySelectorAll('.accordion-header');
 
     accHeaders.forEach(function(header) {
@@ -19,11 +15,29 @@ function handleAccordion() {
             }
         });
     });
+});
+
+function handleAccordion() {
+    const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+    accordionHeaders.forEach(header => {
+        header.addEventListener('click', function() {
+            const currentlyActive = document.querySelector('.accordion-item.active');
+            
+            if (currentlyActive && currentlyActive !== this.parentElement) {
+                currentlyActive.classList.remove('active');
+                currentlyActive.querySelector('.accordion-body').style.display = 'none';
+            }
+            
+            const isActive = this.parentElement.classList.contains('active');
+            this.parentElement.classList.toggle('active', !isActive);
+            this.nextElementSibling.style.display = isActive ? 'none' : 'block';
+        });
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    let questionIndex = 1;
-    handleAccordion();
+    let questionIndex = 0;
 
     document.getElementById('add-new-question-button').addEventListener('click', function() {
         questionIndex++;
@@ -31,9 +45,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const template = document.getElementById('question-template');
         const newQuestion = template.cloneNode(true);
 
-        newQuestion.querySelector('#question-number').textContent = questionIndex;
-        newQuestion.setAttribute('data-question-number', questionIndex);
+        // Update the IDs and names of the cloned elements
+        newQuestion.querySelector('#question-number').textContent = questionIndex + 1;
+        newQuestion.setAttribute('data-question-number', questionIndex + 1);
 
+        // Update input names to be unique
+        newQuestion.querySelectorAll('input, select').forEach((element) => {
+            const name = element.name.replace(/\[\d+\]/, `[${questionIndex}]`);
+            element.name = name;
+        });
+
+        // Append the new question
         document.getElementById('accordion').appendChild(newQuestion);
+
+        // Re-initialize accordion functionality
+        handleAccordion();
     });
 });
