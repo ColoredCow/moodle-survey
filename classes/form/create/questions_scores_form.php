@@ -4,30 +4,32 @@ namespace local_moodle_survey\form\create;
 defined('MOODLE_INTERNAL') || die();
 
 class questions_scores_form extends \moodleform {
+    private $questionIndex = 1;
+
     public function definition() {
         $mform = $this->_form;
-        $survey = $this->_customdata['survey'];
 
         $attributes = $mform->getAttributes();
         $attributes['class'] = "create-survey-form";
         $mform->setAttributes($attributes);
         
-        for ($questionIndex = 0; $questionIndex < 1; $questionIndex++) {
-            $mform->addElement('html', '<div class="accordion">');
-            $this->get_question_score_form($mform, $questionIndex);
-            $mform->addElement('html', '</div>');
-        }
-    
+        $this->add_question_section($mform, $this->questionIndex);
         $this->get_form_action_button($mform);
     }
 
+    protected function add_question_section($mform, $index) {
+        $mform->addElement('html', '<div class="accordion" id="accordion">');
+        $this->get_question_score_form($mform, $index);
+        $mform->addElement('html', '</div>');
+    }
+
     protected function get_question_score_form($mform, $index) {
-        $questionposition = $index + 1;
+        $questionposition = $index;
         $iconurl = new \moodle_url('/local/moodle_survey/pix/arrow-down.svg');
-        $mform->addElement('html', '<div id="question-template" class="accordion-item question-item-section" data-question-number"' . $question_count . '">');
+        $mform->addElement('html', '<div id="question-template" class="question-item-section" data-question-number="' . $questionposition . '">');
         $mform->addElement('html', '<div class="accordion-header general-details-section">');
         $mform->addElement('html', '<img src="' . $iconurl . '" alt="Icon" class="accordion-icon">');
-        $mform->addElement('html', '<h5>Question <span id="question-number">' . $questionposition . '</span></h5>');
+        $mform->addElement('html', '<h5>Question <span class="question-number" id="question-number">' . $questionposition . '</span></h5>');
         $mform->addElement('html', '</div>');
         $mform->addElement('html', '<div class="accordion-body question-score-form">');
         $this->get_survey_question_field($mform, $index);
@@ -35,9 +37,8 @@ class questions_scores_form extends \moodleform {
         $this->get_question_score_section($mform, $index);
         $mform->addElement('html', '</div>');
         $mform->addElement('html', '</div>');
-        $mform->addElement('html', '<div class="new-sections-container"></div>');
     }
-    
+
     protected function get_question_score_section($mform, $index) {
         $mform->addElement('html', '<div class="associated-option-section">');
         
@@ -84,7 +85,7 @@ class questions_scores_form extends \moodleform {
     }
 
     public function get_form_action_button($mform) {
-        $submitbutton = $mform->createElement('submit', 'submitbutton1', get_string('submit', 'local_moodle_survey'), ['class' => 'custom-form-action-btn custom-submit-button'], array('onclick' => 'addQuestion()'));
+        $submitbutton = $mform->createElement('submit', 'submitbutton1', get_string('submit', 'local_moodle_survey'), ['class' => 'custom-form-action-btn custom-submit-button']);
         $cancelbutton = $mform->createElement('cancel', 'cancelbutton1', get_string('cancel'), ['class' => 'custom-form-action-btn custom-cancel-button']);
         $this->get_add_new_option_button("add-new-question-button", get_string('addnewquestion', 'local_moodle_survey'), $mform, "");
         $mform->addElement('html', '<div class="custom-form-action-buttons">');
