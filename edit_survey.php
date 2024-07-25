@@ -17,7 +17,6 @@ $survey = $DB->get_record('cc_surveys', ['id' => $id], '*', MUST_EXIST);
 $PAGE->requires->css(new moodle_url('/local/moodle_survey/css/styles.css'));
 $PAGE->requires->js(new moodle_url('/local/moodle_survey/js/tabs.js'));
 $PAGE->requires->js(new moodle_url('/local/moodle_survey/js/forms.js'));
-$PAGE->requires->js(new moodle_url('/local/moodle_survey/js/disable_notifications.js'));
 
 include('includes/tabs.php');
 require_once('includes/general_details_section.php');
