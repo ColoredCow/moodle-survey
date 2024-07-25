@@ -93,6 +93,6 @@ $string['accesstoresponsevalues'] = [
     'counsellor' => 'Counsellor',
 ];
 $string['assigntoschools'] = [
-    'state_of_school'  => 'State of School',
-    'select_school' => 'Select School',
+    'stateofschool'  => 'State of School',
+    'selectschool' => 'Select School',
 ];
