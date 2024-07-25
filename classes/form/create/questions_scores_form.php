@@ -54,8 +54,8 @@ class questions_scores_form extends \moodleform {
 
     protected function get_survey_question_field($mform, $index){
         $mform->addElement('text', 'question[' . $index . '][text]', get_string('questionlabel', 'local_moodle_survey'), 'size="50" class=""');
-        $mform->setType('question', PARAM_NOTAGS);
-        $mform->addRule('question', null, 'required', null, 'client');
+        $mform->setType('question[' . $index . '][text]', PARAM_NOTAGS);
+        $mform->addRule('question[' . $index . '][text]', null, 'required', null, 'client');
     }
 
     protected function get_question_category_section($mform, $index) {
