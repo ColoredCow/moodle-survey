@@ -5,6 +5,7 @@ require_login();
 
 $context = context_system::instance();
 // require_capability('local/moodle_survey:create', $context);
+$pagetype = "create";
 
 $PAGE->set_context($context);
 $PAGE->set_url(new moodle_url('/local/moodle_survey/create_survey.php'));
@@ -17,8 +18,8 @@ $PAGE->requires->js(new moodle_url('/local/moodle_survey/js/forms.js'));
 
 require_once('includes/tabs.php');
 require_once('includes/general_details_section.php');
-require_once('includes/questions_scores_section.php');
-require_once('includes/interpretations_section.php');
-require_once('includes/validity_section.php');
-require_once('includes/audience_access_section.php');
+// require_once('includes/questions_scores_section.php');
+// require_once('includes/interpretations_section.php');
+// require_once('includes/validity_section.php');
+// require_once('includes/audience_access_section.php');
 require_once('includes/footer.php');
