@@ -1,4 +1,7 @@
 <?php
+    if (!isset($tab)) {
+        $tab = 'general';
+    }
     // Define icon URLs
     $iconurl = new moodle_url('/local/moodle_survey/pix/arrow-down.svg');
     $plusicon = new moodle_url('/local/moodle_survey/pix/plus-icon.svg');
@@ -23,7 +26,7 @@
     ];
 ?>
 
-<div id="audience">
+<div id="audience" class="<?php echo $tab === 'audience' ? 'active' : '' ?>">
     <?php foreach ($sections as $section): ?>
         <div class="question-item-section">
             <div class="accordion-header general-details-section">
@@ -32,7 +35,7 @@
             </div>
             <div class="accordion-body question-score-form">
                 <?php
-                    $mform = new \local_moodle_survey\form\create\audience_access_form($section['formlabel']);
+                    $mform = new \local_moodle_survey\form\edit\audience_access_form($section['formlabel']);
                     echo $mform->display();
                 ?>
             </div>
