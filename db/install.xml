@@ -30,5 +30,29 @@
                 <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key"/>
             </KEYS>
         </TABLE>
+        <TABLE NAME="cc_questions" COMMENT="Table for Saishiko Surveys">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" COMMENT="Primary key"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key"/>
+            </KEYS>
+        </TABLE>
+        <TABLE NAME="cc_survey_questions" COMMENT="Table for Saishiko Surveys">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" COMMENT="Primary key"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key"/>
+            </KEYS>
+        </TABLE>
+        <TABLE NAME="cc_survey_question_options" COMMENT="Table for Saishiko Surveys">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" COMMENT="Primary key"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key"/>
+            </KEYS>
+        </TABLE>
     </TABLES>
 </XMLDB>

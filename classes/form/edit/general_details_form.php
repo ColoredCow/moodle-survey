@@ -12,10 +12,6 @@ class general_details_form extends \moodleform {
         $attributes['class'] = "create-survey-form";
         $mform->setAttributes($attributes);
 
-        // Adding the hidden 'id' field
-        $mform->addElement('hidden', 'id', $survey->id);
-        $mform->setType('id', PARAM_INT);
-
         // Add form sections using Moodle form API
         $this->add_survey_name_field($mform, $survey);
         $this->add_survey_category_field($mform, $survey);

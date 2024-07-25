@@ -26,7 +26,7 @@ if (!isset($pagetype)) {
             $mform = new \local_moodle_survey\form\create\general_details_form(null, ['surveycategories' => $surveycategories]);
             
             if ($pagetype === 'edit') {
-                $mform = new \local_moodle_survey\form\edit\general_details_form(null, ['survey' => $survey, 'surveycategories' => $surveycategories]);
+                $mform = new \local_moodle_survey\form\edit\general_details_form('/local/moodle_survey/edit_survey.php?id=' . $survey->id . '&tab=general', ['survey' => $survey, 'surveycategories' => $surveycategories]);
             }
 
 
