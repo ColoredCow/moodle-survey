@@ -4,16 +4,15 @@ namespace local_moodle_survey\form\create;
 defined('MOODLE_INTERNAL') || die();
 
 class questions_scores_form extends \moodleform {
-    private $questionIndex = 1;
-
     public function definition() {
         $mform = $this->_form;
 
         $attributes = $mform->getAttributes();
         $attributes['class'] = "create-survey-form";
         $mform->setAttributes($attributes);
+        $initialindex = 0;
         
-        $this->add_question_section($mform, $this->questionIndex);
+        $this->add_question_section($mform, $initialindex);
         $this->get_form_action_button($mform);
     }
 
@@ -24,7 +23,7 @@ class questions_scores_form extends \moodleform {
     }
 
     protected function get_question_score_form($mform, $index) {
-        $questionposition = $index;
+        $questionposition = $index + 1;
         $iconurl = new \moodle_url('/local/moodle_survey/pix/arrow-down.svg');
         $mform->addElement('html', '<div id="question-template" class="question-item-section" data-question-number="' . $questionposition . '">');
         $mform->addElement('html', '<div class="accordion-header general-details-section">');

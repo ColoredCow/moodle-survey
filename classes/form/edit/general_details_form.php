@@ -34,7 +34,7 @@ class general_details_form extends \moodleform {
         }
         $mform->addElement('select', 'category_id', get_string('surveycategory', 'local_moodle_survey'), $options);
         $mform->setType('category_id', PARAM_INT);
-        $mform->setDefault('status', $survey->category_id);
+        $mform->setDefault('category_id', $survey->category_id);
         $mform->addRule('category_id', null, 'required', null, 'client');
     }
 
