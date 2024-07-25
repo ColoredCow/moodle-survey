@@ -41,7 +41,7 @@ class validity_form extends \moodleform {
     }
 
     private function get_date_field($mform, $dateid, $label) {
-        $mform->addElement('date', $dateid , $label, 'maxlength="100" size="30" class=""');
+        $mform->addElement('date_selector', $dateid , $label, ' class=""');
         $mform->setType('question', PARAM_NOTAGS);
         $mform->addRule('question', null, 'required', null, 'client');
     }

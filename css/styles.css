@@ -109,7 +109,7 @@
     }
 }
 
-.question-score-form {
+.question-score-form, accordion-body {
     margin-left: 35px;
     margin-top: 20px;
     width: 661px;
@@ -289,6 +289,12 @@
     gap: 30px;
     margin-bottom: 25px;
 
+    .form-group {
+        .col-form-label {
+            display: none;
+        }
+    }
+
     .checkbox-section {
         display: flex;
         align-items: center;
@@ -296,7 +302,7 @@
     }
 }
 
-input[type="checkbox"] {
+/* input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
     background-color: #FFF0E6;
@@ -328,7 +334,7 @@ input[type="checkbox"]:checked::before {
 
 input[type="checkbox"]:focus {
     outline-offset: 2px;
-}
+} */
 
 .checkbox-label {
     margin: 0px !important;

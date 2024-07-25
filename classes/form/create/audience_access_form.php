@@ -3,68 +3,106 @@ namespace local_moodle_survey\form\create;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/local/moodle_survey/lib/customformslib.php');
+class audience_access_form extends \moodleform {
+    public function definition() {
+        $mform = $this->_form;
+        $attributes = $mform->getAttributes();
+        $attributes['class'] = "create-survey-form";
+        $mform->setAttributes($attributes);
+        $sections = [
+            [
+                'label' => get_string('targetaudience', 'local_moodle_survey'),
+                'formlabel' => 'targetaudience',
+            ],
+            [
+                'label' => get_string('accesstoresponse', 'local_moodle_survey'),
+                'formlabel' => 'accesstoresponse',
+            ],
+            [
+                'label' => get_string('assigntoschool', 'local_moodle_survey'),
+                'formlabel' => 'assigntoschool',
+            ]
+        ];
 
-class audience_access_form extends \customformlib {
-
-    protected $formlabel;
-
-    public function __construct($formlabel = null) {
-        $this->formlabel = $formlabel;
-        parent::__construct($formlabel);
+        foreach($sections as $section) {
+            $this->get_audience_access_form($mform, $section);
+        }
+        $this->get_form_action_button($mform);
     }
 
-    public function definition() {
-        switch ($this->formlabel) {
+    private function get_audience_access_form($mform, $section) {
+        $iconurl = new \moodle_url('/local/moodle_survey/pix/arrow-down.svg');
+        $mform->addElement('html', '<div class="question-item-section">');
+        $mform->addElement('html', '<div class="accordion-header general-details-section">');
+        $mform->addElement('html', '<img src="' . $iconurl . '" alt="Icon" class="accordion-icon">');
+        $mform->addElement('html', '<h5>' . $section['label'] . '</h5>');
+        $mform->addElement('html', '</div>');
+        $mform->addElement('html', '<div class="accordion-body question-score-form">');
+        $mform->addElement('html', $this->render_audience_access_associated_forms($section['formlabel'], $mform));
+        $mform->addElement('html', '</div>');
+        $mform->addElement('html', '</div>');
+    }
+
+    private function render_audience_access_associated_forms($sectionlabel, $mform) {
+        switch($sectionlabel){
             case 'targetaudience':
-                $this->target_audience_form();
-                break;
+                return $this->target_audience_form($mform);
             case 'accesstoresponse':
-                $this->access_to_response_form();
-                break;
+                return $this->access_to_response_form($mform);
             case 'assigntoschool':
-                $this->assign_to_school_form();
-                break;
+                return $this->assign_to_school_form($mform);
+            default:
+                return '';
         }
     }
 
-    private function target_audience_form() {
-        return $this->get_checkbox_input_fields(get_string('targetaudiencevalues', 'local_moodle_survey'));
+    private function target_audience_form($mform) {
+        return $this->get_checkbox_input_fields(get_string('targetaudiencevalues', 'local_moodle_survey'), $mform, 'targetaudience');
     }
 
-    private function access_to_response_form() {
-        return $this->get_checkbox_input_fields(get_string('accesstoresponsevalues', 'local_moodle_survey'));
+    private function access_to_response_form($mform) {
+        return $this->get_checkbox_input_fields(get_string('accesstoresponsevalues', 'local_moodle_survey'), $mform, 'accesstoresponse');
     }
 
-    private function assign_to_school_form() {
+    private function assign_to_school_form($mform) {
         $section = '';
-        foreach(get_string('assigntoschools', 'local_moodle_survey') as $key => $state_of_school) {
-            $section .= $this->get_select_input_fields($key, $state_of_school);
+        foreach(get_string('assigntoschools', 'local_moodle_survey') as $key => $stateofschool) {
+            $section .= $this->get_select_input_fields($stateofschool, $mform, $key);
         }
         return $section;
     }
 
-    private function get_select_input_fields($key, $label) {
-        $mform = $this->_form;
-        $class = ($key === 'select_school') ? 'form-group select-schools-section' : 'form-group';
-        $mform->addElement('html', '<div class="' . $class . '">');
-        $mform->addElement('html', '<label for="' . $key . '">' . $label . '</label>');
-        $mform->addElement('html', '<select id="' . $key . '" name="' . $key . '" class="form-control" required>');
-        $mform->addElement('html', '<option value="0">' . get_string('inactive', 'local_moodle_survey') . '</option>');
-        $mform->addElement('html', '<option value="1">' . get_string('active', 'local_moodle_survey') . '</option>');
-        $mform->addElement('html', '</select>');
+    private function get_select_input_fields($label, $mform, $key) {
+        $options = [];
+        $states = [
+            ['id' => 1, 'label' => 'State 1'],
+            ['id' => 2, 'label' => 'State 2'],
+            ['id' => 3, 'label' => 'State 3'],
+        ];
+        foreach ($states as $category) {
+            $options[$category['id']] = $category['label'];
+        }
+        $mform->addElement('select', $key, $label, $options);
+        $mform->setType($key, PARAM_INT);
+        $mform->addRule($key, null, 'required', null, 'client');
+    }
+
+    private function get_checkbox_input_fields($sectionsvalues, $mform, $fieldname) {
+        $mform->addElement('html', '<div class="audience-access-form">');
+        foreach($sectionsvalues as $accesstoresponsevalue) {
+            $mform->addElement('checkbox', $fieldname, $accesstoresponsevalue);
+            $mform->setType($fieldname, PARAM_NOTAGS);
+            $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
+        }
         $mform->addElement('html', '</div>');
     }
 
-    private function get_checkbox_input_fields($sections_values){
-        $mform = $this->_form;
-        $mform->addElement('html', '<div class="audience-access-form">');
-        foreach($sections_values as $key => $access_to_response_value) {
-            $mform->addElement('html', '<div class="checkbox-section">');
-            $mform->addElement('html', '<input type="checkbox" id="' . $key . '" name="' . $key . '" class="form-control">');
-            $mform->addElement('html', '<label for="question" class="checkbox-label">' . $access_to_response_value . '</label>');
-            $mform->addElement('html', '</div>');
-        }
+    private function get_form_action_button($mform) {
+        $submitbutton = $mform->createElement('submit', 'submitbutton1', get_string('savechanges'), ['class' => 'custom-form-action-btn custom-submit-button']);
+        $cancelbutton = $mform->createElement('cancel', 'cancelbutton1', get_string('cancel'), ['class' => 'custom-form-action-btn custom-cancel-button']);
+        $mform->addElement('html', '<div class="custom-form-action-buttons">');
+        $mform->addElement($cancelbutton);
+        $mform->addElement($submitbutton); 
         $mform->addElement('html', '</div>');
     }
 }
