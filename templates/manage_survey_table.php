@@ -2,8 +2,12 @@
 $table = new html_table();
 $table->head = [
     get_string('surveyname', 'local_moodle_survey'),
+    get_string('surveycategory', 'local_moodle_survey'),
+    get_string('surveytargetaudience', 'local_moodle_survey'),
+    get_string('createdon', 'local_moodle_survey'),
+    get_string('schools', 'local_moodle_survey'),
     get_string('surveystatus', 'local_moodle_survey'),
-    get_string('actions', 'local_moodle_survey')
+    get_string('responses', 'local_moodle_survey')
 ];
 
 foreach ($surveys as $survey) {
@@ -15,6 +19,10 @@ foreach ($surveys as $survey) {
     $table->data[] = [
         format_string($survey->name),
         format_string($survey->status),
+        format_string($survey->name),
+        format_string($survey->name),
+        format_string($survey->name),
+        format_string($survey->name),
         $actions
     ];
 }
