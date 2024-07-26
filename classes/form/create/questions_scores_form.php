@@ -62,13 +62,9 @@ class questions_scores_form extends \moodleform {
     protected function get_question_category_section($mform, $index) {
         $mform->addElement('html', '<div class="question-category-section"><div class="question-category-selection">');
         $options = [];
-        $questioncategories = [
-            ['id' => 1, 'label' => 'Category 1'],
-            ['id' => 2, 'label' => 'Category 2'],
-            ['id' => 3, 'label' => 'Category 3'],
-        ];
-        foreach ($questioncategories as $category) {
-            $options[$category['id']] = $category['label'];
+        $allquestioncategories = $this->_customdata['questioncategories'];
+        foreach ($allquestioncategories as $category) {
+            $options[$category->id] = $category->label;
         }
         $mform->addElement('select', 'question[' . $index . '][category_id]', get_string('questioncategory', 'local_moodle_survey'), $options);
         $mform->setType('question[' . $index . '][category_id]', PARAM_INT);
