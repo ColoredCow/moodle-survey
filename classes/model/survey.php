@@ -41,4 +41,23 @@ class survey {
         global $DB;
         return $DB->get_records('cc_categories', array('type' => 'question'));
     }
+
+    public static function get_surveys($search, $status) {
+        global $DB;
+    
+        $sql = "SELECT * FROM {cc_surveys} WHERE 1=1";
+        $params = [];
+    
+        if ($search) {
+            $sql .= " AND name LIKE :search";
+            $params['search'] = "%$search%";
+        }
+    
+        if ($status !== 'all') {
+            $sql .= " AND status = :status";
+            $params['status'] = $status;
+        }
+    
+        return $DB->get_records_sql($sql, $params);
+    }
 }
