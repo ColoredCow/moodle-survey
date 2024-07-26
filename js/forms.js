@@ -2,21 +2,6 @@ function addQuestionField() {
     // Logic to clone the last question and score fields, update indices, and append to the form
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    var accHeaders = document.querySelectorAll('.accordion-header');
-
-    accHeaders.forEach(function(header) {
-        header.addEventListener('click', function() {
-            var accBody = this.nextElementSibling;
-            if (accBody.style.display === 'none') {
-                accBody.style.display = 'block';
-            } else {
-                accBody.style.display = 'none';
-            }
-        });
-    });
-});
-
 function handleAccordion() {
     const accordionHeaders = document.querySelectorAll('.accordion-header');
 
@@ -35,6 +20,9 @@ function handleAccordion() {
         });
     });
 }
+
+handleAccordion();
+
 
 document.addEventListener('DOMContentLoaded', function() {
     let questionIndex = 0;
