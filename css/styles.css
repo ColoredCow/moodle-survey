@@ -19,6 +19,17 @@
     width: -webkit-fill-available !important;
 }
 
+#topofscroll {
+    max-width: 100% !important;
+    margin-inline: 60px !important;
+}
+
+.generaltable {
+    thead tr th {
+        text-transform: uppercase;
+    }
+}
+
 /* Styles for nav-pills */
 #tabs ul {
     list-style: none;
