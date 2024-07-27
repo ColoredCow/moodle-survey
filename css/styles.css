@@ -95,6 +95,12 @@
 .survey-header {
     display: flex;
     justify-content: space-between;
+
+    .survey-name {
+        font-weight: 400;
+        font-size: 22px;
+        color: #232323;
+    }
 }
 
 .btn-secondary {

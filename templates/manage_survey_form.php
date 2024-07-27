@@ -9,7 +9,7 @@
         ),
         'create-survey-button-container'
     );
-    $heading = html_writer::tag('h4', get_string('managesurvey', 'local_moodle_survey'));
+    $heading = html_writer::tag('span', get_string('managesurvey', 'local_moodle_survey'), ['class' => 'survey-name']);
     $content = $heading . ' ' . $createbutton;
     echo html_writer::tag('div', $content, ['class' => 'survey-header']);
 
