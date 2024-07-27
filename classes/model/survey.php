@@ -36,6 +36,11 @@ class survey {
         global $DB;
         return $DB->get_records('cc_categories', array('type' => 'survey'));
     }
+
+    public static function get_surver_category_by_id($id) {
+        global $DB;
+        return $DB->get_record('cc_categories', ['id' => $id], '*', MUST_EXIST);
+    }
     
     public static function get_all_question_categories() {
         global $DB;
