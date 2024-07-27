@@ -14,19 +14,18 @@ $table->head = [
 foreach ($surveys as $survey) {
     $editurl = new moodle_url('/local/moodle_survey/edit_survey.php', ['id' => $survey->id]);
     $deleteurl = new moodle_url('/local/moodle_survey/delete_survey.php', ['id' => $survey->id]);
-    $actions = html_writer::link($editurl, get_string('edit', 'local_moodle_survey')) . ' | ' .
-            html_writer::link($deleteurl, get_string('delete', 'local_moodle_survey'));
+    $surveyname = html_writer::link($editurl, $survey->name);
     $surveycategory = $dbhelper->get_surver_category_by_id($survey->category_id);
     $surveycreatedon = new DateTime($survey->created_at);
     $surveycreatedondate = $surveycreatedon->format('Y-m-d');
 
     $table->data[] = [
-        format_string($survey->name),
+        $surveyname,
         format_string($surveycategory->label),
-        format_string($survey->name),
+        format_string('student'),
         format_string($surveycreatedondate),
-        format_string($survey->name),
-        $actions,
+        format_string('0'),
+        format_string('0'),
         format_string($survey->status),
     ];
 }
