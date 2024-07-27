@@ -106,11 +106,17 @@
 .survey-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     .survey-name {
         font-weight: 400;
         font-size: 22px;
         color: #232323;
+    }
+
+    .create-survey-button-container {
+        display: flex;
+        gap: 20px;
     }
 }
 

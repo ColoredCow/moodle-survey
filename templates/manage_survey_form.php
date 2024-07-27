@@ -1,8 +1,13 @@
 <?php
     $createurl = new moodle_url('/local/moodle_survey/create_survey.php');
+    $createsurveycategoryurl = new moodle_url('/local/moodle_survey/create_survey_category.php');
     $iconurl = new \moodle_url('/local/moodle_survey/pix/plus-icon.svg');
     $createbutton = html_writer::div(
         html_writer::link(
+            $createsurveycategoryurl,
+            html_writer::tag('img', '', array('src' => $iconurl, 'alt' => 'Icon', 'class' => 'plus-icon')) . ' ' . get_string('createsurveycategory', 'local_moodle_survey'),
+            array('class' => 'create-survey-button')
+        ) . html_writer::link(
             $createurl,
             html_writer::tag('img', '', array('src' => $iconurl, 'alt' => 'Icon', 'class' => 'plus-icon')) . ' ' . get_string('createsurvey', 'local_moodle_survey'),
             array('class' => 'create-survey-button')
