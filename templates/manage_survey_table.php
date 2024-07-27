@@ -7,8 +7,8 @@ $table->head = [
     get_string('surveytargetaudience', 'local_moodle_survey'),
     get_string('createdon', 'local_moodle_survey'),
     get_string('schools', 'local_moodle_survey'),
+    get_string('responses', 'local_moodle_survey'),
     get_string('surveystatus', 'local_moodle_survey'),
-    get_string('responses', 'local_moodle_survey')
 ];
 
 foreach ($surveys as $survey) {
@@ -26,8 +26,8 @@ foreach ($surveys as $survey) {
         format_string($survey->name),
         format_string($surveycreatedondate),
         format_string($survey->name),
+        $actions,
         format_string($survey->status),
-        $actions
     ];
 }
 
