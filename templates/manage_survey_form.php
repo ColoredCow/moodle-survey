@@ -1,6 +1,14 @@
 <?php
     $createurl = new moodle_url('/local/moodle_survey/create_survey.php');
-    $createbutton = html_writer::div($OUTPUT->single_button($createurl, get_string('createsurvey', 'local_moodle_survey')), 'create-survey-button');
+    $iconurl = new \moodle_url('/local/moodle_survey/pix/plus-icon.svg');
+    $createbutton = html_writer::div(
+        html_writer::link(
+            $createurl,
+            html_writer::tag('img', '', array('src' => $iconurl, 'alt' => 'Icon', 'class' => 'plus-icon')) . ' ' . get_string('createsurvey', 'local_moodle_survey'),
+            array('class' => 'create-survey-button')
+        ),
+        'create-survey-button-container'
+    );
     $heading = html_writer::tag('h4', get_string('managesurvey', 'local_moodle_survey'));
     $content = $heading . ' ' . $createbutton;
     echo html_writer::tag('div', $content, ['class' => 'survey-header']);
