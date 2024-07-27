@@ -41,4 +41,27 @@ class survey {
         global $DB;
         return $DB->get_records('cc_categories', array('type' => 'question'));
     }
+
+    public static function get_question_categories_for_survey($surveyid) {
+        global $DB;
+        $sql = "SELECT c.id AS category_id, c.label AS category_name
+            FROM {surveyquestion} sq
+            JOIN {questions} q ON sq.question_id = q.id
+            JOIN {categories} c ON sq.question_category_id = c.id
+            WHERE sq.survey_id = :survey_id
+            GROUP BY c.id, c.name";
+        
+        $params = ['survey_id' => $surveyid];
+        $categories = $DB->get_records_sql($sql, $params);
+
+
+        // Display the results
+        $results = [];
+        foreach ($categories as $category) {
+            $results[] = ['id' => $category->category_id, 'name' => $category->category_name];
+        }
+
+
+        return $results;
+    }
 }

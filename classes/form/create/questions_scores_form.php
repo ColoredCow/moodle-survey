@@ -14,6 +14,7 @@ class questions_scores_form extends \moodleform {
         
         $this->add_question_section($mform, $initialindex);
         $this->get_form_action_button($mform);
+        $this->add_hidden_template($mform);
     }
 
     protected function add_question_section($mform, $index) {
@@ -23,12 +24,12 @@ class questions_scores_form extends \moodleform {
     }
 
     protected function get_question_score_form($mform, $index) {
-        $questionposition = $index + 1;
+        $questionposition = $index;
         $iconurl = new \moodle_url('/local/moodle_survey/pix/arrow-down.svg');
-        $mform->addElement('html', '<div id="question-template" class="question-item-section" data-question-number="' . $questionposition . '">');
+        $mform->addElement('html', '<div class="question-item-section" data-question-number="' . $questionposition . '">');
         $mform->addElement('html', '<div class="accordion-header general-details-section">');
         $mform->addElement('html', '<img src="' . $iconurl . '" alt="Icon" class="accordion-icon">');
-        $mform->addElement('html', '<h5>Question <span class="question-number" id="question-number">' . $questionposition . '</span></h5>');
+        $mform->addElement('html', '<h5>Question <span class="question-number">' . $questionposition . '</span></h5>');
         $mform->addElement('html', '</div>');
         $mform->addElement('html', '<div class="accordion-body question-score-form">');
         $this->get_survey_question_field($mform, $index);
@@ -86,6 +87,12 @@ class questions_scores_form extends \moodleform {
         $mform->addElement('html', '<div class="custom-form-action-buttons">');
         $mform->addElement($cancelbutton);
         $mform->addElement($submitbutton); 
+        $mform->addElement('html', '</div>');
+    }
+
+    protected function add_hidden_template($mform) {
+        $mform->addElement('html', '<div id="question-template" style="display: none;">');
+        $this->get_question_score_form($mform, 'TEMPLATE_INDEX');
         $mform->addElement('html', '</div>');
     }
 }
