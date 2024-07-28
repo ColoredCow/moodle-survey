@@ -75,6 +75,13 @@ class survey {
                         $params['surveycategory'] = $value;
                     }
                     continue;
+
+                case 'createdon':
+                    if (!empty($value)) {
+                        $sql .= " AND DATE(created_at) = :createdon";
+                        $params['createdon'] = $value;
+                    }
+                    continue;
             }
         }
     
