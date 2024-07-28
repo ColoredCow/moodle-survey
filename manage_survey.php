@@ -16,7 +16,7 @@ $PAGE->requires->css(new moodle_url('/local/moodle_survey/css/styles.css'));
 echo $OUTPUT->header();
 
 // Include the HTML for the survey management interface
-include(__DIR__ . '/templates/manage_survey_form.php');
+include(__DIR__ . '/templates/manage_survey_header.php');
 
 // Fetch and display surveys based on filters
 $dbhelper = new \local_moodle_survey\model\survey();
