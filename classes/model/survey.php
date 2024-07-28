@@ -47,20 +47,35 @@ class survey {
         return $DB->get_records('cc_categories', array('type' => 'question'));
     }
 
-    public static function get_surveys($search, $status) {
+    public static function get_surveys($filters) {
         global $DB;
     
         $sql = "SELECT * FROM {cc_surveys} WHERE 1=1";
         $params = [];
     
-        if ($search) {
-            $sql .= " AND name LIKE :search";
-            $params['search'] = "%$search%";
-        }
+        foreach ($filters as $key => $value) {
+            switch ($key) {
+                case 'search':
+                    if (!empty($value)) {
+                        $sql .= " AND name LIKE :search";
+                        $params['search'] = "%$value%";
+                    }
+                    continue;
     
-        if ($status !== 'all') {
-            $sql .= " AND status = :status";
-            $params['status'] = $status;
+                case 'status':
+                    if (!empty($value) && $value !== 'all') {
+                        $sql .= " AND status = :status";
+                        $params['status'] = $value;
+                    }
+                    continue;
+    
+                case 'surveycategory':
+                    if (!empty($value) && $value !== 'all') {
+                        $sql .= " AND category_id = :surveycategory";
+                        $params['surveycategory'] = $value;
+                    }
+                    continue;
+            }
         }
     
         return $DB->get_records_sql($sql, $params);
