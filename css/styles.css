@@ -14,16 +14,6 @@
     text-decoration: none !important;
 }
 
-.theme-container #page.drawers .main-inner {
-    margin-top: 0;
-    width: -webkit-fill-available !important;
-}
-
-#topofscroll {
-    max-width: 100% !important;
-    margin-inline: 60px !important;
-}
-
 .generaltable {
     thead tr th {
         text-transform: uppercase;
