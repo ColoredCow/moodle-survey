@@ -107,6 +107,9 @@
 
 .table-responsive {
     .generaltable {
+        tbody tr:nth-of-type(odd) {
+            background-color: #F6F6F6 !important;
+        }
         thead tr th {
             border: none !important;
             border-top: 1px solid #D9D9D9 !important;
@@ -115,7 +118,6 @@
         }
     }
     tbody tr {
-        background-color: #F6F6F6 !important;
         td {
             font-weight: 400;
             font-size: 14px;
