@@ -34,7 +34,7 @@
     echo html_writer::start_tag('form', ['method' => 'get', 'action' => $PAGE->url, 'id' => 'filter-form']);
     echo html_writer::start_div('filter-form d-flex justify-content-between');
     echo html_writer::select($statusoptions, 'status', $status, null, ['class' => 'status-select', 'id' => 'status-select']);
-    echo html_writer::empty_tag('input', ['type' => 'date', 'name' => 'createddon', 'placeholder' => get_string('createdat', 'local_moodle_survey'), 'class' => 'date-input']);
+    echo html_writer::empty_tag('input', ['type' => 'date', 'name' => 'createdon', 'placeholder' => get_string('createdat', 'local_moodle_survey'), 'class' => 'date-input']);
     echo html_writer::select($categoryoptions, 'category', $surveycategory, null, ['class' => 'status-select', 'id' => 'category-select']);
 
     echo html_writer::empty_tag('input', ['type' => 'text', 'name' => 'search', 'value' => $search, 'placeholder' => get_string('search', 'local_moodle_survey'), 'class' => 'search-input']);

@@ -12,7 +12,7 @@ $PAGE->set_title(get_string('managesurvey', 'local_moodle_survey'));
 $search = optional_param('search', '', PARAM_RAW_TRIMMED);
 $status = optional_param('status', '', PARAM_ALPHA);
 $surveycategory = optional_param('category', '', PARAM_ALPHANUMEXT);
-$createddon = optional_param('createddon', '', PARAM_RAW_TRIMMED);
+$createddon = optional_param('createdon', '', PARAM_RAW_TRIMMED);
 $filters = [
     'search' => $search,
     'status' => $status,
