@@ -2,6 +2,7 @@
 
 #page #page-header {
     margin-bottom: -5px;
+    padding-left: 0px;
 }
 
 .create-survey-button {
@@ -128,6 +129,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 16px;
 
     .survey-name {
         font-weight: 400;
