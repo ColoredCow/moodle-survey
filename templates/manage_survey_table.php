@@ -13,7 +13,7 @@ $table->head = [
 
 foreach ($surveys as $survey) {
     // $editurl = new moodle_url('/local/moodle_survey/edit_survey.php', ['id' => $survey->id]);
-    $editurl = new moodle_url('/local/moodle_survey/submission/index.php');
+    $editurl = new moodle_url('/local/moodle_survey/modes_of_learning_survey/index.php');
     $deleteurl = new moodle_url('/local/moodle_survey/delete_survey.php', ['id' => $survey->id]);
     $surveyname = html_writer::link($editurl, $survey->name);
     $surveycategory = $dbhelper->get_surver_category_by_id($survey->category_id);

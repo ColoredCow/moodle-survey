@@ -105,3 +105,14 @@ $string['assigntoschools'] = [
     'selectschool' => 'Select School',
 ];
 $string['surveylandingheading'] = 'Welcome to Modes of Learning Survey';
+$string['suveyparticipationcontent'] = 'Thank you for taking the time to participate in our survey. Your feedback is valuable and will help us improve our services.';
+$string['sruveyacceptancetext'] = 'I agree to participate in the survey as a student enrolled on this platform';
+$string['whatsurveyabout'] = 'What is this survey about?';
+$string['instructionforfiillingsurveyheading'] = 'Instructions for Filling the Survey';
+$string['instructionforfiillingsurvey'] = [
+    'Read Each Question Carefully: Take your time to understand each question before answering.',
+    'Be Honest and Candid: Your genuine responses are crucial for accurate data collection.',
+    'Select the Best Option: Choose the option that best represents your opinion or experience.',
+    'Provide Detailed Responses: For open-ended questions, feel free to share as much detail as possible.',
+    'Confidentiality: Your responses will remain confidential and will be used solely for research purposes.'
+];
