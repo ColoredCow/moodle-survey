@@ -36,9 +36,55 @@ class survey {
         global $DB;
         return $DB->get_records('cc_categories', array('type' => 'survey'));
     }
+
+    public static function get_surver_category_by_id($id) {
+        global $DB;
+        return $DB->get_record('cc_categories', ['id' => $id], '*', MUST_EXIST);
+    }
     
     public static function get_all_question_categories() {
         global $DB;
         return $DB->get_records('cc_categories', array('type' => 'question'));
+    }
+
+    public static function get_surveys($filters) {
+        global $DB;
+    
+        $sql = "SELECT * FROM {cc_surveys} WHERE 1=1";
+        $params = [];
+    
+        foreach ($filters as $key => $value) {
+            switch ($key) {
+                case 'search':
+                    if (!empty($value)) {
+                        $sql .= " AND name LIKE :search";
+                        $params['search'] = "%$value%";
+                    }
+                    continue;
+    
+                case 'status':
+                    if (!empty($value) && $value !== 'all') {
+                        $sql .= " AND status = :status";
+                        $params['status'] = $value;
+                    }
+                    continue;
+    
+                case 'surveycategory':
+                    if (!empty($value) && $value !== 'all') {
+                        $sql .= " AND category_id = :surveycategory";
+                        $params['surveycategory'] = $value;
+                    }
+                    continue;
+
+                case 'createdon':
+                    if (!empty($value)) {
+                        $sql .= " AND DATE(created_at) = :createdon";
+                        $params['createdon'] = $value;
+                    }
+                    continue;
+            }
+        }
+    
+        return $DB->get_records_sql($sql, $params);
     }
 }
