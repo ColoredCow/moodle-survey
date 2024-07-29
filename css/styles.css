@@ -530,3 +530,14 @@ input[type="checkbox"]:focus {
         }
     }
 }
+
+.mode-of-learning-question-section {
+    .survey-learning-question-option {
+        gap: 30px;
+
+        .form-group {
+            display: block !important;
+        }
+    }
+    
+}

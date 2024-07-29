@@ -27,14 +27,16 @@
 <?php
 $submitlabel = get_string('submit', 'local_moodle_survey');
 $cancellabel = get_string('cancel');
+$continueurl = new moodle_url('/local/moodle_survey/modes_of_learning_survey/survey_learning_section.php');
+$cancelurl = new moodle_url('/local/moodle_survey/manage_survey.php');
 
 echo html_writer::div(
     html_writer::link(
-        $createsurveycategoryurl,
+        $cancelurl,
         $cancellabel,
         array('class' => 'custom-declined-button custom-action-btn')
     ) . html_writer::link(
-        $createsurveycategoryurl,
+        $cancellabel,
         $submitlabel,
         array('class' => 'custom-continue-button custom-action-btn')
     ),
