@@ -29,6 +29,7 @@ $string['pluginname'] = 'Saishiko Surveys';
 $string['managesurvey'] = 'Surveys';
 $string['createsurvey'] = 'Add New Survey';
 $string['createsurveycategory'] = 'New Survey Category';
+$string['newquestioncategory'] = 'New Question Category';
 $string['surveyname'] = 'Name';
 $string['surveynameplaceholder'] = 'Enter Survey Name';
 $string['surveycategory'] = 'Category';
