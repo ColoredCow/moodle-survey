@@ -36,7 +36,7 @@ echo html_writer::div(
         $cancellabel,
         array('class' => 'custom-declined-button custom-action-btn')
     ) . html_writer::link(
-        $cancellabel,
+        $continueurl,
         $submitlabel,
         array('class' => 'custom-continue-button custom-action-btn')
     ),

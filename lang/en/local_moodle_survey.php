@@ -116,3 +116,4 @@ $string['instructionforfiillingsurvey'] = [
     'Provide Detailed Responses: For open-ended questions, feel free to share as much detail as possible.',
     'Confidentiality: Your responses will remain confidential and will be used solely for research purposes.'
 ];
+$string['saveandsubmit'] = 'Save & Submit';

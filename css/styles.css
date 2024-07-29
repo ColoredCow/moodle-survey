@@ -532,11 +532,21 @@ input[type="checkbox"]:focus {
 }
 
 .mode-of-learning-question-section {
-    .survey-learning-question-option {
-        gap: 30px;
+    margin-top: 20px;
 
+    .survey-learning-question {
+        font-size: 14px;
+        font-weight: 600;
+        color: #232323;
+    }
+    .survey-learning-question-option {
         .form-group {
             display: block !important;
+            width: 100%;
+
+            div fieldset div {
+                gap: 30px;
+            }
         }
     }
     
