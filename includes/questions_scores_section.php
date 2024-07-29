@@ -13,7 +13,12 @@ $plusicon = new \moodle_url('/local/moodle_survey/pix/plus-icon.svg');
         require_once($CFG->dirroot . '/local/moodle_survey/classes/model/survey_question.php');
         require_once($CFG->dirroot . '/local/moodle_survey/classes/model/survey_question_option.php');
         
-        $mform1 = new \local_moodle_survey\form\create\questions_scores_form('/local/moodle_survey/edit_survey.php?id=' . $survey->id . '&tab=questions', ['survey' => $survey]);
+        require_once($CFG->dirroot . '/local/moodle_survey/classes/model/survey.php');
+        $dbhelper = new \local_moodle_survey\model\survey();
+
+        $questioncategories = $dbhelper->get_all_question_categories();
+
+        $mform1 = new \local_moodle_survey\form\create\questions_scores_form('/local/moodle_survey/edit_survey.php?id=' . $survey->id . '&tab=questions', ['survey' => $survey, 'questioncategories' => $questioncategories]);
         if ($mform1->is_cancelled()) {
             redirect(new moodle_url('/local/moodle_survey/manage_survey.php'));
         } else if ($data = $mform1->get_data()) {
