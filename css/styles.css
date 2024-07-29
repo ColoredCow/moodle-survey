@@ -289,10 +289,10 @@
     width: 749px;
 
     .custom-submit-button input {
+        border-radius: 8px;
         background-color: #F16824;
         border: 1px solid #F16824;
         color: white;
-        border-radius: 8px;
     }
 
     .custom-cancel-button input {
@@ -318,6 +318,11 @@
     border-radius: 8px;
     font-size: 14px;
     font-weight: 500;
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: none;
+    }
 }
 
 .question-category-section {
@@ -421,4 +426,107 @@ input[type="checkbox"]:focus {
 .survey-collection-responses-date-section {
     margin-left: 35px;
     margin-bottom: 25px;
+}
+
+.custom-continue-button {
+    background-color: #F16824;
+    color: white;
+    padding-inline: 34px;
+
+    &:hover {
+        color: white;
+    }
+}
+
+.custom-declined-button {
+    background-color: #FFFFFF;
+    color: #F16824;
+    padding-inline: 34px;
+
+    &:hover {
+        color: #F16824;
+    }
+}
+
+.survey-submission-container {
+    font-size: 14px;
+    font-weight: 400;
+    width: 739px;
+    color: #626262;
+    line-height: 21px;
+
+    input[type="checkbox"] {
+        appearance: none;
+        -webkit-appearance: none;
+        background-color: #FFF0E6;
+        border: 1px solid #F16824;
+        width: 22px;
+        height: 22px;
+        cursor: pointer;
+        position: relative;
+        display: inline-block;
+    }
+    
+    input[type="checkbox"]:checked {
+        background-color: #FFF0E6;
+        border: 1px solid #F16824;
+    }
+    
+    input[type="checkbox"]:checked::before {
+        content: '';
+        position: absolute;
+        left: 30%;
+        top: 11%;
+        width: 8px;
+        height: 14px;
+        border: solid #F16824;
+        border-width: 0 3px 3px 0;
+        transform: rotate(45deg);
+        background-color: transparent;
+    }
+    
+    input[type="checkbox"]:focus {
+        outline-offset: 2px;
+    }
+
+    .survey-about-container {
+        .survey-about-heading {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1E1E1E;
+        }
+    }
+
+    .survey-thanks-content {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .survey-about-container {
+        margin-bottom: 20px;
+    }
+
+    .survey-instruction-container {
+        ol {
+            padding-left: 16px;
+        }
+        .survey-instruction-heading {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1E1E1E;
+            margin-bottom: 16px;
+        }
+    }
+
+    .survey-participation-confirmation {
+        display: flex;
+        align-items: center;
+        color: #000000;
+
+        label {
+            margin: 0px;
+            margin-left: 8px;
+        }
+    }
 }

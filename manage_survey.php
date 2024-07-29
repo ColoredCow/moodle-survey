@@ -21,6 +21,8 @@ $filters = [
 ];
 
 $PAGE->requires->css(new moodle_url('/local/moodle_survey/css/styles.css'));
+$PAGE->requires->js(new moodle_url('/local/moodle_survey/js/tabs.js'));
+$PAGE->requires->js(new moodle_url('/local/moodle_survey/js/forms.js'));
 
 echo $OUTPUT->header();
 

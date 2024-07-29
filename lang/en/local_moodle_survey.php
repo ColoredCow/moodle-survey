@@ -104,3 +104,4 @@ $string['assigntoschools'] = [
     'stateofschool'  => 'State of School',
     'selectschool' => 'Select School',
 ];
+$string['surveylandingheading'] = 'Welcome to Modes of Learning Survey';
