@@ -153,6 +153,12 @@
     margin-bottom: 20px;
 }
 
+.score-interpretation-details {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
 .accordion {
     margin-bottom: 10px;
 

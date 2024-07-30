@@ -65,11 +65,17 @@ foreach ($scroeinterpretations as $scroeinterpretation) {
         $scroeinterpretation['interpretation'],
     ];
 }
+
+$statusoptions = [
+    'all' => get_string('all', 'local_moodle_survey'),
+    'live' => get_string('live', 'local_moodle_survey'),
+    'completed' => get_string('completed', 'local_moodle_survey'),
+];
 ?>
 
 <div class="learning-survey-insights-section">
     <div class="accordion">
-        <div class="accordion-header general-details-section">
+        <div class="accordion-header score-interpretation-details">
             <?php
                 echo '<img src="' . $iconurl . '" alt="Icon" class="accordion-icon">';
             ?>
@@ -81,11 +87,14 @@ foreach ($scroeinterpretations as $scroeinterpretation) {
     </div>
 
     <div class="accordion score-interpretation-section">
-        <div class="accordion-header general-details-section">
-            <?php
-                echo '<img src="' . $iconurl . '" alt="Icon" class="accordion-icon">';
-            ?>
-            <h5><?php echo get_string('scoreinterpretation', 'local_moodle_survey'); ?></h5>
+        <div class="accordion-header score-interpretation-details justify-content-between">
+            <div class="d-flex">
+                <?php
+                    echo '<img src="' . $iconurl . '" alt="Icon" class="accordion-icon">';
+                ?>
+                <h5><?php echo get_string('scoreinterpretation', 'local_moodle_survey'); ?></h5>
+            </div>
+            <?php echo html_writer::select($statusoptions, 'status', $status, null, ['class' => 'status-select', 'id' => 'status-select']); ?>
         </div>
         <div class="accordion-body survey-insights-score">
             <?php echo html_writer::table($scroeinterpretationtable); ?>
