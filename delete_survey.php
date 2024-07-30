@@ -8,7 +8,7 @@ $PAGE->set_context($context);
 $PAGE->set_url(new moodle_url('/local/moodle_survey/delete_survey.php', ['id' => $id]));
 
 if (confirm_sesskey()) {
-    $DB->delete_records('moodle_survey', ['id' => $id]);
+    $DB->delete_records('cc_surveys', ['id' => $id]);
     redirect(new moodle_url('/local/moodle_survey/manage_survey.php'), get_string('surveydeleted', 'local_moodle_survey'));
 }
 
