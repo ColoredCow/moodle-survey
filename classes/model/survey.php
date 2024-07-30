@@ -49,25 +49,22 @@ class survey {
 
     public static function get_question_categories_for_survey($surveyid) {
         global $DB;
-        $sql = "SELECT c.id AS category_id, c.label AS category_name
-            FROM {surveyquestion} sq
-            JOIN {questions} q ON sq.question_id = q.id
-            JOIN {categories} c ON sq.question_category_id = c.id
+        $sql = "SELECT c.id, c.label
+            FROM {cc_survey_questions} sq
+            JOIN {cc_categories} c ON sq.question_category_id = c.id
             WHERE sq.survey_id = :survey_id
-            GROUP BY c.id, c.name";
+            GROUP BY c.id, c.label";
         
         $params = ['survey_id' => $surveyid];
         $categories = $DB->get_records_sql($sql, $params);
 
+        // // Display the results
+        // $results = [];
+        // foreach ($categories as $category) {
+        //     $results[] = ['id' => $category->id, 'label' => $category->label];
+        // }
 
-        // Display the results
-        $results = [];
-        foreach ($categories as $category) {
-            $results[] = ['id' => $category->category_id, 'name' => $category->category_name];
-        }
-
-
-        return $results;
+        return $categories;
     }
 
     public static function get_surveys($filters) {
