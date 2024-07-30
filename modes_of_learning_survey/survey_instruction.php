@@ -17,7 +17,7 @@
         echo html_writer::end_tag('div');
 
         echo html_writer::start_tag('div', array('class' => 'survey-participation-confirmation'));
-            echo html_writer::checkbox('survey-participation', $surveyparticipation, null, get_string('sruveyacceptancetext', 'local_moodle_survey'));
+            echo html_writer::checkbox('survey-participation', $surveyparticipation, null, get_string('sruveyacceptancetext', 'local_moodle_survey'), array('id' => 'survey-participation-checkbox'));
         echo html_writer::end_tag('div');
 
     echo html_writer::end_tag('div');
@@ -38,7 +38,7 @@ echo html_writer::div(
     ) . html_writer::link(
         $continueurl,
         $submitlabel,
-        array('class' => 'custom-continue-button custom-action-btn')
+        array('id' => 'continue-button', 'class' => 'custom-continue-button custom-action-btn')
     ),
     'custom-form-action-buttons'
 );

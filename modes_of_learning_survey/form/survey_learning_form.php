@@ -38,9 +38,9 @@ class survey_learning_form extends \moodleform {
         $this->get_form_action_button($mform);
     }
 
-    private function get_survey_learning_questions($mform, $question) {
+    private function get_survey_learning_questions($mform, $question,  $key) {
         $mform->addElement('html', '<div class="mode-of-learning-question-section">');
-        $mform->addElement('html', '<p class="survey-learning-question">' . $question['question_text'] . '</p>');
+        $mform->addElement('html', '<p class="survey-learning-question">' .  $key + 1 . ". " . $question['question_text'] . '</p>');
         $mform->addElement('html', '<div class="survey-learning-question-option d-flex">');
 
         $radioarray = [];

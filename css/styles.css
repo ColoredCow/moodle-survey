@@ -156,6 +156,12 @@
 .accordion {
     margin-bottom: 10px;
 
+    .survey-insights-score {
+        margin-left: 35px;
+        margin-top: 20px;
+        width: 100%;
+    }
+
     .general-details {
         margin-left: 35px;
         margin-top: 20px;
@@ -550,4 +556,18 @@ input[type="checkbox"]:focus {
         }
     }
     
+}
+
+.learning-survey-insights-section, .score-interpretation-section {
+    margin-top: 28px;
+    padding-top: 28px;
+    border-top: 1px solid #D9D9D9;
+}
+
+.survey-insights-score {
+    table tbody tr {
+        .lastcol {
+            width: 360px;
+        }
+    }
 }

@@ -117,3 +117,5 @@ $string['instructionforfiillingsurvey'] = [
     'Confidentiality: Your responses will remain confidential and will be used solely for research purposes.'
 ];
 $string['saveandsubmit'] = 'Save & Submit';
+$string['yourscore'] = 'Your Score';
+$string['scoreinterpretation'] = 'Score Interpretation';
