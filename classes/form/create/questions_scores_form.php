@@ -14,7 +14,7 @@ class questions_scores_form extends \moodleform {
         
         $this->add_question_section($mform, $initialindex);
         $this->get_form_action_button($mform);
-        $this->add_hidden_template($mform);
+        // $this->add_hidden_template($mform);
     }
 
     protected function add_question_section($mform, $index) {
