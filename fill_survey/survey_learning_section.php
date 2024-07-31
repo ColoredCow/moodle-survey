@@ -2,15 +2,17 @@
 
 require_once('../../../config.php');
 require_login();
-
-$PAGE->set_heading('Modes of Learning');
+$id = 1;
+// $survey = $DB->get_record('cc_surveys', ['id' => $id], '*', MUST_EXIST);
+$PAGE->set_heading($survey->name);
 echo $OUTPUT->header();
 ?>
 
 <div>
     <?php
-        require_once($CFG->dirroot . '/local/moodle_survey/modes_of_learning_survey/form/survey_learning_form.php');
-        $mform = new \local_moodle_survey\modes_of_learning_survey\form\survey_learning_form();
+        require_once($CFG->dirroot . '/local/moodle_survey/fill_survey/form/survey_learning_form.php');
+        $mform = new \local_moodle_survey\fill_survey\form\survey_learning_form();
+        
         if ($mform->is_cancelled()) {
             redirect(new moodle_url('/local/moodle_survey/manage_survey.php'));
         } else if ($data = $mform->get_data()) {
@@ -25,7 +27,13 @@ echo $OUTPUT->header();
                     $results[$question_id] = $selected_option;
                 }
             }
-            redirect(new moodle_url('/local/moodle_survey/modes_of_learning_survey/learning-survey-insights.php'));
+            
+            // Serialize and encode results for safe URL usage
+            $encoded_results = urlencode(json_encode($results));
+            $redirecturl = new moodle_url('/local/moodle_survey/fill_survey/learning-survey-insights.php', ['id' => $id]);
+            echo '<pre>Redirecting to: ' . htmlspecialchars($redirecturl->out()) . '</pre>';
+
+            redirect($redirecturl);
         }
         $mform->display();
     ?>
@@ -34,4 +42,3 @@ echo $OUTPUT->header();
 <?php
 echo $OUTPUT->footer();
 ?>
-

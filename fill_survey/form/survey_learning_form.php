@@ -1,5 +1,5 @@
 <?php
-namespace local_moodle_survey\modes_of_learning_survey\form;
+namespace local_moodle_survey\fill_survey\form;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -50,6 +50,7 @@ class survey_learning_form extends \moodleform {
 
         $mform->addGroup($radioarray, $question['question_id'], '', array(' '), false);
         // $mform->addRule($question['question_id'], null, 'required', null, 'client');
+        $mform->setDefault($question['question_id'], '');
 
         $mform->addElement('html', '</div>');
         $mform->addElement('html', '</div>');
