@@ -78,16 +78,19 @@
         <TABLE NAME="cc_question_category_interpretations" COMMENT="Table for Saishiko Surveys">
             <FIELDS>
                 <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" COMMENT="Primary key"/>
-                <FIELD NAME="survey_question_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign Key for Survey Question"/>
-                <FIELD NAME="option_text" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Option Text"/>
-                <FIELD NAME="score" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Score for the option"/>
-                <FIELD NAME="option_position" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Position of option"/>
+                <FIELD NAME="survey_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign Key for Survey"/>
+                <FIELD NAME="question_category_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign Key for Category"/>
+                <FIELD NAME="score_from" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Score Range"/>
+                <FIELD NAME="score_to" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Score Range"/>
+                <FIELD NAME="interpreted_as" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Interpreted As"/>
+                <FIELD NAME="description" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Description for interpretation"/>
                 <FIELD NAME="created_at" TYPE="datetime" NOTNULL="true" COMMENT="Timestamp when the record was created"/>
                 <FIELD NAME="updated_at" TYPE="datetime" NOTNULL="true" COMMENT="Timestamp when the record was last updated"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key"/>
-                <KEY NAME="cc_question_category_interpretations_survey_question_fk" TYPE="foreign" FIELDS="survey_question_id" REFTABLE="cc_survey_questions" REFFIELDS="id" COMMENT="Foreign key to survey questions table"/>
+                <KEY NAME="cc_question_category_interpretations_survey_fk" TYPE="foreign" FIELDS="survey_id" REFTABLE="cc_surveys" REFFIELDS="id" COMMENT="Foreign key to surveys table"/>
+                <KEY NAME="cc_question_category_interpretations_question_category_fk" TYPE="foreign" FIELDS="question_category_id" REFTABLE="cc_catgeories" REFFIELDS="id" COMMENT="Foreign key to catgeories table"/>
             </KEYS>
         </TABLE>
     </TABLES>

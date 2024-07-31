@@ -10,8 +10,8 @@
         require_once($CFG->dirroot . '/local/moodle_survey/classes/model/question.php');
         require_once($CFG->dirroot . '/local/moodle_survey/classes/model/survey_question.php');
         require_once($CFG->dirroot . '/local/moodle_survey/classes/model/survey_question_option.php');
-        
         require_once($CFG->dirroot . '/local/moodle_survey/classes/model/survey.php');
+        
         $dbhelper = new \local_moodle_survey\model\survey();
 
         $questioncategories = $dbhelper->get_all_question_categories();

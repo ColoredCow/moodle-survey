@@ -11,6 +11,7 @@ class validity_form extends \moodleform {
         $attributes = $mform->getAttributes();
         $attributes['class'] = "create-survey-form";
         $mform->setAttributes($attributes);
+        
         $mform->addElement('html', '<div class="accordion">');
         $this->get_validity_form($mform);
         $mform->addElement('html', '</div>');
@@ -42,8 +43,6 @@ class validity_form extends \moodleform {
 
     private function get_date_field($mform, $dateid, $label) {
         $mform->addElement('date_selector', $dateid , $label, ' class=""');
-        $mform->setType('question', PARAM_NOTAGS);
-        $mform->addRule('question', null, 'required', null, 'client');
     }
 
     public function get_form_action_button($mform) {
