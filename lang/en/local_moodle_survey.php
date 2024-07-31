@@ -105,7 +105,6 @@ $string['assigntoschools'] = [
     'stateofschool'  => 'State of School',
     'selectschool' => 'Select School',
 ];
-$string['surveylandingheading'] = 'Welcome to Modes of Learning Survey';
 $string['suveyparticipationcontent'] = 'Thank you for taking the time to participate in our survey. Your feedback is valuable and will help us improve our services.';
 $string['sruveyacceptancetext'] = 'I agree to participate in the survey as a student enrolled on this platform';
 $string['whatsurveyabout'] = 'What is this survey about?';
