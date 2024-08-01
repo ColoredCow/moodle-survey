@@ -17,7 +17,6 @@ echo $OUTPUT->header();
         $surveydata = $dbhelper->get_survey_data($id);
         require_once($CFG->dirroot . '/local/moodle_survey/fill_survey/form/survey_learning_form.php');
         $mform = new \local_moodle_survey\fill_survey\form\survey_learning_form(null, ['questions' => $surveydata]);
-        
         if ($mform->is_cancelled()) {
             redirect(new moodle_url('/local/moodle_survey/manage_survey.php'));
         } else if ($formdata = $mform->get_data()) {
@@ -26,13 +25,6 @@ echo $OUTPUT->header();
             $redirecturl = new moodle_url('/local/moodle_survey/fill_survey/learning-survey-insights.php');
             redirect($redirecturl);
         }
-            
-        //     // // Serialize and encode results for safe URL usage
-        //     // $redirecturl = new moodle_url('/local/moodle_survey/fill_survey/learning-survey-insights.php', ['id' => $id]);
-        //     // echo '<pre>Redirecting to: ' . htmlspecialchars($redirecturl->out()) . '</pre>';
-
-        //     // redirect($redirecturl);
-        // }
         $mform->display();
     ?>
 </div>
