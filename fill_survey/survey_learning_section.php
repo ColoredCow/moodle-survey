@@ -21,7 +21,10 @@ echo $OUTPUT->header();
         if ($mform->is_cancelled()) {
             redirect(new moodle_url('/local/moodle_survey/manage_survey.php'));
         } else if ($formdata = $mform->get_data()) {
-            $question_options = $mform->get_updated_survay_data($formdata);
+            $questionoptions = $mform->get_updated_survay_data($formdata);
+            $questionoptionsjson = json_encode($questionoptions);
+            $redirecturl = new moodle_url('/local/moodle_survey/fill_survey/learning-survey-insights.php');
+            redirect($redirecturl);
         }
             
         //     // // Serialize and encode results for safe URL usage

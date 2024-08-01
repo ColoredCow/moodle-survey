@@ -80,6 +80,6 @@ class survey_learning_form extends \moodleform {
         }
         unset($record);
     
-        return $choosesoptions;
+        return $surveydata;
     }
 }

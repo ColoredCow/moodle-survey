@@ -160,6 +160,13 @@ class survey {
                         ];
                     }
                 }
+
+                $response['surveyData']['interpretations'][] = [
+                    $questioncategory->slug = [
+                        "text"  => $record->interpreted_as,
+                        "range" => [(int)$record->score_from, (int)$record->score_to]
+                    ]
+                ];
             }
         }
         return $response;
