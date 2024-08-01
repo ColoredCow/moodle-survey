@@ -37,7 +37,7 @@ class survey {
         return $DB->get_records('cc_categories', array('type' => 'survey'));
     }
 
-    public static function get_surver_category_by_id($id) {
+    public static function get_category_by_id($id) {
         global $DB;
         return $DB->get_record('cc_categories', ['id' => $id], '*', MUST_EXIST);
     }
@@ -106,5 +106,55 @@ class survey {
         }
     
         return $DB->get_records_sql($sql, $params);
+    }
+
+    public static function get_survey_data($surveyId) {
+        global $DB;
+        $sql = "
+            SELECT sq.*, q.text AS question_text, q.type AS question_type, o.*
+            FROM {cc_survey_questions} sq
+            JOIN {cc_questions} q ON sq.question_id = q.id
+            LEFT JOIN {cc_survey_question_options} o ON sq.id = o.survey_question_id
+            WHERE sq.survey_id = :surveyid
+        ";
+        $params = ['surveyid' => $surveyId];
+        $results = $DB->get_records_sql($sql, $params);
+
+        $response = [
+            "surveyData" => [
+                "interpretations" => [
+                    // Populate this with actual interpretation data if available
+                ]
+            ]
+        ];
+
+        foreach ($results as $record) {
+            if ($record->question_id) {
+                $questionId = $record->question_id;
+
+                if (!isset($response[$questionId])) {
+                    $questioncategory = self::get_category_by_id($record->question_category_id);
+                    $response[$questionId] = [
+                        "questionId" => $record->question_id,
+                        "question" => $record->question_text,
+                        "questionCategory" => $questioncategory->label,
+                        "questionCategorySlug" => $questioncategory->slug,
+                        "type" => $record->question_type,
+                        "answer" => "Gaurav",
+                        "score" => (int)$record->score,
+                        "position" => (int)$record->question_position,
+                        "interpretation" => "Extra Ordinary"
+                    ];
+                }
+
+                if ($record->option_text) {
+                    if (!isset($response[$questionId]['options'])) {
+                        $response[$questionId]['options'] = [];
+                    }
+                    $response[$questionId]['options'][] = $record->option_text;
+                }
+            }
+        }
+        return $response;
     }
 }

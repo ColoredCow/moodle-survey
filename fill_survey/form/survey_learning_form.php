@@ -6,23 +6,6 @@ defined('MOODLE_INTERNAL') || die();
 require_once("$CFG->libdir/formslib.php");
 
 class survey_learning_form extends \moodleform {
-    private $questions = [
-        [
-            'question_id' => '1',
-            'question_text' => 'How often do you use online learning platforms (e.g., Coursera, Udemy) for your education?',
-            'question_options' => ['Never', 'Rarely']
-        ],
-        [
-            'question_id' => '2',
-            'question_text' => 'How effective do you find traditional classroom learning compared to online learning?',
-            'question_options' => ['Not effective at all', 'Slightly effective', 'Moderately effective', 'Very effective']
-        ],
-        [
-            'question_id' => '3',
-            'question_text' => 'How frequently do you engage in self-paced learning (learning at your own speed without a set schedule)?',
-            'question_options' => ['Never', 'Rarely', 'Sometimes', 'Often', 'Always']
-        ]
-    ];
 
     public function definition() {
 
@@ -30,8 +13,9 @@ class survey_learning_form extends \moodleform {
         $attributes = $mform->getAttributes();
         $attributes['class'] = "create-survey-form";
         $mform->setAttributes($attributes);
+        $questions = $this->_customdata['questions'];
 
-        foreach($this->questions as $key => $question) {
+        foreach($questions as $key => $question) {
             $this->get_survey_learning_questions($mform, $question, $key);
         }
 
@@ -39,18 +23,21 @@ class survey_learning_form extends \moodleform {
     }
 
     private function get_survey_learning_questions($mform, $question,  $key) {
+        if(!$question['question']) {
+            return;
+        }
         $mform->addElement('html', '<div class="mode-of-learning-question-section">');
-        $mform->addElement('html', '<p class="survey-learning-question">' .  $key + 1 . ". " . $question['question_text'] . '</p>');
+        $mform->addElement('html', '<p class="survey-learning-question">' .  $key . ". " . $question['question'] . '</p>');
         $mform->addElement('html', '<div class="survey-learning-question-option d-flex">');
 
         $radioarray = [];
-        foreach ($question['question_options'] as $index => $option) {
-            $radioarray[] = $mform->createElement('radio', $question['question_id'], null, $option, $index);
+        foreach ($question['options'] as $index => $option) {
+            $radioarray[] = $mform->createElement('radio', $question['questionId'], null, $option, $index);
         }
 
-        $mform->addGroup($radioarray, $question['question_id'], '', array(' '), false);
-        // $mform->addRule($question['question_id'], null, 'required', null, 'client');
-        $mform->setDefault($question['question_id'], '');
+        $mform->addGroup($radioarray, $question['questionId'], '', array(' '), false);
+        // $mform->addRule($question['questionId'], null, 'required', null, 'client');
+        $mform->setDefault($question['questionId'], '');
 
         $mform->addElement('html', '</div>');
         $mform->addElement('html', '</div>');
@@ -68,9 +55,10 @@ class survey_learning_form extends \moodleform {
 
 
     public function get_question_options() {
+        $questions = $this->_customdata['questions'];
         $options = [];
-        foreach ($this->questions as $question) {
-            $options[$question['question_id']] = $question['question_options'];
+        foreach ($questions as $question) {
+            $options[$question['questionId']] = $question['options'];
         }
         return $options;
     }

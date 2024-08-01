@@ -18,7 +18,7 @@ foreach ($surveys as $survey) {
     $deleteurl = new moodle_url('/local/moodle_survey/delete_survey.php', ['id' => $survey->id]);
     $surveyname = html_writer::link($editurl, $survey->name);
     $takingsurvey = html_writer::link($takingsurvey, 'View');
-    $surveycategory = $dbhelper->get_surver_category_by_id($survey->category_id);
+    $surveycategory = $dbhelper->get_category_by_id($survey->category_id);
     $surveycreatedon = new DateTime($survey->created_at);
     $surveycreatedondate = $surveycreatedon->format('Y-m-d');
 
