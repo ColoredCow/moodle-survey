@@ -556,8 +556,11 @@ input[type="checkbox"]:focus {
             display: block !important;
             width: 100%;
 
-            div fieldset div {
-                gap: 30px;
+            div {
+                max-width: 100% !important;
+                fieldset div {
+                    gap: 30px;
+                }
             }
         }
     }

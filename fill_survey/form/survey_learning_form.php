@@ -13,9 +13,9 @@ class survey_learning_form extends \moodleform {
         $attributes = $mform->getAttributes();
         $attributes['class'] = "create-survey-form";
         $mform->setAttributes($attributes);
-        $questions = $this->_customdata['questions'];
-
-        foreach($questions as $key => $question) {
+        $surveydata = $this->_customdata['questions'];
+        
+        foreach($surveydata as $key => $question) {
             $this->get_survey_learning_questions($mform, $question, $key);
         }
 
@@ -32,7 +32,7 @@ class survey_learning_form extends \moodleform {
 
         $radioarray = [];
         foreach ($question['options'] as $index => $option) {
-            $radioarray[] = $mform->createElement('radio', $question['questionId'], null, $option, $index);
+            $radioarray[] = $mform->createElement('radio', $question['questionId'], null, $option['optionText'], $index);
         }
 
         $mform->addGroup($radioarray, $question['questionId'], '', array(' '), false);
@@ -54,12 +54,32 @@ class survey_learning_form extends \moodleform {
     }
 
 
-    public function get_question_options() {
-        $questions = $this->_customdata['questions'];
-        $options = [];
-        foreach ($questions as $question) {
-            $options[$question['questionId']] = $question['options'];
+    public function get_updated_survay_data($formdata) {
+        $surveydata = $this->_customdata['questions'];
+        $question_options = [];
+    
+        foreach ($surveydata as $question) {
+            $question_options[$question['questionId']] = $question['options'];
         }
-        return $options;
+    
+        $choosesoptions = [];
+        foreach ($formdata as $key => $value) {
+            $question_id = $key;
+            if (isset($question_options[$question_id])) {
+                $option_index = intval($value);
+                $options = $question_options[$question_id];
+                $selected_option = isset($options[$option_index]) ? $options[$option_index] : 'Unknown';
+                $choosesoptions[$question_id] = $selected_option;
+            }
+        }
+    
+        foreach ($surveydata as &$record) {
+            if (isset($record['questionId']) && isset($choosesoptions[$record['questionId']])) {
+                $record['answer'] = $choosesoptions[$record['questionId']];
+            }
+        }
+        unset($record);
+    
+        return $choosesoptions;
     }
 }

@@ -21,4 +21,9 @@ class question_category_interpretation {
         global $DB;
         return $DB->delete_records('cc_question_category_interpretations', ['id' => $id]);
     }
+
+    public static function get_interpretation_by_id($id) {
+        global $DB;
+        return $DB->get_record('cc_question_category_interpretations', ['id' => $id], '*', MUST_EXIST);
+    }
 }
