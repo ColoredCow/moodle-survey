@@ -93,5 +93,21 @@
                 <KEY NAME="cc_question_category_interpretations_question_category_fk" TYPE="foreign" FIELDS="question_category_id" REFTABLE="cc_catgeories" REFFIELDS="id" COMMENT="Foreign key to catgeories table"/>
             </KEYS>
         </TABLE>
+        <TABLE NAME="cc_survey_responses" COMMENT="Table for Saishiko Surveys">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" COMMENT="Primary key"/>
+                <FIELD NAME="survey_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign Key for Survey"/>
+                <FIELD NAME="status" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="Status of the survey"/>
+                <FIELD NAME="response" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Response of the survey (JSON data)"/>
+                <FIELD NAME="submitted_by" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign Key for User"/>
+                <FIELD NAME="submitted_at" TYPE="datetime" NOTNULL="true" COMMENT="Timestamp when the record was submitted"/>
+                <FIELD NAME="created_at" TYPE="datetime" NOTNULL="true" COMMENT="Timestamp when the record was created"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key"/>
+                <KEY NAME="cc_survey_fk" TYPE="foreign" FIELDS="survey_id" REFTABLE="cc_surveys" REFFIELDS="id" COMMENT="Foreign key to surveys table"/>
+                <KEY NAME="cc_user_fk" TYPE="foreign" FIELDS="submitted_by" REFTABLE="user" REFFIELDS="id" COMMENT="Foreign key to user table"/>
+            </KEYS>
+        </TABLE>
     </TABLES>
 </XMLDB>

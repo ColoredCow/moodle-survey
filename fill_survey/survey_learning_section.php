@@ -22,8 +22,15 @@ echo $OUTPUT->header();
             redirect(new moodle_url('/local/moodle_survey/manage_survey.php'));
         } else if ($formdata = $mform->get_data()) {
             $questionoptions = $mform->get_updated_survay_data($formdata);
+            $surveyresponsedbhelper = new \local_moodle_survey\model\survey_responses();
             $questionoptionsjson = json_encode($questionoptions);
-            $redirecturl = new moodle_url('/local/moodle_survey/fill_survey/learning-survey-insights.php');
+            $record = new stdClass();
+            $record->survey_id = $id;
+            $record->status = 'Completed';
+            $record->response = $questionoptionsjson;
+            $record->submitted_by = 1;
+            $response = $surveyresponsedbhelper->create_survey_responses($record);
+            $redirecturl = new moodle_url('/local/moodle_survey/fill_survey/learning-survey-insights.php', ['id' => $survey->id]);
             redirect($redirecturl);
         }
         $mform->display();
