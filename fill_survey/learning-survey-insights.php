@@ -4,6 +4,7 @@ require_once('../../../config.php');
 require_login();
 
 $PAGE->set_heading('Insights from Modes of Learning survey');
+$PAGE->set_title('Insights from Modes of Learning survey');
 echo $OUTPUT->header();
 $iconurl = new moodle_url('/local/moodle_survey/pix/arrow-down.svg');
 

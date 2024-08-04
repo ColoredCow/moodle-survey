@@ -9,6 +9,7 @@ $survey = $dbhelper->get_survey_by_id($id);
 // $questioncategoryinterpretations = $DB->get_records('cc_question_category_interpretations', ['survey_id' => $id], '*', MUST_EXIST);
 
 $PAGE->set_heading($survey->name);
+$PAGE->set_title($survey->name);
 echo $OUTPUT->header();
 ?>
 
