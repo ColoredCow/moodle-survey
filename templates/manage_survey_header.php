@@ -27,11 +27,11 @@
 
     // Filter form
     $statusoptions = [
-        'all' => get_string('all', 'local_moodle_survey'),
+        'all' => 'Select Status',
         'live' => get_string('live', 'local_moodle_survey'),
         'completed' => get_string('completed', 'local_moodle_survey'),
     ];
-    $categoryoptions['all'] = get_string('all', 'local_moodle_survey');
+    $categoryoptions['all'] = 'Select Category';
     foreach ($categories as $key => $category) {
         $categoryoptions[$category->id] = $category->label;
     }

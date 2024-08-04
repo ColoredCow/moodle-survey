@@ -119,3 +119,4 @@ $string['instructionforfiillingsurvey'] = [
 $string['saveandsubmit'] = 'Save & Submit';
 $string['yourscore'] = 'Your Score';
 $string['scoreinterpretation'] = 'Score Interpretation';
+$string['surveylandingtitle'] = 'Welcome To ';

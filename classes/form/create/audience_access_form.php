@@ -98,7 +98,7 @@ class audience_access_form extends \moodleform {
     }
 
     private function get_form_action_button($mform) {
-        $submitbutton = $mform->createElement('submit', 'submitbutton1', get_string('savechanges'), ['class' => 'custom-form-action-btn custom-submit-button']);
+        $submitbutton = $mform->createElement('submit', 'submitbutton1', 'Save & Publish', ['class' => 'custom-form-action-btn custom-submit-button']);
         $cancelbutton = $mform->createElement('cancel', 'cancelbutton1', get_string('cancel'), ['class' => 'custom-form-action-btn custom-cancel-button']);
         $mform->addElement('html', '<div class="custom-form-action-buttons">');
         $mform->addElement($cancelbutton);
