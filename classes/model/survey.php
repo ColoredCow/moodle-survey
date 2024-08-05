@@ -171,4 +171,23 @@ class survey {
         }
         return $response;
     }
+
+    public static function get_all_survey_status() {
+        global $DB;
+    
+        $sql = "SELECT DISTINCT status FROM {cc_surveys}";
+        $records = $DB->get_records_sql($sql);
+    
+        $statusoptions = [
+            'all' => 'Select Status'
+        ];
+    
+        foreach ($records as $record) {
+            $status = $record->status;
+            $statusoptions[$status] = $status;
+        }
+    
+        return $statusoptions;
+    }
+    
 }
