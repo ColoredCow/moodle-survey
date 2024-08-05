@@ -18,7 +18,7 @@ $plusicon = new \moodle_url('/local/moodle_survey/pix/plus-icon.svg');
             die();
             $surveyrecord = new stdClass();
             $surveyrecord->id = $survey->id;
-            $surveyrecord->status = 'published';
+            $surveyrecord->status = get_string('published', 'local_moodle_survey');
 
             $dbhelper = new \local_moodle_survey\model\survey();
             $dbhelper->update_survey($surveyrecord);

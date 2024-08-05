@@ -189,5 +189,21 @@ class survey {
     
         return $statusoptions;
     }
+
+    public static function get_survey_status($survey) {
+        $currentDate = date('Y-m-d');
+        $statuses = '';
+        $startDate = $survey->start_date;
+        $endDate = $survey->end_date;
+
+        if ($currentDate >= $startDate && $currentDate <= $endDate) {
+            $statuses = get_string('live', 'local_moodle_survey');
+        } elseif ($currentDate > $endDate) {
+            $statuses = get_string('completed', 'local_moodle_survey');
+        } else {
+            $statuses = get_string('draft', 'local_moodle_survey');
+        }
     
+        return $statuses;
+    }
 }

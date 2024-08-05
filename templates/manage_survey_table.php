@@ -16,7 +16,12 @@ foreach ($surveys as $survey) {
     $editurl = new moodle_url('/local/moodle_survey/edit_survey.php', ['id' => $survey->id]);
     $takingsurvey = new moodle_url('/local/moodle_survey/fill_survey/index.php', ['id' => $survey->id]);
     $deleteurl = new moodle_url('/local/moodle_survey/delete_survey.php', ['id' => $survey->id]);
-    $surveyname = html_writer::link($editurl, $survey->name);
+    $surveystatus = $dbhelper->get_survey_status($survey);
+    if($surveystatus == get_string('draft', 'local_moodle_survey')) {
+        $surveyname = html_writer::link($editurl, $survey->name);
+    } else {
+        $surveyname = html_writer::tag('span', $survey->name, ['class' => 'survey-name']);
+    }
     $takingsurvey = html_writer::link($takingsurvey, 'View');
     $surveycategory = $dbhelper->get_category_by_id($survey->category_id);
     $surveycreatedon = new DateTime($survey->created_at);
@@ -29,7 +34,7 @@ foreach ($surveys as $survey) {
         format_string($surveycreatedondate),
         format_string('0'),
         format_string('0'),
-        format_string($survey->status),
+        format_string($surveystatus),
         $takingsurvey
     ];
 }
