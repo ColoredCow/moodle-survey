@@ -2,8 +2,6 @@
 if (!isset($tab)) {
     $tab = 'general';
 }
-$iconurl = new moodle_url('/local/moodle_survey/pix/arrow-down.svg');
-$plusicon = new \moodle_url('/local/moodle_survey/pix/plus-icon.svg');
 ?>
 <div id="interpretations" class="<?php echo $tab === 'interpretations' ? 'active' : '' ?>">
     <?php
