@@ -21,4 +21,9 @@ class survey_question_option {
         global $DB;
         return $DB->delete_records('cc_survey_question_options', ['id' => $id]);
     }
+
+    public static function get_survey_question_options_by_survey_question_id($survey_question_id) {
+        global $DB;
+        return $DB->get_records('cc_survey_question_options', ['survey_question_id' => $survey_question_id]);
+    }
 }

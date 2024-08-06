@@ -2,6 +2,8 @@
     if (!isset($tab)) {
         $tab = 'general';
     }
+    $dbhelper = new \local_moodle_survey\model\survey();
+    $surveyquestiondbhelper = new \local_moodle_survey\model\survey_question();
 ?>
 
 <div id="questions" class="<?php echo $tab === 'questions' ? 'active' : '' ?>">
@@ -11,12 +13,12 @@
         require_once($CFG->dirroot . '/local/moodle_survey/classes/model/survey_question.php');
         require_once($CFG->dirroot . '/local/moodle_survey/classes/model/survey_question_option.php');
         require_once($CFG->dirroot . '/local/moodle_survey/classes/model/survey.php');
-        
-        $dbhelper = new \local_moodle_survey\model\survey();
 
         $questioncategories = $dbhelper->get_all_question_categories();
+        $surveyquestions = $surveyquestiondbhelper->get_survey_questions_by_survey_id($survey->id);
 
-        $mform1 = new \local_moodle_survey\form\create\questions_scores_form('/local/moodle_survey/edit_survey.php?id=' . $survey->id . '&tab=questions', ['survey' => $survey, 'questioncategories' => $questioncategories]);
+        $mform1 = new \local_moodle_survey\form\create\questions_scores_form('/local/moodle_survey/edit_survey.php?id=' . $survey->id . '&tab=questions', ['survey' => $survey, 'questioncategories' => $questioncategories, 'surveyquestions' => $surveyquestions['surveyquestions'], 'surveyquestioncategories' => $surveyquestions['surveyquestioncategories']]);
+
         if ($mform1->is_cancelled()) {
             redirect(new moodle_url('/local/moodle_survey/manage_survey.php'));
         } else if ($data = $mform1->get_data()) {
@@ -36,7 +38,6 @@
                 $surveyquestionrecord->question_position = $index + 1;
                 $surveyquestionrecord->question_category_id = $question['category_id'];
 
-                $surveyquestiondbhelper = new \local_moodle_survey\model\survey_question();
                 $newsurveyquestionid = $surveyquestiondbhelper->create_survey_question($surveyquestionrecord);
 
                 foreach ($question['option'] as $optionindex => $option) {
