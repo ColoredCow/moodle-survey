@@ -17,7 +17,8 @@ foreach ($surveys as $survey) {
     $takingsurvey = new moodle_url('/local/moodle_survey/fill_survey/index.php', ['id' => $survey->id]);
     $deleteurl = new moodle_url('/local/moodle_survey/delete_survey.php', ['id' => $survey->id]);
     $surveystatus = $dbhelper->get_survey_status($survey);
-    if($surveystatus == get_string('draft', 'local_moodle_survey')) {
+    $issurveyedit = $surveystatus == get_string('draft', 'local_moodle_survey');
+    if($issurveyedit) {
         $surveyname = html_writer::link($editurl, $survey->name);
     } else {
         $surveyname = html_writer::tag('span', $survey->name, ['class' => 'survey-name']);

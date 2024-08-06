@@ -192,7 +192,7 @@ class survey {
 
     public static function get_survey_status($survey) {
         $currentDate = date('Y-m-d');
-        $statuses = '';
+        $statuses = get_string('published', 'local_moodle_survey');
         $startDate = $survey->start_date;
         $endDate = $survey->end_date;
 
@@ -200,7 +200,7 @@ class survey {
             $statuses = get_string('live', 'local_moodle_survey');
         } elseif ($currentDate > $endDate) {
             $statuses = get_string('completed', 'local_moodle_survey');
-        } else {
+        } elseif($survey->status == get_string('draft', 'local_moodle_survey')) {
             $statuses = get_string('draft', 'local_moodle_survey');
         }
     
