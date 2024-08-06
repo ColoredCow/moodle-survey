@@ -13,7 +13,10 @@ class questions_scores_form extends \moodleform {
 
         // Retrieve questions and categories
         $data = $this->_customdata;
-        $surveyquestions = $data['surveyquestions'];
+        $surveyquestions = [];
+        if ($data['surveyquestions']) {
+            $surveyquestions = $data['surveyquestions'];
+        }
 
         $initialindex = 0;
 
@@ -33,7 +36,7 @@ class questions_scores_form extends \moodleform {
         $this->get_form_action_button($mform);
     }
 
-    protected function add_question_section($mform, $index, $question, $category, $options = null) {
+    protected function add_question_section($mform, $index, $question, $category, $options = []) {
         $mform->addElement('html', '<div class="accordion" id="accordion">');
         $this->get_question_score_form($mform, $index, $question, $category, $options);
         $mform->addElement('html', '</div>');
@@ -50,8 +53,12 @@ class questions_scores_form extends \moodleform {
         $mform->addElement('html', '<div class="accordion-body question-score-form">');
         $this->get_survey_question_field($mform, $index, $question);
         $this->get_question_category_section($mform, $index, $category);
-        foreach ($options as $option) {
-            $this->get_question_score_section($mform, $index, $question, $option);
+        if (sizeof($options) > 0) {
+            foreach ($options as $option) {
+                $this->get_question_score_section($mform, $index, $question, $option);
+            } 
+        } else {
+            $this->get_question_score_section($mform, $index, $question, null);
         }
         $mform->addElement('html', '</div>');
         $mform->addElement('html', '</div>');
