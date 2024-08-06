@@ -16,6 +16,7 @@ if (!isset($tab)) {
         if ($mform2->is_cancelled()) {
             redirect(new moodle_url('/local/moodle_survey/manage_survey.php'));
         } else if ($data = $mform2->get_data()) {
+            $dbhelper = new \local_moodle_survey\model\question_category_interpretation();
             foreach ($data->interpretation as $index => $interpretation) {
                 $interpretationrecord = new stdClass();
                 $interpretationrecord->survey_id = $survey->id;
@@ -24,9 +25,19 @@ if (!isset($tab)) {
                 $interpretationrecord->score_from = $data->scorefrom[$index];
                 $interpretationrecord->score_to = $data->scoreto[$index];
                 $interpretationrecord->description = null;
-                
-                $dbhelper = new \local_moodle_survey\model\question_category_interpretation();
-                $dbhelper->create_interpretation($interpretationrecord);
+                $existingrecord = $dbhelper->get_interpretation_by_survey_id($survey->id, $interpretation);
+                if(sizeof($existingrecord) > 0) {
+                    foreach($existingrecord as $record) {
+                        $existingrecordid = $record->id;
+                        break;
+                    }
+                }
+                if(isset($existingrecordid)) {
+                    $interpretationrecord->id = $existingrecordid;
+                    $dbhelper->update_survey($interpretationrecord);
+                } else {
+                    $dbhelper->create_interpretation($interpretationrecord);
+                }
             }
             redirect(new moodle_url('/local/moodle_survey/edit_survey.php', ['id' => $survey->id, 'tab' => 'validity']));
         }

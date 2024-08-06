@@ -22,8 +22,10 @@ class question_category_interpretation {
         return $DB->delete_records('cc_question_category_interpretations', ['id' => $id]);
     }
 
-    public static function get_interpretation_by_id($id) {
+    public static function get_interpretation_by_survey_id($surveyid, $interpretation) {
         global $DB;
-        return $DB->get_record('cc_question_category_interpretations', ['id' => $id], '*', MUST_EXIST);
+        $sql = "SELECT * FROM {cc_question_category_interpretations} WHERE survey_id = :survey_id AND question_category_id = :interpretation_id";
+        $params = ['survey_id' => $surveyid, 'interpretation_id' => $interpretation];
+        return $DB->get_records_sql($sql, $params);
     }
 }
