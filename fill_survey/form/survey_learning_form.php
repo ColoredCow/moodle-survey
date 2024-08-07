@@ -17,6 +17,7 @@ class survey_learning_form extends \moodleform {
         
         foreach($surveydata as $key => $question) {
             $this->get_survey_learning_questions($mform, $question, $key);
+            $mform->addRule($question['questionId'], null, 'required', null, 'client');
         }
 
         $this->get_form_action_button($mform);
@@ -36,7 +37,6 @@ class survey_learning_form extends \moodleform {
         }
 
         $mform->addGroup($radioarray, $question['questionId'], '', array(' '), false);
-        // $mform->addRule($question['questionId'], null, 'required', null, 'client');
         $mform->setDefault($question['questionId'], '');
 
         $mform->addElement('html', '</div>');
