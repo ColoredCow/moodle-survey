@@ -15,6 +15,8 @@ $plusicon = new \moodle_url('/local/moodle_survey/pix/plus-icon.svg');
             redirect(new moodle_url('/local/moodle_survey/manage_survey.php'));
         } else if ($data = $mform4->get_data()) {
             $surveyrecord = new stdClass();
+            $dbhelper = new \local_moodle_survey\model\survey();
+            $audienceaccess = new \local_moodle_survey\model\audience_access();
             $surveyrecord->id = $survey->id;
             $surveyrecord->status = get_string('published', 'local_moodle_survey');
             
@@ -26,12 +28,16 @@ $plusicon = new \moodle_url('/local/moodle_survey/pix/plus-icon.svg');
             
             $assigntoschool = isset($data->assigntoschool) ? implode(',', (array) $data->assigntoschool) : '';
             $surveyrecord->assigntoschool = $assigntoschool;
-            var_dump($surveyrecord->targetaudience);
-            
-            // $dbhelper = new \local_moodle_survey\model\survey();
-            // $dbhelper->update_survey($surveyrecord);
 
-            // redirect(new moodle_url('/local/moodle_survey/manage_survey.php'));
+            $existingaudienceaccess = $audienceaccess->get_audience_acccess_by_survey_id($survey->id);
+            if(isset($existingaudienceaccess->id)) {
+                $surveyrecord->id = $existingaudienceaccess->id;
+                $audienceaccess->update_audience_access($surveyrecord);
+            } else {
+                $audienceaccess->create_audience_access($surveyrecord);
+            }
+
+            redirect(new moodle_url('/local/moodle_survey/manage_survey.php'));
         }
         $mform4->display();
     ?>
