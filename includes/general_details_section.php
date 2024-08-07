@@ -1,10 +1,7 @@
 <?php
-if (!isset($tab)) {
-    $tab = 'general';
-}
-if (!isset($pagetype)) {
-    $pagetype = 'create';
-}
+    if (!isset($tab)) {
+        $tab = 'general';
+    }
 ?>
 
 <div id="general" class="<?php echo $tab === 'general' ? 'active' : '' ?>">

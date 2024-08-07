@@ -10,20 +10,39 @@ class questions_scores_form extends \moodleform {
         $attributes = $mform->getAttributes();
         $attributes['class'] = "create-survey-form";
         $mform->setAttributes($attributes);
+
+        // Retrieve questions and categories
+        $data = $this->_customdata;
+        $surveyquestions = [];
+        if ($data['surveyquestions']) {
+            $surveyquestions = $data['surveyquestions'];
+        }
+
         $initialindex = 0;
-        
-        $this->add_question_section($mform, $initialindex);
+
+        if (sizeof($surveyquestions) <= 0) {
+            $data = null;
+            $this->add_question_section($mform, $initialindex, null, null);
+        }
+
+        // For edit the survey questions and score form
+        foreach ($surveyquestions as $index => $data) {
+            $question = $data['question'];
+            $category = $data['category'];
+            $options = $data['options'];
+            $this->add_question_section($mform, $index, $question, $category, $options);
+        }
+
         $this->get_form_action_button($mform);
-        // $this->add_hidden_template($mform);
     }
 
-    protected function add_question_section($mform, $index) {
+    protected function add_question_section($mform, $index, $question, $category, $options = []) {
         $mform->addElement('html', '<div class="accordion" id="accordion">');
-        $this->get_question_score_form($mform, $index);
+        $this->get_question_score_form($mform, $index, $question, $category, $options);
         $mform->addElement('html', '</div>');
     }
 
-    protected function get_question_score_form($mform, $index) {
+    protected function get_question_score_form($mform, $index, $question, $category, $options) {
         $questionposition = $index;
         $iconurl = new \moodle_url('/local/moodle_survey/pix/arrow-down.svg');
         $mform->addElement('html', '<div class="question-item-section" data-question-number="' . $questionposition . '">');
@@ -32,35 +51,47 @@ class questions_scores_form extends \moodleform {
         $mform->addElement('html', '<h5>Question <span class="question-number">' . $questionposition . '</span></h5>');
         $mform->addElement('html', '</div>');
         $mform->addElement('html', '<div class="accordion-body question-score-form">');
-        $this->get_survey_question_field($mform, $index);
-        $this->get_question_category_section($mform, $index);
-        $this->get_question_score_section($mform, $index);
+        $this->get_survey_question_field($mform, $index, $question);
+        $this->get_question_category_section($mform, $index, $category);
+        if (sizeof($options) > 0) {
+            foreach ($options as $option) {
+                $this->get_question_score_section($mform, $index, $question, $option);
+            } 
+        } else {
+            $this->get_question_score_section($mform, $index, $question, null);
+        }
         $mform->addElement('html', '</div>');
         $mform->addElement('html', '</div>');
     }
 
-    protected function get_question_score_section($mform, $index) {
+    protected function get_question_score_section($mform, $index, $question, $option) {
         $mform->addElement('html', '<div class="associated-option-section">');
         
         $mform->addElement('text', 'question[' . $index . '][score][0]', get_string('score', 'local_moodle_survey'), 'size="15" min="1" max="10" class=""');
-        $mform->setType('question[' . $index . '][option][0]', PARAM_INT);
+        $mform->setType('question[' . $index . '][score][0]', PARAM_INT);
         $mform->addRule('question[' . $index . '][score][0]', null, 'required', null, 'client');
+        $mform->setDefault('question[' . $index . '][score][0]', $option->score);
         
         $mform->addElement('text', 'question[' . $index . '][option][0]', get_string('associatedoption', 'local_moodle_survey'), 'size="50" placeholder="' . get_string('interpretedasplaceholder', 'local_moodle_survey') . '"');
         $mform->setType('question[' . $index . '][option][0]', PARAM_NOTAGS);
         $mform->addRule('question[' . $index . '][option][0]', null, 'required', null, 'client');
+        $mform->setDefault('question[' . $index . '][option][0]', $option->option_text);
         
         $mform->addElement('html', '</div>');
     }
 
-
-    protected function get_survey_question_field($mform, $index){
+    protected function get_survey_question_field($mform, $index, $question){
         $mform->addElement('text', 'question[' . $index . '][text]', get_string('questionlabel', 'local_moodle_survey'), 'size="50" class=""');
         $mform->setType('question[' . $index . '][text]', PARAM_NOTAGS);
         $mform->addRule('question[' . $index . '][text]', null, 'required', null, 'client');
+        
+        // Set default value if it exists
+        if (isset($question->text)) {
+            $mform->setDefault('question[' . $index . '][text]', $question->text);
+        }
     }
 
-    protected function get_question_category_section($mform, $index) {
+    protected function get_question_category_section($mform, $index, $category) {
         $mform->addElement('html', '<div class="question-category-section"><div class="question-category-selection">');
         $options = [];
         $allquestioncategories = $this->_customdata['questioncategories'];
@@ -70,6 +101,11 @@ class questions_scores_form extends \moodleform {
         $mform->addElement('select', 'question[' . $index . '][category_id]', get_string('questioncategory', 'local_moodle_survey'), $options);
         $mform->setType('question[' . $index . '][category_id]', PARAM_INT);
         $mform->addRule('question[' . $index . '][category_id]', null, 'required', null, 'client');
+        
+        if (isset($category->id)) {
+            $mform->setDefault('question[' . $index . '][category_id]', $category->id);
+        }
+        
         $mform->addElement('html', '</div></div>');
     }
 
@@ -90,9 +126,4 @@ class questions_scores_form extends \moodleform {
         $mform->addElement('html', '</div>');
     }
 
-    protected function add_hidden_template($mform) {
-        $mform->addElement('html', '<div id="question-template" style="display: none;">');
-        $this->get_question_score_form($mform, 'TEMPLATE_INDEX');
-        $mform->addElement('html', '</div>');
-    }
 }

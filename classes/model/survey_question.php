@@ -21,4 +21,44 @@ class survey_question {
         global $DB;
         return $DB->delete_records('cc_survey_questions', ['id' => $id]);
     }
+
+    public static function get_survey_questions_by_survey_id($surveyid) {
+        global $DB;
+        $surveyquestiondbhelper = new \local_moodle_survey\model\survey_question_option();
+    
+        $surveyquestionids = $DB->get_records('cc_survey_questions', ['survey_id' => $surveyid]);
+    
+        $surveyquestions = [];
+        $surveyquestioncategories = [];
+    
+        foreach ($surveyquestionids as $surveyquestionid) {
+            $question = $DB->get_record('cc_questions', ['id' => $surveyquestionid->question_id]);
+            $category = $DB->get_record('cc_categories', ['id' => $surveyquestionid->question_category_id]);
+            $options = $surveyquestiondbhelper->get_survey_question_options_by_survey_question_id($surveyquestionid->id);
+    
+            // Ensure category is not already in the array
+            if (!isset($surveyquestioncategories[$category->id])) {
+                $surveyquestioncategories[$category->id] = $category;
+            }
+    
+            $surveyquestions[] = [
+                'question' => $question,
+                'category' => $category,
+                'options' => $options
+            ];
+        }
+    
+        // Return the questions and categories
+        return [
+            'surveyquestions' => $surveyquestions,
+            'surveyquestioncategories' => $surveyquestioncategories,
+        ];
+    }
+
+    public static function get_survey_question_by_survey_id_question_id($surveyid, $questionid) {
+        global $DB;
+        $sql = "SELECT * FROM {cc_survey_questions} WHERE `survey_id` = :surveyid AND `question_id` = :questionid";
+        $params = ['surveyid' => $surveyid, 'questionid' => $questionid];
+        return $DB->get_record_sql($sql, $params);
+    }
 }

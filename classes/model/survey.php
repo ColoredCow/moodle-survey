@@ -49,9 +49,10 @@ class survey {
 
     public static function get_question_categories_for_survey($surveyid) {
         global $DB;
-        $sql = "SELECT c.id, c.label
+        $sql = "SELECT c.id, c.label, cci.interpreted_as, cci.score_from, cci.score_to
             FROM {cc_survey_questions} sq
             JOIN {cc_categories} c ON sq.question_category_id = c.id
+            LEFT JOIN {cc_question_category_interpretations} cci ON sq.question_category_id = cci.question_category_id
             WHERE sq.survey_id = :survey_id
             GROUP BY c.id, c.label";
         
@@ -195,13 +196,14 @@ class survey {
         $statuses = get_string('published', 'local_moodle_survey');
         $startDate = $survey->start_date;
         $endDate = $survey->end_date;
+        if($survey->status == get_string('draft', 'local_moodle_survey')) {
+            return $statuses = get_string('draft', 'local_moodle_survey');
+        }
 
         if ($currentDate >= $startDate && $currentDate <= $endDate) {
             $statuses = get_string('live', 'local_moodle_survey');
         } elseif ($currentDate > $endDate) {
             $statuses = get_string('completed', 'local_moodle_survey');
-        } elseif($survey->status == get_string('draft', 'local_moodle_survey')) {
-            $statuses = get_string('draft', 'local_moodle_survey');
         }
     
         return $statuses;
