@@ -18,6 +18,25 @@ foreach ($surveys as $survey) {
     $deleteurl = new moodle_url('/local/moodle_survey/delete_survey.php', ['id' => $survey->id]);
     $currentDate = date('Y-m-d');
     $surveystatus = $dbhelper->get_survey_status($survey);
+    $surveystatuscolor = '';
+    switch ($surveystatus) {
+        case get_string('live', 'local_moodle_survey'):
+            $surveystatuscolor = 'survey-live';
+            break;
+        
+        case get_string('completed', 'local_moodle_survey'):
+            $surveystatuscolor = 'survey-completed';
+            break;
+        
+        case get_string('draft', 'local_moodle_survey'):
+            $surveystatuscolor = 'survey-draft';
+            break;
+        
+        default:
+            $surveystatuscolor = 'survey-published';
+            break;
+    }
+    $surveytext = html_writer::span($surveystatus, "badge badge-pill badge-color survey-status $surveystatuscolor");
     $issurveylive = $currentDate >= $startDate && $currentDate <= $endDate;
     $issurveyedit = $surveystatus == get_string('draft', 'local_moodle_survey') || !$issurveylive;
     if($issurveyedit) {
@@ -37,7 +56,7 @@ foreach ($surveys as $survey) {
         format_string($surveycreatedondate),
         format_string('0'),
         format_string('0'),
-        format_string($surveystatus),
+        $surveytext,
         $takingsurvey
     ];
 }

@@ -115,7 +115,33 @@
             font-size: 14px;
             border-top: none !important;
             padding: 25px 12px;
-    
+
+            .survey-status {
+                font-weight: 400;
+                font-size: 14px;
+                color: #FFFFFF;
+            }
+
+            .survey-live {
+                background-color: #04621B;
+            }
+
+            .survey-inactive {
+                background-color: #E5D201;
+            }
+
+            .survey-completed {
+                background-color: #F47A29;
+            }
+
+            .survey-draft {
+                background-color: #949494;
+            }
+
+            .survey-published {
+                background-color: #1969B4;
+            }
+
             a {
                 color: #1969B4 !important;
                 font-weight: 400;
