@@ -14,27 +14,36 @@ $plusicon = new \moodle_url('/local/moodle_survey/pix/plus-icon.svg');
         if ($mform4->is_cancelled()) {
             redirect(new moodle_url('/local/moodle_survey/manage_survey.php'));
         } else if ($data = $mform4->get_data()) {
+            $audienceaccessrecord = new stdClass();
             $surveyrecord = new stdClass();
             $dbhelper = new \local_moodle_survey\model\survey();
             $audienceaccess = new \local_moodle_survey\model\audience_access();
-            $surveyrecord->id = $survey->id;
-            $surveyrecord->status = get_string('published', 'local_moodle_survey');
+
+            $audienceaccessrecord->survey_id = $survey->id;
             
             $targetaudience = isset($data->targetaudience) ? array_filter($data->targetaudience) : [];
-            $surveyrecord->targetaudience = json_encode($targetaudience);
+            $audienceaccessrecord->target_audience = json_encode($targetaudience);
             
             $accesstoresponse = isset($data->accesstoresponse) ? array_filter($data->accesstoresponse) : [];
-            $surveyrecord->accesstoresponse = json_encode($accesstoresponse);
+            $audienceaccessrecord->access_to_response = json_encode($accesstoresponse);
             
             $assigntoschool = isset($data->assigntoschool) ? implode(',', (array) $data->assigntoschool) : '';
-            $surveyrecord->assigntoschool = $assigntoschool;
+            $audienceaccessrecord->school_id = $assigntoschool;
 
             $existingaudienceaccess = $audienceaccess->get_audience_acccess_by_survey_id($survey->id);
+
+            $survey = $dbhelper->get_survey_by_id($survey->id);
             if(isset($existingaudienceaccess->id)) {
-                $surveyrecord->id = $existingaudienceaccess->id;
-                $audienceaccess->update_audience_access($surveyrecord);
+                $audienceaccessrecord->id = $existingaudienceaccess->id;
+                $audienceaccess->update_audience_access($audienceaccessrecord);
             } else {
-                $audienceaccess->create_audience_access($surveyrecord);
+                $audienceaccess->create_audience_access($audienceaccessrecord);
+            }
+
+            if(isset($survey->id)) {
+                $surveyrecord->id = $survey->id;
+                $surveyrecord ->status = get_string('live', 'local_moodle_survey');
+                $dbhelper->update_survey($surveyrecord);
             }
 
             redirect(new moodle_url('/local/moodle_survey/manage_survey.php'));

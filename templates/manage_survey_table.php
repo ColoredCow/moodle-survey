@@ -16,8 +16,10 @@ foreach ($surveys as $survey) {
     $editurl = new moodle_url('/local/moodle_survey/edit_survey.php', ['id' => $survey->id]);
     $takingsurvey = new moodle_url('/local/moodle_survey/fill_survey/index.php', ['id' => $survey->id]);
     $deleteurl = new moodle_url('/local/moodle_survey/delete_survey.php', ['id' => $survey->id]);
+    $currentDate = date('Y-m-d');
     $surveystatus = $dbhelper->get_survey_status($survey);
-    $issurveyedit = $surveystatus == get_string('draft', 'local_moodle_survey');
+    $issurveylive = $currentDate >= $startDate && $currentDate <= $endDate;
+    $issurveyedit = $surveystatus == get_string('draft', 'local_moodle_survey') || !$issurveylive;
     if($issurveyedit) {
         $surveyname = html_writer::link($editurl, $survey->name);
     } else {
