@@ -3,9 +3,13 @@
 require_once('../../../config.php');
 require_login();
 
-$PAGE->set_heading('Insights from Modes of Learning survey');
-$PAGE->set_title('Insights from Modes of Learning survey');
+$id = required_param('id', PARAM_INT);
+$dbhelper = new \local_moodle_survey\model\survey();
+$survey = $dbhelper->get_survey_by_id($id);
+$PAGE->set_heading('Insights from '. $survey->name);
+$PAGE->set_title('Insights from ' . $survey->name);
 echo $OUTPUT->header();
+$surveyinsights = $dbhelper->get_filling_survey_insights($id);
 $iconurl = new moodle_url('/local/moodle_survey/pix/arrow-down.svg');
 
 $table = new html_table();
@@ -20,38 +24,30 @@ $scroeinterpretationtable->head = [
     'Interpreted as',
 ];
 
-$scroeinterpretations = [
-    [
-        'name' => 'Frequency',
-        'score_range' => '0-10',
-        'interpretation' => 'Underdeveloped<br>Your experience with and satisfaction towards different modes of learning is quite low. You may benefit from exploring new learning methods or resources to enhance your educational experience.',
-    ],
-    [
-        'name' => '',
-        'score_range' => '11-20',
-        'interpretation' => 'Needs Improvement<br>You have some familiarity with different learning modes, but there is significant room for improvement. Consider trying out different platforms or techniques to find what works best.',
-    ],
-    [
-        'name' => '',
-        'score_range' => '21-30',
-        'interpretation' => 'Moderate<br>You have a moderate level of experience and satisfaction with various learning modes. There are areas that could be enhanced, but you are on the right track.'
-    ],
-];
-
-$scores = [
-        [
-            'name' => 'Frequency',
-            'score' => 20,
-        ],
-        [
-            'name' => 'Effectiveness',
-            'score' => 16,
-        ],
-        [
-            'name' => 'Engagement',
-            'score' => 10,
-        ],
+$scoreinterpretations = [];
+foreach ($surveyinsights as $index => $surveyinsight) {
+    $scoreinterpretations[] = [
+        'name' => $surveyinsight->label,
+        'score_range' =>  $surveyinsight->score_from . ' - ' . $surveyinsight->score_to,
+        'interpretation' => $surveyinsight->interpreted_as,
     ];
+};
+
+foreach ($scoreinterpretations as $scoreinterpretation) {
+    $scroeinterpretationtable->data[] = [
+        $scoreinterpretation['name'],
+        $scoreinterpretation['score_range'],
+        $scoreinterpretation['interpretation'],
+    ];
+}
+
+$scores = [];
+foreach ($surveyinsights as $index => $surveyinsight) {
+    $scores[] = [
+        'name' => $surveyinsight->label,
+        'score' => $surveyinsight->score,
+    ];
+}
 
 foreach ($scores as $score) {
     $table->data[] = [
