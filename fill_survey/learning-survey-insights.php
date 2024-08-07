@@ -63,11 +63,11 @@ foreach ($scroeinterpretations as $scroeinterpretation) {
     ];
 }
 
-$statusoptions = [
-    'all' => get_string('all', 'local_moodle_survey'),
-    'live' => get_string('live', 'local_moodle_survey'),
-    'completed' => get_string('completed', 'local_moodle_survey'),
-];
+$statusoptions = [];
+foreach ($surveyinsights as $surveyinsight) {
+    $statusoptions[$surveyinsight->slug] = $surveyinsight->label;
+}
+
 ?>
 
 <div class="learning-survey-insights-section">
