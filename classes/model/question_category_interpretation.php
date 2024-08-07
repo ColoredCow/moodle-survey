@@ -11,7 +11,7 @@ class question_category_interpretation {
         return $DB->insert_record('cc_question_category_interpretations', $record);
     }
 
-    public static function update_survey($data) {
+    public static function update_interpretation($data) {
         global $DB;
         $data->updated_at = date('Y-m-d H:i:s');
         return $DB->update_record('cc_question_category_interpretations', $data);

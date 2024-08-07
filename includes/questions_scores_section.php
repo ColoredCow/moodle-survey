@@ -25,30 +25,59 @@
             foreach ($data->question as $index => $question) {
                 $questionrecord = new stdClass();
                 $surveyquestionrecord = new stdClass();
-                
+                $questiondbhelper = new \local_moodle_survey\model\question();
+
                 $questionrecord->text = $question['text'];
                 $questionrecord->type = 'mcq';
 
-                $questiondbhelper = new \local_moodle_survey\model\question();
-                $newquestionid = $questiondbhelper->create_question($questionrecord);
-
+                $existingquestion = $questiondbhelper->get_question_by_question_text($question['text']);
+                if (isset($existingquestion->id)) {
+                    $existingquestionid = $existingquestion->id;
+                }
+                if(isset($existingquestionid)) {
+                    $questionrecord->id = $existingquestionid;
+                    $newquestionid = $existingquestionid;
+                    $updatedrecord = $questiondbhelper->update_question($questionrecord);
+                } else {
+                    $newquestionid = $questiondbhelper->create_question($questionrecord);
+                }
+                
                 $surveyquestionrecord->question_id = $newquestionid;
                 $surveyquestionrecord->survey_id = $survey->id;
                 $surveyquestionrecord->question_type = 'mcq';
                 $surveyquestionrecord->question_position = $index + 1;
                 $surveyquestionrecord->question_category_id = $question['category_id'];
-
-                $newsurveyquestionid = $surveyquestiondbhelper->create_survey_question($surveyquestionrecord);
+                $existingrecord = $surveyquestiondbhelper->get_survey_question_by_survey_id_question_id($survey->id, $newquestionid);
+                if(isset($existingrecord->id)) {
+                    $surveyquestionrecord->id = $existingrecord->id;
+                    $newsurveyquestionid = $existingrecord->id;
+                    $surveyquestiondbhelper->update_survey_question($surveyquestionrecord);
+                } else {
+                    $newsurveyquestionid = $surveyquestiondbhelper->create_survey_question($surveyquestionrecord);
+                }
 
                 foreach ($question['option'] as $optionindex => $option) {
                     $optionrecord = new stdClass();
+                    $surveyquestionoptiondbhelper = new \local_moodle_survey\model\survey_question_option();
                     $optionrecord->survey_question_id = $newsurveyquestionid;
                     $optionrecord->option_text = $option;
                     $optionrecord->score = $question['score'][$index];
                     $optionrecord->option_position = $optionindex + 1;
 
-                    $surveyquestionoptiondbhelper = new \local_moodle_survey\model\survey_question_option();
-                    $surveyquestionoptiondbhelper->create_survey_question_options($optionrecord);
+                    $existingsurveyquestionoptionsrecord = $surveyquestionoptiondbhelper->get_survey_question_options_by_survey_question_id($newsurveyquestionid);
+                    if(sizeof($existingsurveyquestionoptionsrecord) > 0) {
+                        foreach ($existingsurveyquestionoptionsrecord as $record) {
+                            if(isset($record->id)) {
+                                $optionrecord->id = $record->id;
+                                break;
+                            }
+                        }
+                    }
+                    if(isset($optionrecord->id)) {
+                        $surveyquestionoptiondbhelper->update_survey_question_options($optionrecord);
+                    } else {
+                        $surveyquestionoptiondbhelper->create_survey_question_options($optionrecord);
+                    }
                 }
             }
 

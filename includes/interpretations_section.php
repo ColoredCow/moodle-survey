@@ -34,7 +34,7 @@ if (!isset($tab)) {
                 }
                 if(isset($existingrecordid)) {
                     $interpretationrecord->id = $existingrecordid;
-                    $dbhelper->update_survey($interpretationrecord);
+                    $dbhelper->update_interpretation($interpretationrecord);
                 } else {
                     $dbhelper->create_interpretation($interpretationrecord);
                 }
