@@ -7,7 +7,6 @@ $dbhelper = new \local_moodle_survey\model\survey();
 $survey = $dbhelper->get_survey_by_id($id);
 // // Get question category interpretations
 // $questioncategoryinterpretations = $DB->get_records('cc_question_category_interpretations', ['survey_id' => $id], '*', MUST_EXIST);
-
 $PAGE->set_heading($survey->name);
 $PAGE->set_title($survey->name);
 echo $OUTPUT->header();
@@ -26,9 +25,9 @@ echo $OUTPUT->header();
             $questionoptionsjson = json_encode($questionoptions);
             $record = new stdClass();
             $record->survey_id = $id;
-            $record->status = 'Completed';
+            $record->status = get_string('completed', 'local_moodle_survey');
             $record->response = $questionoptionsjson;
-            $record->submitted_by = 1;
+            $record->submitted_by = $USER->id;
             $response = $surveyresponsedbhelper->create_survey_responses($record);
             $redirecturl = new moodle_url('/local/moodle_survey/fill_survey/learning-survey-insights.php', ['id' => $survey->id]);
             redirect($redirecturl);
