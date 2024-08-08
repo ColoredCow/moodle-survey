@@ -11,6 +11,7 @@ $PAGE->set_url(new moodle_url('/local/moodle_survey/create_survey_category.php')
 $PAGE->set_title(get_string('createsurveycategory', 'local_moodle_survey'));
 $PAGE->set_heading(get_string('surveycategorypagetitle', 'local_moodle_survey'));
 echo $OUTPUT->header();
+$deleteurl = new \moodle_url('/local/moodle_survey/pix/delete-icon.svg');
 
 $categoryoptions['all'] = 'Select Category';
 
@@ -34,7 +35,9 @@ foreach ($surveycategories as $category) {
     $table->data[] = [
         html_writer::link(new moodle_url('/local/moodle_survey/create_survey.php', ['category' => $category->id]),  $category->label),
         date('Y-m-d', strtotime($category->created_at)),
-        ''
+        html_writer::link(new moodle_url($deleteurl), 
+            html_writer::tag('img', '', array('src' => $deleteurl, 'alt' => 'Icon', 'class' => 'plus-icon'))
+        ),
     ];
 }
 
