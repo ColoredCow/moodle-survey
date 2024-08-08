@@ -81,6 +81,10 @@
     border-radius: 15px;
     margin-top: 17px;
 
+    .category-filter {
+        width: 345px !important;
+    }
+
     .search-input, .custom-select, .date-input {
         width: 254px;
         height: 46px;
