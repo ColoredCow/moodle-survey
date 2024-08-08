@@ -49,12 +49,24 @@ class survey {
 
     public static function get_question_categories_for_survey($surveyid) {
         global $DB;
-        $sql = "SELECT c.id, c.label, cci.interpreted_as, cci.score_from, cci.score_to
-            FROM {cc_survey_questions} sq
-            JOIN {cc_categories} c ON sq.question_category_id = c.id
-            LEFT JOIN {cc_question_category_interpretations} cci ON sq.question_category_id = cci.question_category_id
-            WHERE sq.survey_id = :survey_id
-            GROUP BY c.id, c.label";
+        $sql = "SELECT 
+            c.id, 
+            c.label, 
+            cci.interpreted_as, 
+            cci.score_from, 
+            cci.score_to
+        FROM {cc_survey_questions} sq
+        JOIN {cc_categories} c ON sq.question_category_id = c.id
+        LEFT JOIN {cc_question_category_interpretations} cci 
+            ON sq.question_category_id = cci.question_category_id 
+            AND sq.survey_id = cci.survey_id
+        WHERE sq.survey_id = :survey_id
+        GROUP BY 
+            c.id, 
+            c.label, 
+            cci.interpreted_as, 
+            cci.score_from, 
+            cci.score_to";
         
         $params = ['survey_id' => $surveyid];
         $categories = $DB->get_records_sql($sql, $params);
