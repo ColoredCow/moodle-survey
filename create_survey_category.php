@@ -35,9 +35,9 @@ function generate_page_header($categorytype) {
         'create-survey-button-container'
     );
     if($categorytype == get_string('survey', 'local_moodle_survey')) {
-        $categoryheading = get_string('surveycategorypagetitle', 'local_moodle_survey');
+        $categoryheading = 'Surveys / '. get_string('surveycategorypagetitle', 'local_moodle_survey');
     } else {
-        $categoryheading = get_string('questioncategorypagetitle', 'local_moodle_survey');
+        $categoryheading = 'Surveys / '. get_string('questioncategorypagetitle', 'local_moodle_survey');
     }
     
     $heading = html_writer::tag('span', $categoryheading, ['class' => 'survey-name']);
