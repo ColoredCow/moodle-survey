@@ -14,6 +14,9 @@ class survey_learning_form extends \moodleform {
         $attributes['class'] = "create-survey-form";
         $mform->setAttributes($attributes);
         $surveydata = $this->_customdata['questions'];
+
+        $mform->addElement('hidden', 'id', $this->_customdata['id']);
+        $mform->setType('id', PARAM_INT);
         
         foreach($surveydata as $key => $question) {
             $this->get_survey_learning_questions($mform, $question, $key);

@@ -2,11 +2,9 @@
 
 require_once('../../../config.php');
 require_login();
-$id = optional_param('id', 1, PARAM_INT);
+$id = required_param('id', PARAM_INT);
 $dbhelper = new \local_moodle_survey\model\survey();
 $survey = $dbhelper->get_survey_by_id($id);
-// // Get question category interpretations
-// $questioncategoryinterpretations = $DB->get_records('cc_question_category_interpretations', ['survey_id' => $id], '*', MUST_EXIST);
 $PAGE->set_heading($survey->name);
 $PAGE->set_title($survey->name);
 echo $OUTPUT->header();
@@ -16,7 +14,7 @@ echo $OUTPUT->header();
     <?php
         $surveydata = $dbhelper->get_survey_data($id);
         require_once($CFG->dirroot . '/local/moodle_survey/fill_survey/form/survey_learning_form.php');
-        $mform = new \local_moodle_survey\fill_survey\form\survey_learning_form(null, ['questions' => $surveydata]);
+        $mform = new \local_moodle_survey\fill_survey\form\survey_learning_form(null, ['questions' => $surveydata, 'id' => $id]);
         if ($mform->is_cancelled()) {
             redirect(new moodle_url('/local/moodle_survey/manage_survey.php'));
         } else if ($formdata = $mform->get_data()) {
