@@ -3,11 +3,12 @@
     $categories = $dbhelper->get_all_survey_categories();
     $surveystatusoptions = $dbhelper->get_all_survey_status();
     $createurl = new moodle_url('/local/moodle_survey/create_survey.php');
-    $createsurveycategoryurl = new moodle_url('/local/moodle_survey/create_survey_category.php');
+    $createsurveycategoryurl = new moodle_url('/local/moodle_survey/create_survey_category.php', ['categorytype' => get_string('survey', 'local_moodle_survey')]);
+    $createquestioncategoryurl = new moodle_url('/local/moodle_survey/create_survey_category.php', ['categorytype' => get_string('question', 'local_moodle_survey')]);
     $iconurl = new \moodle_url('/local/moodle_survey/pix/plus-icon.svg');
     $createbutton = html_writer::div(
         html_writer::link(
-            $createurl,
+            $createquestioncategoryurl,
             get_string('newquestioncategory', 'local_moodle_survey'),
             array('class' => 'create-survey-button')
         ) .

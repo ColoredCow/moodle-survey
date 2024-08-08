@@ -4,6 +4,7 @@ require_once('../../config.php');
 require_login();
 
 $context = context_system::instance();
+$categorytype = required_param('categorytype', PARAM_TEXT);
 $pagetype = "create_survey_category";
 
 $PAGE->set_context($context);
@@ -11,9 +12,9 @@ $PAGE->set_url(new moodle_url('/local/moodle_survey/create_survey_category.php')
 $PAGE->set_title(get_string('createsurveycategory', 'local_moodle_survey'));
 
 echo $OUTPUT->header();
-echo generate_page_header();
+echo generate_page_header($categorytype);
 echo generate_filter_form();
-echo generate_survey_table();
+echo generate_survey_table($categorytype);
 
 require_once('includes/footer.php');
 
@@ -22,7 +23,7 @@ require_once('includes/footer.php');
  *
  * @return string HTML content for the page header.
  */
-function generate_page_header() {
+function generate_page_header($categorytype) {
     $plusicon = new moodle_url('/local/moodle_survey/pix/plus-icon.svg');
     $createurl = new moodle_url('/local/moodle_survey/create_survey.php');
     $createbutton = html_writer::div(
@@ -33,7 +34,13 @@ function generate_page_header() {
         ),
         'create-survey-button-container'
     );
-    $heading = html_writer::tag('span', get_string('surveycategorypagetitle', 'local_moodle_survey'), ['class' => 'survey-name']);
+    if($categorytype == get_string('survey', 'local_moodle_surey')){
+        $categoryheading = get_string('surveycategorypagetitle', 'local_moodle_survey');
+    } else {
+        $categoryheading = get_string('questioncategorypagetitle', 'local_moodle_survey');
+    }
+    
+    $heading = html_writer::tag('span', $categoryheading, ['class' => 'survey-name']);
     $content = $heading . ' ' . $createbutton;
     return html_writer::tag('div', $content, ['class' => 'survey-header']);
 }
@@ -59,10 +66,14 @@ function generate_filter_form() {
  *
  * @return string HTML content for the survey table.
  */
-function generate_survey_table() {
+function generate_survey_table($categorytype) {
     $table = new html_table();
     $dbhelper = new \local_moodle_survey\model\survey();
-    $surveycategories = $dbhelper->get_all_survey_categories();
+    if($categorytype == get_string('survey', 'local_moodle_survey')) {
+        $categories = $dbhelper->get_all_survey_categories();
+    } else {
+        $categories = $dbhelper->get_all_question_categories($categorytype);
+    }
     $deleteurl = new moodle_url('/local/moodle_survey/pix/delete-icon.svg');
 
     $table->head = [
@@ -71,8 +82,8 @@ function generate_survey_table() {
         get_string('action', 'local_moodle_survey'),
     ];
 
-    if(sizeof($surveycategories) > 0) {
-        foreach ($surveycategories as $category) {
+    if(sizeof($categories) > 0) {
+        foreach ($categories as $category) {
             $table->data[] = [
                 html_writer::link(new moodle_url('/local/moodle_survey/create_survey.php', ['category' => $category->id]),  $category->label),
                 date('Y-m-d', strtotime($category->created_at)),
