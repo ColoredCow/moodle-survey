@@ -606,3 +606,7 @@ input[type="checkbox"]:focus {
         }
     }
 }
+
+.status-select {
+    width: 180.84px;
+}
