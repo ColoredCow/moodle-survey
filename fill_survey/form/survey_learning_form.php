@@ -19,19 +19,20 @@ class survey_learning_form extends \moodleform {
         $mform->setType('id', PARAM_INT);
         
         foreach($surveydata as $key => $question) {
-            $this->get_survey_learning_questions($mform, $question, $key);
+            $this->get_survey_learning_questions($mform, $question, $questionindex);
             $mform->addRule($question['questionId'], null, 'required', null, 'client');
+            $questionindex++;
         }
 
         $this->get_form_action_button($mform);
     }
 
-    private function get_survey_learning_questions($mform, $question,  $key) {
+    private function get_survey_learning_questions($mform, $question,  $questionindex) {
         if(!$question['question']) {
             return;
         }
         $mform->addElement('html', '<div class="mode-of-learning-question-section">');
-        $mform->addElement('html', '<p class="survey-learning-question">' .  $key . ". " . $question['question'] . '</p>');
+        $mform->addElement('html', '<p class="survey-learning-question">' .  $questionindex . ". " . $question['question'] . '</p>');
         $mform->addElement('html', '<div class="survey-learning-question-option d-flex">');
 
         $radioarray = [];
