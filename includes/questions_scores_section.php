@@ -61,7 +61,7 @@
                     $surveyquestionoptiondbhelper = new \local_moodle_survey\model\survey_question_option();
                     $optionrecord->survey_question_id = $newsurveyquestionid;
                     $optionrecord->option_text = $option;
-                    $optionrecord->score = $question['score'][$index];
+                    $optionrecord->score = $question['score'][0];
                     $optionrecord->option_position = $optionindex + 1;
 
                     $existingsurveyquestionoptionsrecord = $surveyquestionoptiondbhelper->get_survey_question_options_by_survey_question_id($newsurveyquestionid);
