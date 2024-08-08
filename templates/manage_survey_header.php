@@ -8,12 +8,12 @@
     $createbutton = html_writer::div(
         html_writer::link(
             $createurl,
-            html_writer::tag('img', '', array('src' => $iconurl, 'alt' => 'Icon', 'class' => 'plus-icon')) . ' ' . get_string('newquestioncategory', 'local_moodle_survey'),
+            get_string('newquestioncategory', 'local_moodle_survey'),
             array('class' => 'create-survey-button')
         ) .
         html_writer::link(
             $createsurveycategoryurl,
-            html_writer::tag('img', '', array('src' => $iconurl, 'alt' => 'Icon', 'class' => 'plus-icon')) . ' ' . get_string('createsurveycategory', 'local_moodle_survey'),
+            get_string('createsurveycategory', 'local_moodle_survey'),
             array('class' => 'create-survey-button')
         ) . html_writer::link(
             $createurl,
