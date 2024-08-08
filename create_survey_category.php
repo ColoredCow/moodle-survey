@@ -10,11 +10,13 @@ $pagetype = "create_survey_category";
 $PAGE->set_context($context);
 $PAGE->set_url(new moodle_url('/local/moodle_survey/create_survey_category.php'));
 $PAGE->set_title(get_string('createsurveycategory', 'local_moodle_survey'));
+$filters = get_filters($categorytype);
 
 echo $OUTPUT->header();
 echo generate_page_header($categorytype);
-echo generate_filter_form();
+echo generate_filter_form($filters);
 echo generate_survey_table($categorytype);
+echo add_dynamic_form_script();
 
 require_once('includes/footer.php');
 
@@ -50,13 +52,14 @@ function generate_page_header($categorytype) {
  *
  * @return string HTML content for the filter form.
  */
-function generate_filter_form() {
-    global $PAGE, $search;
+function generate_filter_form($filters) {
+    global $PAGE;
 
     return html_writer::start_tag('form', ['method' => 'get', 'action' => $PAGE->url, 'id' => 'filter-form']) .
             html_writer::start_div('filter-form d-flex justify-content-around') .
             html_writer::empty_tag('input', ['type' => 'date', 'name' => 'createdon', 'placeholder' => get_string('createdat', 'local_moodle_survey'), 'class' => 'date-input category-filter']) .
-            html_writer::empty_tag('input', ['type' => 'text', 'name' => 'search', 'value' => $search, 'placeholder' => get_string('search', 'local_moodle_survey'), 'class' => 'search-input category-filter']) .
+            html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'categorytype', 'value' => $filters['categorytype']]) .
+            html_writer::empty_tag('input', ['type' => 'text', 'name' => 'search', 'value' => $filters['search'], 'placeholder' => get_string('search', 'local_moodle_survey'), 'class' => 'search-input category-filter']) .
             html_writer::end_div() .
             html_writer::end_tag('form');
 }
@@ -97,4 +100,37 @@ function generate_survey_table($categorytype) {
     }
 
     return html_writer::table($table);
+}
+
+/**
+ * Retrieves the filter parameters from the request.
+ *
+ * @return array
+ */
+function get_filters($categorytype) {
+    $search = optional_param('search', '', PARAM_RAW_TRIMMED);
+    $createdon = optional_param('createdon', '', PARAM_RAW_TRIMMED);
+
+    return [
+        'search' => $search,
+        'createdon' => $createdon,
+        'categorytype' => $categorytype,
+    ];
+}
+
+function add_dynamic_form_script() {
+    return html_writer::script("
+        document.addEventListener('DOMContentLoaded', function() {
+            var dateInput = document.querySelector('.date-input');
+            var form = document.getElementById('filter-form');
+
+            function submitForm() {
+                form.submit();
+            }
+
+            if (dateInput) {
+                dateInput.addEventListener('change', submitForm);
+            }
+        });
+    ");
 }
