@@ -42,6 +42,7 @@ $string['surveytargetaudience'] = 'Target Audience';
 $string['surveydescription'] = 'Survey Description';
 $string['surveydescriptionplaceholder'] = 'Write what is this survey about';
 $string['nosurveysfound'] = 'No surveys found.';
+$string['nocategoryfound'] = 'No categories found.';
 $string['actions'] = 'Actions';
 $string['edit'] = 'Edit';
 $string['delete'] = 'Delete';

@@ -47,6 +47,33 @@ class survey {
         return $DB->get_records('cc_categories', array('type' => 'question'));
     }
 
+    public static function get_categories_by_filters($filters, $categorytype) {
+        global $DB;
+    
+        $sql = "SELECT * FROM {cc_categories} WHERE type = :categorytype";
+        $params = ['categorytype'=> $categorytype];
+    
+        foreach ($filters as $key => $value) {
+            switch ($key) {
+                case 'search':
+                    if (!empty($value)) {
+                        $sql .= " AND label LIKE :search";
+                        $params['search'] = "%$value%";
+                    }
+                    continue;
+
+                case 'createdon':
+                    if (!empty($value)) {
+                        $sql .= " AND DATE(created_at) = :createdon";
+                        $params['createdon'] = $value;
+                    }
+                    continue;
+            }
+        }
+    
+        return $DB->get_records_sql($sql, $params);
+    }
+
     public static function get_question_categories_for_survey($surveyid) {
         global $DB;
         $sql = "SELECT 

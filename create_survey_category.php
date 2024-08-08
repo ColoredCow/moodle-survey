@@ -15,7 +15,7 @@ $filters = get_filters($categorytype);
 echo $OUTPUT->header();
 echo generate_page_header($categorytype);
 echo generate_filter_form($filters);
-echo generate_survey_table($categorytype);
+echo generate_survey_table($filters, $categorytype);
 echo add_dynamic_form_script();
 
 require_once('includes/footer.php');
@@ -69,23 +69,19 @@ function generate_filter_form($filters) {
  *
  * @return string HTML content for the survey table.
  */
-function generate_survey_table($categorytype) {
+function generate_survey_table($filters, $categorytype) {
     $table = new html_table();
     $dbhelper = new \local_moodle_survey\model\survey();
-    if($categorytype == get_string('survey', 'local_moodle_survey')) {
-        $categories = $dbhelper->get_all_survey_categories();
-    } else {
-        $categories = $dbhelper->get_all_question_categories();
-    }
+    $categories = $dbhelper->get_categories_by_filters($filters, $categorytype);
     $deleteurl = new moodle_url('/local/moodle_survey/pix/delete-icon.svg');
 
-    $table->head = [
-        get_string('category', 'local_moodle_survey'),
-        get_string('createdon', 'local_moodle_survey'),
-        get_string('action', 'local_moodle_survey'),
-    ];
-
     if(sizeof($categories) > 0) {
+        $table->head = [
+            get_string('category', 'local_moodle_survey'),
+            get_string('createdon', 'local_moodle_survey'),
+            get_string('action', 'local_moodle_survey'),
+        ];
+
         foreach ($categories as $category) {
             $table->data[] = [
                 html_writer::link(new moodle_url('/local/moodle_survey/create_survey.php', ['category' => $category->id]),  $category->label),
@@ -96,7 +92,7 @@ function generate_survey_table($categorytype) {
             ];
         }
     } else {
-        echo html_writer::tag('div', get_string('nosurveysfound', 'local_moodle_survey'), ['class' => 'alert alert-info']);
+        echo html_writer::tag('div', get_string('nocategoryfound', 'local_moodle_survey'), ['class' => 'alert alert-info']);
     }
 
     return html_writer::table($table);
