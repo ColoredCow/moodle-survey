@@ -33,7 +33,7 @@ foreach ($surveys as $survey) {
             break;
         
         default:
-            $surveystatuscolor = 'survey-published';
+            $surveystatuscolor = 'survey-live';
             break;
     }
     $surveytext = html_writer::span($surveystatus, "badge badge-pill badge-color survey-status $surveystatuscolor");

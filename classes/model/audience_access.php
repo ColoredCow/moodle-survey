@@ -23,4 +23,5 @@ class audience_access {
         $params = ['survey_id' => $surveyid];
         return $DB->get_record_sql($sql, $params);
     }
+
 }

@@ -11,8 +11,8 @@ $PAGE->set_context($context);
 $PAGE->set_url(new moodle_url('/local/moodle_survey/create_survey_category.php'));
 $PAGE->set_title(get_string('createsurveycategory', 'local_moodle_survey'));
 $filters = get_filters($categorytype);
-
 echo $OUTPUT->header();
+
 echo generate_page_header($categorytype);
 echo generate_filter_form($filters);
 echo generate_survey_table($filters, $categorytype);
@@ -30,9 +30,9 @@ function generate_page_header($categorytype) {
     $createurl = new moodle_url('/local/moodle_survey/create_survey.php');
     $createbutton = html_writer::div(
         html_writer::link(
-            $createurl,
+            '#',
             html_writer::tag('img', '', ['src' => $plusicon, 'alt' => 'Icon', 'class' => 'plus-icon']) . ' ' . get_string('createsurvey', 'local_moodle_survey'),
-            ['class' => 'create-survey-button']
+            ['class' => 'create-survey-button', 'id' => 'open-modal']
         ),
         'create-survey-button-container'
     );
@@ -44,7 +44,19 @@ function generate_page_header($categorytype) {
     
     $heading = html_writer::tag('span', $categoryheading, ['class' => 'survey-name']);
     $content = $heading . ' ' . $createbutton;
-    return html_writer::tag('div', $content, ['class' => 'survey-header']);
+    $modal = html_writer::div(
+        html_writer::div(
+            html_writer::tag('span', 'Create Survey', ['class' => 'modal-title']) .
+            html_writer::div(
+                html_writer::link('#', 'Close', ['class' => 'close', 'id' => 'close-modal']),
+                'modal-header'
+            ) .
+            html_writer::div('Modal content goes here'),
+            'modal-content'
+        ),
+        'modal'
+    );
+    return html_writer::tag('div', $content . $modal, ['class' => 'survey-header']);
 }
 
 /**
@@ -119,6 +131,9 @@ function add_dynamic_form_script() {
         document.addEventListener('DOMContentLoaded', function() {
             var dateInput = document.querySelector('.date-input');
             var form = document.getElementById('filter-form');
+            var modal = document.querySelector('.modal');
+            var openModalButton = document.getElementById('open-modal');
+            var closeModalButton = document.getElementById('close-modal');
 
             function submitForm() {
                 form.submit();
@@ -127,6 +142,25 @@ function add_dynamic_form_script() {
             if (dateInput) {
                 dateInput.addEventListener('change', submitForm);
             }
+
+            if (openModalButton && modal) {
+                openModalButton.addEventListener('click', function(event) {
+                    event.preventDefault(); // Prevent the default anchor behavior
+                    modal.style.display = 'block';
+                });
+            }
+
+            if (closeModalButton && modal) {
+                closeModalButton.addEventListener('click', function() {
+                    modal.style.display = 'none';
+                });
+            }
+
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
         });
     ");
 }
