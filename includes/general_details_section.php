@@ -1,10 +1,7 @@
 <?php
-if (!isset($tab)) {
-    $tab = 'general';
-}
-if (!isset($pagetype)) {
-    $pagetype = 'create';
-}
+    if (!isset($tab)) {
+        $tab = 'general';
+    }
 ?>
 
 <div id="general" class="<?php echo $tab === 'general' ? 'active' : '' ?>">
@@ -37,7 +34,7 @@ if (!isset($pagetype)) {
                 $record->name = $data->name;
                 $record->description = $data->description;
                 $record->category_id = $data->category_id;
-                $record->status = 'draft';
+                $record->status = get_string('draft', 'local_moodle_survey');
 
                 if ($pagetype === 'create') {
                     $surveyid = $dbhelper->create_survey($record);

@@ -1,18 +1,20 @@
 <?php
     $dbhelper = new \local_moodle_survey\model\survey();
     $categories = $dbhelper->get_all_survey_categories();
+    $surveystatusoptions = $dbhelper->get_all_survey_status();
     $createurl = new moodle_url('/local/moodle_survey/create_survey.php');
-    $createsurveycategoryurl = new moodle_url('/local/moodle_survey/create_survey_category.php');
+    $createsurveycategoryurl = new moodle_url('/local/moodle_survey/create_survey_category.php', ['categorytype' => get_string('survey', 'local_moodle_survey')]);
+    $createquestioncategoryurl = new moodle_url('/local/moodle_survey/create_survey_category.php', ['categorytype' => get_string('question', 'local_moodle_survey')]);
     $iconurl = new \moodle_url('/local/moodle_survey/pix/plus-icon.svg');
     $createbutton = html_writer::div(
         html_writer::link(
-            $createurl,
-            html_writer::tag('img', '', array('src' => $iconurl, 'alt' => 'Icon', 'class' => 'plus-icon')) . ' ' . get_string('newquestioncategory', 'local_moodle_survey'),
+            $createquestioncategoryurl,
+            get_string('newquestioncategory', 'local_moodle_survey'),
             array('class' => 'create-survey-button')
         ) .
         html_writer::link(
             $createsurveycategoryurl,
-            html_writer::tag('img', '', array('src' => $iconurl, 'alt' => 'Icon', 'class' => 'plus-icon')) . ' ' . get_string('createsurveycategory', 'local_moodle_survey'),
+            get_string('createsurveycategory', 'local_moodle_survey'),
             array('class' => 'create-survey-button')
         ) . html_writer::link(
             $createurl,
@@ -26,19 +28,14 @@
     echo html_writer::tag('div', $content, ['class' => 'survey-header']);
 
     // Filter form
-    $statusoptions = [
-        'all' => get_string('all', 'local_moodle_survey'),
-        'live' => get_string('live', 'local_moodle_survey'),
-        'completed' => get_string('completed', 'local_moodle_survey'),
-    ];
-    $categoryoptions['all'] = 'All';
+    $categoryoptions['all'] = 'Select Category';
     foreach ($categories as $key => $category) {
         $categoryoptions[$category->id] = $category->label;
     }
 
     echo html_writer::start_tag('form', ['method' => 'get', 'action' => $PAGE->url, 'id' => 'filter-form']);
     echo html_writer::start_div('filter-form d-flex justify-content-between');
-    echo html_writer::select($statusoptions, 'status', $status, null, ['class' => 'status-select', 'id' => 'status-select']);
+    echo html_writer::select($surveystatusoptions, 'status', $status, null, ['class' => 'status-select', 'id' => 'status-select']);
     echo html_writer::empty_tag('input', ['type' => 'date', 'name' => 'createdon', 'placeholder' => get_string('createdat', 'local_moodle_survey'), 'class' => 'date-input']);
     echo html_writer::select($categoryoptions, 'category', $surveycategory, null, ['class' => 'status-select', 'id' => 'category-select']);
 

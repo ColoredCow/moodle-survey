@@ -57,19 +57,22 @@ class audience_access_form extends \moodleform {
     }
 
     private function target_audience_form($mform) {
-        return $this->get_checkbox_input_fields(get_string('targetaudiencevalues', 'local_moodle_survey'), $mform, 'targetaudience');
+        $this->get_checkbox_input_fields(get_string('targetaudiencevalues', 'local_moodle_survey'), $mform, 'targetaudience');
+        $mform->addRule('targetaudience', get_string('required'), 'required', null, 'client');
     }
 
     private function access_to_response_form($mform) {
-        return $this->get_checkbox_input_fields(get_string('accesstoresponsevalues', 'local_moodle_survey'), $mform, 'accesstoresponse');
+        $this->get_checkbox_input_fields(get_string('accesstoresponsevalues', 'local_moodle_survey'), $mform, 'accesstoresponse');
+        $mform->addRule('accesstoresponse', get_string('required'), 'required', null, 'client');
     }
 
     private function assign_to_school_form($mform) {
         $section = '';
         foreach(get_string('assigntoschools', 'local_moodle_survey') as $key => $stateofschool) {
-            $section .= $this->get_select_input_fields($stateofschool, $mform, $key);
+            $section .= $this->get_select_input_fields($stateofschool, $mform, 'assigntoschool');
         }
-        return $section;
+        $mform->addElement('html', $section);
+        $mform->addRule('assigntoschool', get_string('required'), 'required', null, 'client');
     }
 
     private function get_select_input_fields($label, $mform, $key) {
@@ -84,21 +87,19 @@ class audience_access_form extends \moodleform {
         }
         $mform->addElement('select', $key, $label, $options);
         $mform->setType($key, PARAM_INT);
-        $mform->addRule($key, null, 'required', null, 'client');
     }
 
     private function get_checkbox_input_fields($sectionsvalues, $mform, $fieldname) {
         $mform->addElement('html', '<div class="audience-access-form">');
-        foreach($sectionsvalues as $accesstoresponsevalue) {
-            $mform->addElement('checkbox', $fieldname, $accesstoresponsevalue);
-            $mform->setType($fieldname, PARAM_NOTAGS);
-            $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
+        foreach($sectionsvalues as $key => $accesstoresponsevalue) {
+            $mform->addElement('checkbox', $fieldname . '[' . $key . ']', $accesstoresponsevalue);
         }
+        $mform->setType($fieldname, PARAM_RAW);
         $mform->addElement('html', '</div>');
     }
 
     private function get_form_action_button($mform) {
-        $submitbutton = $mform->createElement('submit', 'submitbutton1', get_string('savechanges'), ['class' => 'custom-form-action-btn custom-submit-button']);
+        $submitbutton = $mform->createElement('submit', 'submitbutton1', 'Save & Publish', ['class' => 'custom-form-action-btn custom-submit-button']);
         $cancelbutton = $mform->createElement('cancel', 'cancelbutton1', get_string('cancel'), ['class' => 'custom-form-action-btn custom-cancel-button']);
         $mform->addElement('html', '<div class="custom-form-action-buttons">');
         $mform->addElement($cancelbutton);
