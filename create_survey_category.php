@@ -14,7 +14,7 @@ $PAGE->set_title(get_string('createsurveycategory', 'local_moodle_survey'));
 $filters = get_filters($categorytype);
 echo $OUTPUT->header();
 
-echo generate_page_header($categorytype);
+echo generate_page_header($categorytype, $filters);
 echo generate_filter_form($filters);
 echo generate_survey_table($filters, $categorytype);
 echo add_dynamic_form_script();
@@ -26,7 +26,8 @@ require_once('includes/footer.php');
  *
  * @return string HTML content for the page header.
  */
-function generate_page_header($categorytype) {
+function generate_page_header($categorytype, $filters) {
+    global $PAGE;
     $plusicon = new moodle_url('/local/moodle_survey/pix/plus-icon.svg');
     $createbutton = html_writer::div(
         html_writer::link(
@@ -47,21 +48,20 @@ function generate_page_header($categorytype) {
     $heading = html_writer::tag('span', $categoryheading, ['class' => 'survey-name']);
     $content = $heading . ' ' . $createbutton;
     $modallabel = $addcategorytitle;
-    $modaldescription = html_writer::div(
+    $modalurl = new moodle_url($PAGE->url, ['categorytype' => $categorytype, 'createcategory' => $filters['createcategory']]);
+    $modaldescription = html_writer::start_tag('form', ['method' => 'post', 'action' => $modalurl, 'id' => 'filter-form']) . html_writer::div(
         html_writer::empty_tag('input', [
             'type' => 'text',
-            'name' => 'search',
-            'value' => '',
+            'name' => 'createcategory',
+            'value' => $filters['createcategory'],
             'placeholder' => $addcategorytitle,
             'class' => 'add-category-field'
         ]) . 
-        html_writer::link('#',
-            html_writer::empty_tag('input', [
-                'type' => 'submit',
-                'value' => 'Add',
-                'class' => 'custom-action-btn add-category-btn'
-            ])
-        )
+        html_writer::empty_tag('input', [
+            'type' => 'submit',
+            'value' => 'Add',
+            'class' => 'custom-action-btn add-category-btn'
+        ])
         , 'add-category-form'
     );
     $modal = generate_modal($modallabel, $modaldescription);
@@ -127,11 +127,13 @@ function generate_survey_table($filters, $categorytype) {
 function get_filters($categorytype) {
     $search = optional_param('search', '', PARAM_RAW_TRIMMED);
     $createdon = optional_param('createdon', '', PARAM_RAW_TRIMMED);
+    $createcategory = optional_param('createcategory', '', PARAM_RAW_TRIMMED);
 
     return [
         'search' => $search,
         'createdon' => $createdon,
         'categorytype' => $categorytype,
+        'createcategory' => $createcategory,
     ];
 }
 

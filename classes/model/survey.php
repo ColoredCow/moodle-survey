@@ -27,6 +27,12 @@ class survey {
         return $DB->update_record('cc_surveys', $data);
     }
 
+    public static function create_categories($record) {
+        global $DB;
+        $record->created_at = date('Y-m-d H:i:s');
+        $record->updated_at = date('Y-m-d H:i:s');
+        return $DB->insert_record('cc_categories', $record);
+    }
     public static function delete_survey($id) {
         global $DB;
         return $DB->delete_records('cc_surveys', ['id' => $id]);
@@ -66,6 +72,17 @@ class survey {
                     if (!empty($value)) {
                         $sql .= " AND DATE(created_at) = :createdon";
                         $params['createdon'] = $value;
+                    }
+                    continue;
+                
+                case 'createcategory':
+                    $iscategorytypesurvey = $categorytype === get_string('survey', 'local_moodle_survey');
+                    if (!empty($value) && $iscategorytypesurvey) {
+                        $data = new \stdClass();
+                        $data->label = $value;
+                        $data->slug = $value;
+                        $data->type = $categorytype;
+                        self::create_categories($data);
                     }
                     continue;
             }
