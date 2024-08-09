@@ -11,7 +11,7 @@ class question_category_interpretation {
         return $DB->insert_record('cc_question_category_interpretations', $record);
     }
 
-    public static function update_survey($data) {
+    public static function update_interpretation($data) {
         global $DB;
         $data->updated_at = date('Y-m-d H:i:s');
         return $DB->update_record('cc_question_category_interpretations', $data);
@@ -20,5 +20,12 @@ class question_category_interpretation {
     public static function delete_survey($id) {
         global $DB;
         return $DB->delete_records('cc_question_category_interpretations', ['id' => $id]);
+    }
+
+    public static function get_interpretation_by_survey_id($surveyid, $interpretation) {
+        global $DB;
+        $sql = "SELECT * FROM {cc_question_category_interpretations} WHERE survey_id = :survey_id AND question_category_id = :interpretation_id";
+        $params = ['survey_id' => $surveyid, 'interpretation_id' => $interpretation];
+        return $DB->get_records_sql($sql, $params);
     }
 }

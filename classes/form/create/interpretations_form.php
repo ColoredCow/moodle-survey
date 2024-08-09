@@ -42,27 +42,28 @@ class interpretations_form extends \moodleform {
         $mform->addRule('interpretation[' . $index . ']', null, 'required', null, 'client');
         
         $mform->addElement('html', '<div class="new-option-section question-score-option-section">');
-        $this->get_question_score_section($mform, $index);
+        $this->get_question_score_section($mform, $index, $category);
         $mform->addElement('html', '</div>');
         $mform->addElement('html', '<div id="new-score-sections-container"></div>');
     }
 
-    protected function get_question_score_section($mform, $index){
+    protected function get_question_score_section($mform, $index, $category){
         $mform->addElement('html', '<div class="question-score-section">');
         
         $mform->addElement('text', 'scorefrom[' . $index . ']', get_string('scorefrom', 'local_moodle_survey'));
         $mform->setType('scorefrom[' . $index . ']', PARAM_INT);
         $mform->addRule('scorefrom[' . $index . ']', null, 'required', null, 'client');
-        $mform->setDefault('scorefrom[' . $index . ']', 0);
-       
+        $mform->setDefault('scorefrom[' . $index . ']', $category->score_from);
+        
         $mform->addElement('text', 'scoreto[' . $index . ']', get_string('scoreto', 'local_moodle_survey'));
         $mform->setType('scoreto[' . $index . ']', PARAM_INT);
         $mform->addRule('scoreto[' . $index . ']', null, 'required', null, 'client');
-        $mform->setDefault('scoreto[' . $index . ']', 0);
-       
+        $mform->setDefault('scoreto[' . $index . ']', $category->score_to);
+        
         $mform->addElement('text', 'interpretedas[' . $index . ']', get_string('interpretedas', 'local_moodle_survey'), 'size="50" placeholder="' . get_string('interpretedasplaceholder', 'local_moodle_survey') . '"');
         $mform->setType('interpretedas[' . $index . ']', PARAM_TEXT);
         $mform->addRule('interpretedas[' . $index . ']', null, 'required', null, 'client');
+        $mform->setDefault('interpretedas[' . $index . ']', $category->interpreted_as);
 
         $this->get_add_new_option_button(get_string('newrangeandinterpretation', 'local_moodle_survey'), $mform, "");
         $mform->addElement('html', '</div>');

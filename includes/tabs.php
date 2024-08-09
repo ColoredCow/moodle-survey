@@ -1,9 +1,9 @@
 <?php
 echo $OUTPUT->header();
 
-if (!isset($tab)) {
-    $tab = 'general';
-}
+    if (!isset($tab)) {
+        $tab = 'general';
+    }
 ?>
 
 

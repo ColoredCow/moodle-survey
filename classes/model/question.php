@@ -21,4 +21,11 @@ class question {
         global $DB;
         return $DB->delete_records('cc_questions', ['id' => $id]);
     }
+
+    public static function get_question_by_question_text($questiontext) {
+        global $DB;
+        $sql = "SELECT * FROM {cc_questions} WHERE text = :questiontext";
+        $params = ['questiontext' => $questiontext];
+        return $DB->get_record_sql($sql, $params);
+    }
 }

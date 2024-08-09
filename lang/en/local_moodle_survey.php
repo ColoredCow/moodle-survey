@@ -28,8 +28,10 @@ defined('MOODLE_INTERNAL') || die();
 $string['pluginname'] = 'Saishiko Surveys';
 $string['managesurvey'] = 'Surveys';
 $string['createsurvey'] = 'Add New Survey';
-$string['createsurveycategory'] = 'New Survey Category';
-$string['newquestioncategory'] = 'New Question Category';
+$string['createsurveycategory'] = 'Survey Categories';
+$string['newquestioncategory'] = 'Question Categories';
+$string['surveycategorypagetitle'] = 'Survey categories';
+$string['questioncategorypagetitle'] = 'Question categories';
 $string['surveyname'] = 'Name';
 $string['surveynameplaceholder'] = 'Enter Survey Name';
 $string['surveycategory'] = 'Category';
@@ -40,6 +42,7 @@ $string['surveytargetaudience'] = 'Target Audience';
 $string['surveydescription'] = 'Survey Description';
 $string['surveydescriptionplaceholder'] = 'Write what is this survey about';
 $string['nosurveysfound'] = 'No surveys found.';
+$string['nocategoryfound'] = 'No categories found.';
 $string['actions'] = 'Actions';
 $string['edit'] = 'Edit';
 $string['delete'] = 'Delete';
@@ -63,9 +66,11 @@ $string['active'] = 'Active';
 $string['inactive'] = 'Inactive';
 $string['filter'] = 'Filter';
 $string['search'] = 'Search';
-$string['all'] = 'All';
+$string['all'] = 'Select';
 $string['live'] = 'Live';
 $string['completed'] = 'Completed';
+$string['draft'] = 'Draft';
+$string['published'] = 'Published';
 $string['createdat'] = 'Created At';
 $string['newsurveycategory'] = 'Add New Survey Category';
 $string['submit'] = 'Save & Continue';
@@ -103,5 +108,25 @@ $string['accesstoresponsevalues'] = [
 ];
 $string['assigntoschools'] = [
     'stateofschool'  => 'State of School',
-    'selectschool' => 'Select School',
 ];
+$string['suveyparticipationcontent'] = 'Thank you for taking the time to participate in our survey. Your feedback is valuable and will help us improve our services.';
+$string['sruveyacceptancetext'] = 'I agree to participate in the survey as a student enrolled on this platform';
+$string['whatsurveyabout'] = 'What is this survey about?';
+$string['instructionforfiillingsurveyheading'] = 'Instructions for Filling the Survey';
+$string['instructionforfiillingsurvey'] = [
+    'Read Each Question Carefully: Take your time to understand each question before answering.',
+    'Be Honest and Candid: Your genuine responses are crucial for accurate data collection.',
+    'Select the Best Option: Choose the option that best represents your opinion or experience.',
+    'Provide Detailed Responses: For open-ended questions, feel free to share as much detail as possible.',
+    'Confidentiality: Your responses will remain confidential and will be used solely for research purposes.'
+];
+$string['saveandsubmit'] = 'Save & Submit';
+$string['yourscore'] = 'Your Score';
+$string['scoreinterpretation'] = 'Score Interpretation';
+$string['surveylandingtitle'] = 'Welcome To ';
+$string['category'] = 'Category';
+$string['action'] = 'Action';
+$string['survey'] = 'survey';
+$string['question'] = 'question';
+$string['addsurveycategory'] = 'Add Survey Category';
+$string['addquestioncategory'] = 'Add Question Category';
