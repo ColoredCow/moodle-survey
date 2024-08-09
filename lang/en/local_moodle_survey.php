@@ -26,11 +26,23 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'Saishiko Surveys';
-$string['managesurvey'] = 'Manage Surveys';
-$string['createsurvey'] = 'Create New Survey';
-$string['surveyname'] = 'Survey Name';
+$string['managesurvey'] = 'Surveys';
+$string['createsurvey'] = 'Add New Survey';
+$string['createsurveycategory'] = 'Survey Categories';
+$string['newquestioncategory'] = 'Question Categories';
+$string['surveycategorypagetitle'] = 'Survey categories';
+$string['questioncategorypagetitle'] = 'Question categories';
+$string['surveyname'] = 'Name';
+$string['surveynameplaceholder'] = 'Enter Survey Name';
+$string['surveycategory'] = 'Category';
+$string['createdon'] = 'Created ON';
+$string['schools'] = 'Schools';
+$string['responses'] = 'Responses';
+$string['surveytargetaudience'] = 'Target Audience';
 $string['surveydescription'] = 'Survey Description';
+$string['surveydescriptionplaceholder'] = 'Write what is this survey about';
 $string['nosurveysfound'] = 'No surveys found.';
+$string['nocategoryfound'] = 'No categories found.';
 $string['actions'] = 'Actions';
 $string['edit'] = 'Edit';
 $string['delete'] = 'Delete';
@@ -40,6 +52,7 @@ $string['surveydeleted'] = 'Survey deleted successfully';
 $string['confirmdelete'] = 'Are you sure you want to delete this survey?';
 $string['nosurveysfound'] = 'No surveys found.';
 $string['generaldetails'] = 'General Details';
+$string['surveydetails'] = 'Survey Details';
 $string['questionsscores'] = 'Questions & Scores';
 $string['interpretations'] = 'Interpretations';
 $string['validity'] = 'Validity';
@@ -48,9 +61,72 @@ $string['questions'] = 'Questions';
 $string['scores'] = 'Scores';
 $string['audience'] = 'Audience';
 $string['access'] = 'Access';
-$string['surveystatus'] = 'Survey Status';
+$string['surveystatus'] = 'Status';
 $string['active'] = 'Active';
 $string['inactive'] = 'Inactive';
 $string['filter'] = 'Filter';
 $string['search'] = 'Search';
-$string['all'] = 'All';
+$string['all'] = 'Select';
+$string['live'] = 'Live';
+$string['completed'] = 'Completed';
+$string['draft'] = 'Draft';
+$string['published'] = 'Published';
+$string['createdat'] = 'Created At';
+$string['newsurveycategory'] = 'Add New Survey Category';
+$string['submit'] = 'Save & Continue';
+$string['questionlabel'] = 'Question';
+$string['questioncategorylabel'] = 'Question Category';
+$string['questionplaceholder'] = 'ex : How frequently do you need guidance...';
+$string['addnewscorebutton'] = 'Add new score and associate option';
+$string['addnewscorebuttonid'] = 'add-new-score-button';
+$string['score'] = 'Score';
+$string['associatedoption'] = 'Associated option';
+$string['scorefrom'] = 'From';
+$string['scoreto'] = 'To';
+$string['interpretedas'] = 'Interpreted as';
+$string['interpretedasplaceholder'] = 'ex: never';
+$string['questioncategory'] = 'Question Category';
+$string['addnewcategory'] = 'Add New Category';
+$string['addnewcategoryid'] = 'add-new-category';
+$string['addnewquestion'] = 'Add a new questions';
+$string['newrangeandinterpretation'] = 'Add new range and interpretation';
+$string['surveyvalidityheading'] = 'Duration of collecting responses';
+$string['surveyvaliditystartdatelabel'] = 'Start Date';
+$string['surveyvalidityenddatelabel'] = 'End Date';
+$string['publishsurveybtn'] = 'Save & Publish';
+$string['targetaudience'] = 'TARGET AUDIENCE';
+$string['accesstoresponse'] = 'ACCESS TO RESPONSES';
+$string['assigntoschool'] = 'ASSIGN TO SCHOOL';
+$string['targetaudiencevalues'] = [
+    'students' => 'Students',
+    'teachers' => 'Teachers',
+];
+$string['accesstoresponsevalues'] = [
+    'principal' => 'Principal',
+    'teacher' => 'Teacher',
+    'counsellor' => 'Counsellor',
+];
+$string['assigntoschools'] = [
+    'stateofschool'  => 'State of School',
+];
+$string['suveyparticipationcontent'] = 'Thank you for taking the time to participate in our survey. Your feedback is valuable and will help us improve our services.';
+$string['sruveyacceptancetext'] = 'I agree to participate in the survey as a student enrolled on this platform';
+$string['whatsurveyabout'] = 'What is this survey about?';
+$string['instructionforfiillingsurveyheading'] = 'Instructions for Filling the Survey';
+$string['instructionforfiillingsurvey'] = [
+    'Read Each Question Carefully: Take your time to understand each question before answering.',
+    'Be Honest and Candid: Your genuine responses are crucial for accurate data collection.',
+    'Select the Best Option: Choose the option that best represents your opinion or experience.',
+    'Provide Detailed Responses: For open-ended questions, feel free to share as much detail as possible.',
+    'Confidentiality: Your responses will remain confidential and will be used solely for research purposes.'
+];
+$string['saveandsubmit'] = 'Save & Submit';
+$string['yourscore'] = 'Your Score';
+$string['scoreinterpretation'] = 'Score Interpretation';
+$string['surveylandingtitle'] = 'Welcome To ';
+$string['category'] = 'Category';
+$string['action'] = 'Action';
+$string['survey'] = 'survey';
+$string['question'] = 'question';
+$string['addsurveycategory'] = 'Add Survey Category';
+$string['addquestioncategory'] = 'Add Question Category';

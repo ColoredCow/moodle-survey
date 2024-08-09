@@ -12,9 +12,4 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector(tab.getAttribute('href')).classList.add('active');
         });
     });
-
-    // Show the first tab by default
-    if (tabs.length) {
-        tabs[0].click();
-    }
 });

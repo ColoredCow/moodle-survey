@@ -1,15 +1,128 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <XMLDB PATH="local/moodle_survey/db" VERSION="2023071800" COMMENT="XMLDB file for Saishiko Surveys plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://docs.moodle.org/xmldb">
     <TABLES>
-        <TABLE NAME="moodle_survey" COMMENT="Table for Saishiko Surveys">
+        <TABLE NAME="cc_categories" COMMENT="Table for Saishiko Surveys">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" COMMENT="Primary key"/>
+                <FIELD NAME="label" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Name of the category"/>
+                <FIELD NAME="slug" TYPE="char" LENGTH="255" SEQUENCE="false" COMMENT="slug for the category"/>
+                <FIELD NAME="type" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Type of category"/>
+                <FIELD NAME="created_at" TYPE="datetime" NOTNULL="true" COMMENT="Timestamp when the record was created"/>
+                <FIELD NAME="updated_at" TYPE="datetime" NOTNULL="true" COMMENT="Timestamp when the record was last updated"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key"/>
+            </KEYS>
+        </TABLE>
+        <TABLE NAME="cc_surveys" COMMENT="Table for Saishiko Surveys">
             <FIELDS>
                 <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" COMMENT="Primary key"/>
                 <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Name of the survey"/>
                 <FIELD NAME="description" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Description of the survey"/>
-                <FIELD NAME="status" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" DEFAULT="active" COMMENT="Status of the survey"/>
+                <FIELD NAME="category_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Category for survey"/>
+                <FIELD NAME="status" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" DEFAULT="active" COMMENT="Status of the survey"/>
+                <FIELD NAME="start_date" TYPE="char" LENGTH="10" NOTNULL="false" COMMENT="Start date for survey"/>
+                <FIELD NAME="end_date" TYPE="char" LENGTH="10" NOTNULL="false" COMMENT="End date for survey"/>
+                <FIELD NAME="created_at" TYPE="datetime" NOTNULL="true" COMMENT="Timestamp when the record was created"/>
+                <FIELD NAME="updated_at" TYPE="datetime" NOTNULL="true" COMMENT="Timestamp when the record was last updated"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key"/>
+                <KEY NAME="cc_surveys_category_fk" TYPE="foreign" FIELDS="category_id" REFTABLE="cc_categories" REFFIELDS="id" COMMENT="Foreign key to categories table"/>
+            </KEYS>
+        </TABLE>
+        <TABLE NAME="cc_questions" COMMENT="Table for Saishiko Surveys">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" COMMENT="Primary key"/>
+                <FIELD NAME="text" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Question Text"/>
+                <FIELD NAME="type" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Type of question"/>
+                <FIELD NAME="created_at" TYPE="datetime" NOTNULL="true" COMMENT="Timestamp when the record was created"/>
+                <FIELD NAME="updated_at" TYPE="datetime" NOTNULL="true" COMMENT="Timestamp when the record was last updated"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key"/>
+            </KEYS>
+        </TABLE>
+        <TABLE NAME="cc_survey_questions" COMMENT="Table for Saishiko Surveys">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" COMMENT="Primary key"/>
+                <FIELD NAME="question_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign Key for Question"/>
+                <FIELD NAME="survey_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign Key for Survey"/>
+                <FIELD NAME="question_category_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign Key for Category"/>
+                <FIELD NAME="question_position" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Position of Question"/>
+                <FIELD NAME="created_at" TYPE="datetime" NOTNULL="true" COMMENT="Timestamp when the record was created"/>
+                <FIELD NAME="updated_at" TYPE="datetime" NOTNULL="true" COMMENT="Timestamp when the record was last updated"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key"/>
+                <KEY NAME="cc_survey_questions_question_fk" TYPE="foreign" FIELDS="question_id" REFTABLE="cc_questions" REFFIELDS="id" COMMENT="Foreign key to questions table"/>
+                <KEY NAME="cc_survey_questions_survey_fk" TYPE="foreign" FIELDS="survey_id" REFTABLE="cc_surveys" REFFIELDS="id" COMMENT="Foreign key to surveys table"/>
+                <KEY NAME="cc_survey_questions_category_fk" TYPE="foreign" FIELDS="question_category_id" REFTABLE="cc_categories" REFFIELDS="id" COMMENT="Foreign key to categories table"/>
+            </KEYS>
+        </TABLE>
+        <TABLE NAME="cc_survey_question_options" COMMENT="Table for Saishiko Surveys">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" COMMENT="Primary key"/>
+                <FIELD NAME="survey_question_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign Key for Survey Question"/>
+                <FIELD NAME="option_text" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Option Text"/>
+                <FIELD NAME="score" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Score for the option"/>
+                <FIELD NAME="option_position" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Position of option"/>
+                <FIELD NAME="created_at" TYPE="datetime" NOTNULL="true" COMMENT="Timestamp when the record was created"/>
+                <FIELD NAME="updated_at" TYPE="datetime" NOTNULL="true" COMMENT="Timestamp when the record was last updated"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key"/>
+                <KEY NAME="cc_survey_question_options_survey_question_fk" TYPE="foreign" FIELDS="survey_question_id" REFTABLE="cc_survey_questions" REFFIELDS="id" COMMENT="Foreign key to survey questions table"/>
+            </KEYS>
+        </TABLE>
+        <TABLE NAME="cc_question_category_interpretations" COMMENT="Table for Saishiko Surveys">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" COMMENT="Primary key"/>
+                <FIELD NAME="survey_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign Key for Survey"/>
+                <FIELD NAME="question_category_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign Key for Category"/>
+                <FIELD NAME="score_from" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Score Range"/>
+                <FIELD NAME="score_to" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Score Range"/>
+                <FIELD NAME="interpreted_as" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Interpreted As"/>
+                <FIELD NAME="description" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Description for interpretation"/>
+                <FIELD NAME="created_at" TYPE="datetime" NOTNULL="true" COMMENT="Timestamp when the record was created"/>
+                <FIELD NAME="updated_at" TYPE="datetime" NOTNULL="true" COMMENT="Timestamp when the record was last updated"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key"/>
+                <KEY NAME="cc_question_category_interpretations_survey_fk" TYPE="foreign" FIELDS="survey_id" REFTABLE="cc_surveys" REFFIELDS="id" COMMENT="Foreign key to surveys table"/>
+                <KEY NAME="cc_question_category_interpretations_question_category_fk" TYPE="foreign" FIELDS="question_category_id" REFTABLE="cc_catgeories" REFFIELDS="id" COMMENT="Foreign key to catgeories table"/>
+            </KEYS>
+        </TABLE>
+        <TABLE NAME="cc_survey_responses" COMMENT="Table for Saishiko Surveys">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" COMMENT="Primary key"/>
+                <FIELD NAME="survey_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign Key for Survey"/>
+                <FIELD NAME="status" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="Status of the survey"/>
+                <FIELD NAME="response" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Response of the survey (JSON data)"/>
+                <FIELD NAME="submitted_by" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign Key for User"/>
+                <FIELD NAME="submitted_at" TYPE="datetime" NOTNULL="true" COMMENT="Timestamp when the record was submitted"/>
+                <FIELD NAME="created_at" TYPE="datetime" NOTNULL="true" COMMENT="Timestamp when the record was created"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key"/>
+                <KEY NAME="cc_survey_fk" TYPE="foreign" FIELDS="survey_id" REFTABLE="cc_surveys" REFFIELDS="id" COMMENT="Foreign key to surveys table"/>
+                <KEY NAME="cc_user_fk" TYPE="foreign" FIELDS="submitted_by" REFTABLE="user" REFFIELDS="id" COMMENT="Foreign key to user table"/>
+            </KEYS>
+        </TABLE>
+
+        <TABLE NAME="cc_survey_audience_access" COMMENT="Table for Saishiko Surveys">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" COMMENT="Primary key"/>
+                <FIELD NAME="survey_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign Key for Survey"/>
+                <FIELD NAME="school_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign Key for Survey"/>
+                <FIELD NAME="target_audience" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Response of the Target Audience (JSON data)"/>
+                <FIELD NAME="access_to_response" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Response of the Access to Response (JSON data)"/>
+                <FIELD NAME="created_at" TYPE="datetime" NOTNULL="true" COMMENT="Timestamp when the record was created"/>
+                <FIELD NAME="updated_at" TYPE="datetime" NOTNULL="true" COMMENT="Timestamp when the record was last updated"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key"/>
+                <KEY NAME="cc_survey_fk" TYPE="foreign" FIELDS="survey_id" REFTABLE="cc_surveys" REFFIELDS="id" COMMENT="Foreign key to surveys table"/>
             </KEYS>
         </TABLE>
     </TABLES>

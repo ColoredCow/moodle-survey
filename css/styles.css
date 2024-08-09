@@ -1,0 +1,686 @@
+/* styles.css */
+
+#page #page-header {
+    margin-bottom: -5px;
+    padding-left: 0px;
+}
+
+.create-survey-button {
+    background-color: #FFFFFF;
+    border: 1px solid #F16824 !important;
+    border-radius: 8px;
+    color: #F16824 !important;
+    padding: 12px 14px;
+    text-decoration: none !important;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.generaltable {
+    thead tr th {
+        text-transform: uppercase;
+    }
+}
+
+/* Styles for nav-pills */
+#tabs ul {
+    list-style: none;
+    display: flex;
+    border-bottom: 1px solid #D9D9D9;
+    margin-bottom: 20px;
+    padding: 0;
+    padding-bottom: 25px !important;
+}
+
+#tabs ul li {
+    margin-right: 5px;
+}
+
+
+#tabs ul li a {
+    display: block;
+    padding: 20px 0px 25px;
+    margin-right: 34px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: #949494 !important;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+#tabs ul li a:hover {
+}
+
+#tabs ul li.active a {
+    color: #F16824 !important;
+    background-color: #fff !important;
+    border-bottom: 5px solid #F16824 !important;
+    border-left-color: transparent !important;
+    border-right-color: transparent !important;
+    border-top-color: transparent !important;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+#tabs > div {
+    display: none;
+}
+
+#tabs div.active {
+    display: block;
+}
+
+/* Styles for filter-form */
+.filter-form {
+    background-color: #F6F6F6;
+    gap: 20px;
+    padding: 20px 24px;
+    border: 1px solid #D9D9D9;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    margin-top: 17px;
+
+    .category-filter {
+        width: 345px !important;
+    }
+
+    .search-input, .custom-select, .date-input {
+        width: 254px;
+        height: 46px;
+        border: 1px solid #949494;
+        padding: 9px 16px;
+        border-radius: 8px;
+    }
+}
+
+.search-input,
+.status-select,
+.filter-button {
+    padding: 5px;
+}
+
+
+.table-responsive {
+    .generaltable {
+        tbody tr:nth-of-type(odd) {
+            background-color: #F6F6F6 !important;
+        }
+        thead tr th {
+            border: none !important;
+            border-top: 1px solid #D9D9D9 !important;
+            font-size: 14px;
+            font-weight: 600;
+        }
+    }
+    tbody tr {
+        td {
+            font-weight: 400;
+            font-size: 14px;
+            border-top: none !important;
+            padding: 25px 12px;
+
+            .survey-status {
+                font-weight: 400;
+                font-size: 14px;
+                color: #FFFFFF;
+                font-weight: 700 !important;
+            }
+
+            .survey-live {
+                background-color: #04621B;
+            }
+
+            .survey-inactive {
+                background-color: #E5D201;
+            }
+
+            .survey-completed {
+                background-color: #F47A29;
+            }
+
+            .survey-draft {
+                background-color: #949494;
+            }
+
+            .survey-published {
+                background-color: #04621B;
+            }
+
+            a {
+                color: #1969B4 !important;
+                font-weight: 400;
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+.survey-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+
+    .survey-name {
+        font-weight: 400;
+        font-size: 22px;
+        color: #232323;
+    }
+
+    .create-survey-button-container {
+        display: flex;
+        gap: 20px;
+    }
+}
+
+.btn-secondary {
+    color: #FFF !important;
+}
+
+.general-details-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.score-interpretation-details {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.accordion {
+    margin-bottom: 10px;
+
+    .survey-insights-score {
+        margin-left: 35px;
+        margin-top: 20px;
+        width: 100%;
+    }
+
+    .general-details {
+        margin-left: 35px;
+        margin-top: 20px;
+        width: 661px;
+    }
+}
+
+.question-score-form, accordion-body {
+    margin-left: 35px;
+    margin-top: 20px;
+    width: 661px;
+
+    .mform .form-section {
+        border-bottom: 1px solid transparent !important;
+    }
+}
+
+.accordion-header {
+    cursor: pointer;
+    
+    h5 {
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: #232323;
+        margin: 0px;
+        margin-left: 13px;
+    }
+}
+
+.accordion-header h2 {
+    margin: 0;
+}
+
+.page-header-headings {
+    .h2 {
+        color: #232323;
+        font-size: 22px;
+        font-weight: 400 !important;
+    }
+}
+
+.mform label, form-label {
+    font-size: 14px;
+    font-weight: 400;
+    color: #232323;
+    display: grid;
+}
+
+.mform .form-group {
+    .form-inline fieldset {
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+.question-score-section {
+    gap: 20px;
+    width: 100%;
+    margin-left: 35px;
+}
+
+.question-score {
+    width: 91px;
+    border: 1px solid #949494;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    padding-left: 16px;
+}
+
+.question-associatedoption, .associated-option-section {
+    width: 100% !important;
+}
+
+.question-interpretedas, .question-associatedoption {
+    border-radius: 8px;
+    padding-left: 35px;
+}
+
+.mform .form-section {
+    border-bottom: 1px solid #D9D9D9;
+    padding-bottom: 25px;
+    
+    .form-group {
+        textarea[cols] {
+            width: -webkit-fill-available;
+        }
+
+        input[type="text"] {
+            border-color: #232323;
+        }
+
+        .new-survey-category-section, #new-category-input-container {
+            select {
+                margin-bottom: 16px;
+            }
+        }
+    }
+}
+
+.new-option-section {
+    margin-top: 16px;
+}
+
+.question-score-option-section, #new-sections-container {
+    gap: 20px;
+    margin-top: 20px;
+    margin-bottom: 16px;
+}
+
+.add-new-button {
+    border-radius: 8px;
+    background-color: #FFFFFF !important;
+    color: #F16824 !important;
+    padding: 12px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid #F16824;
+}
+
+.plus-icon {
+    margin-right: 9px;
+}
+
+.custom-form-action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 40px;
+    width: 749px;
+
+    .custom-submit-button input {
+        border-radius: 8px;
+        background-color: #F16824;
+        border: 1px solid #F16824;
+        color: white;
+    }
+
+    .custom-cancel-button input {
+        background-color: #FFFFFF;
+        border: 1px solid #F16824 !important;
+        border-radius: 8px;
+        color: #F16824;
+        padding-inline: 34px;
+    }
+}
+
+.create-survey-form .fdescription  {
+    display: none;
+}
+
+.create-survey-form .fa-exclamation-circle {
+    display: none;
+}
+
+.custom-action-btn, .question-score-remove-btn, .add-category-button  {
+    padding: 12px 14px !important;
+    border: 1px solid #F16824  !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+.add-category-btn {
+    background-color: #F16824  !important;
+}
+
+.question-category-section {
+    margin-top: 20px;
+
+    .question-category-selection {
+        margin-bottom: 16px;
+    }
+}
+
+.question-score-category-selection {
+    margin-bottom: 16px;
+}
+
+.question-item-section {
+    width: 749px;
+    border-bottom: 1px solid #D9D9D9;
+    margin-bottom: 25px;
+}
+
+.audience-access-form {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 25px;
+
+    .form-group {
+        .col-form-label {
+            display: none;
+        }
+    }
+
+    .checkbox-section {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+}
+
+/* input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: #FFF0E6;
+    border: 1px solid #F16824;
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+}
+
+input[type="checkbox"]:checked {
+    background-color: #FFF0E6;
+    border: 1px solid #F16824;
+}
+
+input[type="checkbox"]:checked::before {
+    content: '';
+    position: absolute;
+    left: 30%;
+    top: 11%;
+    width: 8px;
+    height: 14px;
+    border: solid #F16824;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+    background-color: transparent;
+}
+
+input[type="checkbox"]:focus {
+    outline-offset: 2px;
+} */
+
+.add-category-field {
+    width: 100%;
+    height: 46px;
+    border: 1px solid #949494;
+    padding: 9px 16px;
+    border-radius: 8px;
+}
+
+.checkbox-label {
+    margin: 0px !important;
+}
+
+.select-schools-section {
+    margin-bottom: 38px !important;
+}
+
+.question-score-remove-option {
+    align-items: center;
+    display: flex;
+
+    .question-score-remove-btn {
+        margin-top: 25px;
+        text-decoration: none;
+        color: #F16824;
+    }
+}
+
+#fitem_id_survey_collection_responses_start_date, #fitem_id_survey_collection_responses_end_date {
+    display: flex;
+    gap: 25px;
+}
+
+#fitem_id_survey_collection_responses_end_date {
+    margin-top: 16px;
+}
+
+.survey-collection-responses-date-section {
+    margin-left: 35px;
+    margin-bottom: 25px;
+}
+
+.custom-continue-button {
+    background-color: #F16824;
+    color: white;
+    padding-inline: 34px;
+
+    &:hover {
+        color: white;
+    }
+}
+
+.custom-declined-button {
+    background-color: #FFFFFF;
+    color: #F16824;
+    padding-inline: 34px;
+
+    &:hover {
+        color: #F16824;
+    }
+}
+
+.survey-submission-container {
+    font-size: 14px;
+    font-weight: 400;
+    width: 739px;
+    color: #626262;
+    line-height: 21px;
+
+    input[type="checkbox"] {
+        appearance: none;
+        -webkit-appearance: none;
+        background-color: #FFF0E6;
+        border: 1px solid #F16824;
+        width: 22px;
+        height: 22px;
+        cursor: pointer;
+        position: relative;
+        display: inline-block;
+    }
+    
+    input[type="checkbox"]:checked {
+        background-color: #FFF0E6;
+        border: 1px solid #F16824;
+    }
+    
+    input[type="checkbox"]:checked::before {
+        content: '';
+        position: absolute;
+        left: 30%;
+        top: 11%;
+        width: 8px;
+        height: 14px;
+        border: solid #F16824;
+        border-width: 0 3px 3px 0;
+        transform: rotate(45deg);
+        background-color: transparent;
+    }
+    
+    input[type="checkbox"]:focus {
+        outline-offset: 2px;
+    }
+
+    .survey-about-container {
+        .survey-about-heading {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1E1E1E;
+        }
+    }
+
+    .survey-thanks-content {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .survey-about-container {
+        margin-bottom: 20px;
+    }
+
+    .survey-instruction-container {
+        ol {
+            padding-left: 16px;
+        }
+        .survey-instruction-heading {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1E1E1E;
+            margin-bottom: 16px;
+        }
+    }
+
+    .survey-participation-confirmation {
+        display: flex;
+        align-items: center;
+        color: #000000;
+
+        label {
+            margin: 0px;
+            margin-left: 8px;
+        }
+    }
+}
+
+.mode-of-learning-question-section {
+    margin-top: 20px;
+
+    .survey-learning-question {
+        font-size: 14px;
+        font-weight: 600;
+        color: #232323;
+    }
+    .survey-learning-question-option {
+        .form-group {
+            display: block !important;
+            width: 100%;
+
+            div {
+                max-width: 100% !important;
+                fieldset div {
+                    gap: 30px;
+                }
+            }
+        }
+    }
+    
+}
+
+.learning-survey-insights-section, .score-interpretation-section {
+    margin-top: 28px;
+    padding-top: 28px;
+    border-top: 1px solid #D9D9D9;
+}
+
+.survey-insights-score {
+    table tbody tr {
+        .lastcol {
+            width: 360px;
+        }
+    }
+}
+
+.status-select {
+    width: 180.84px;
+}
+
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0; 
+    top: 0; 
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); 
+    padding-top: 60px;
+}
+
+.modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0px;
+    border: none;
+    border-top-left-radius: calc(0.6rem - 1px);
+    border-top-right-radius: calc(0.6rem - 1px);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto; 
+    padding: 20px; 
+    border: 1px solid #888;
+    width: 590px;
+}
+
+.modal-content-section {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #D9D9D9;
+    align-items: center;
+}
+
+.add-category-form {
+    display: flex;
+    gap: 30px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
