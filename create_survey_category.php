@@ -1,6 +1,7 @@
 <?php
 
 require_once('../../config.php');
+require_once('components/modal.php');
 require_login();
 
 $context = context_system::instance();
@@ -27,7 +28,6 @@ require_once('includes/footer.php');
  */
 function generate_page_header($categorytype) {
     $plusicon = new moodle_url('/local/moodle_survey/pix/plus-icon.svg');
-    $createurl = new moodle_url('/local/moodle_survey/create_survey.php');
     $createbutton = html_writer::div(
         html_writer::link(
             '#',
@@ -37,25 +37,34 @@ function generate_page_header($categorytype) {
         'create-survey-button-container'
     );
     if($categorytype == get_string('survey', 'local_moodle_survey')) {
+        $addcategorytitle = get_string('addsurveycategory', 'local_moodle_survey');
         $categoryheading = 'Surveys / '. get_string('surveycategorypagetitle', 'local_moodle_survey');
     } else {
+        $addcategorytitle = get_string('addquestioncategory', 'local_moodle_survey');
         $categoryheading = 'Surveys / '. get_string('questioncategorypagetitle', 'local_moodle_survey');
     }
     
     $heading = html_writer::tag('span', $categoryheading, ['class' => 'survey-name']);
     $content = $heading . ' ' . $createbutton;
-    $modal = html_writer::div(
-        html_writer::div(
-            html_writer::tag('span', 'Create Survey', ['class' => 'modal-title']) .
-            html_writer::div(
-                html_writer::link('#', 'Close', ['class' => 'close', 'id' => 'close-modal']),
-                'modal-header'
-            ) .
-            html_writer::div('Modal content goes here'),
-            'modal-content'
-        ),
-        'modal'
+    $modallabel = $addcategorytitle;
+    $modaldescription = html_writer::div(
+        html_writer::empty_tag('input', [
+            'type' => 'text',
+            'name' => 'search',
+            'value' => '',
+            'placeholder' => $addcategorytitle,
+            'class' => 'add-category-field'
+        ]) . 
+        html_writer::link('#',
+            html_writer::empty_tag('input', [
+                'type' => 'submit',
+                'value' => 'Add',
+                'class' => 'custom-action-btn add-category-btn'
+            ])
+        )
+        , 'add-category-form'
     );
+    $modal = generate_modal($modallabel, $modaldescription);
     return html_writer::tag('div', $content . $modal, ['class' => 'survey-header']);
 }
 
@@ -131,9 +140,6 @@ function add_dynamic_form_script() {
         document.addEventListener('DOMContentLoaded', function() {
             var dateInput = document.querySelector('.date-input');
             var form = document.getElementById('filter-form');
-            var modal = document.querySelector('.modal');
-            var openModalButton = document.getElementById('open-modal');
-            var closeModalButton = document.getElementById('close-modal');
 
             function submitForm() {
                 form.submit();
@@ -142,25 +148,6 @@ function add_dynamic_form_script() {
             if (dateInput) {
                 dateInput.addEventListener('change', submitForm);
             }
-
-            if (openModalButton && modal) {
-                openModalButton.addEventListener('click', function(event) {
-                    event.preventDefault(); // Prevent the default anchor behavior
-                    modal.style.display = 'block';
-                });
-            }
-
-            if (closeModalButton && modal) {
-                closeModalButton.addEventListener('click', function() {
-                    modal.style.display = 'none';
-                });
-            }
-
-            window.addEventListener('click', function(event) {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
         });
     ");
 }
