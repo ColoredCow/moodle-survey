@@ -14,9 +14,14 @@ $PAGE->set_title(get_string('createsurveycategory', 'local_moodle_survey'));
 $filters = get_filters($categorytype);
 echo $OUTPUT->header();
 
+$dbhelper = new \local_moodle_survey\model\survey();
+$categories = $dbhelper->get_categories_by_filters($filters, $categorytype);
+if (strlen($filters['createcategory']) || $filters['categoryid']) {
+    redirect(new moodle_url('/local/moodle_survey/create_survey_category.php', ['categorytype' => $categorytype]));
+}
 echo generate_page_header($categorytype, $filters);
 echo generate_filter_form($filters);
-echo generate_survey_table($filters, $categorytype);
+echo generate_survey_table($filters, $categorytype, $categories);
 echo add_dynamic_form_script();
 
 require_once('includes/footer.php');
@@ -48,12 +53,11 @@ function generate_page_header($categorytype, $filters) {
     $heading = html_writer::tag('span', $categoryheading, ['class' => 'survey-name']);
     $content = $heading . ' ' . $createbutton;
     $modallabel = $addcategorytitle;
-    $modalurl = new moodle_url($PAGE->url, ['categorytype' => $categorytype, 'createcategory' => $filters['createcategory']]);
-    $modaldescription = html_writer::start_tag('form', ['method' => 'post', 'action' => $modalurl, 'id' => 'filter-form']) . html_writer::div(
+    $modalurl = new moodle_url($PAGE->url, ['categorytype' => $categorytype]);
+    $modaldescription = html_writer::start_tag('form', ['method' => 'get', 'action' => $modalurl, 'id' => 'filter-form']) . html_writer::div(
         html_writer::empty_tag('input', [
             'type' => 'text',
             'name' => 'createcategory',
-            'value' => $filters['createcategory'],
             'placeholder' => $addcategorytitle,
             'class' => 'add-category-field'
         ]) . 
@@ -90,25 +94,25 @@ function generate_filter_form($filters) {
  *
  * @return string HTML content for the survey table.
  */
-function generate_survey_table($filters, $categorytype) {
+function generate_survey_table($filters, $categorytype, $categories) {
+    global $PAGE;
     $table = new html_table();
-    $dbhelper = new \local_moodle_survey\model\survey();
-    $categories = $dbhelper->get_categories_by_filters($filters, $categorytype);
-    $deleteurl = new moodle_url('/local/moodle_survey/pix/delete-icon.svg');
-
+    $deleteicon = new moodle_url('/local/moodle_survey/pix/delete-icon.svg');
+    
     if(sizeof($categories) > 0) {
         $table->head = [
             get_string('category', 'local_moodle_survey'),
             get_string('createdon', 'local_moodle_survey'),
             get_string('action', 'local_moodle_survey'),
         ];
-
+        
         foreach ($categories as $category) {
+            $deleteurl = new moodle_url($PAGE->url, ['categoryid' => $category->id, 'categorytype' => $categorytype]);
             $table->data[] = [
                 html_writer::link(new moodle_url('/local/moodle_survey/create_survey.php', ['category' => $category->id]),  $category->label),
                 date('Y-m-d', strtotime($category->created_at)),
-                html_writer::link(new moodle_url($deleteurl), 
-                    html_writer::tag('img', '', ['src' => $deleteurl, 'alt' => 'Icon', 'class' => 'plus-icon'])
+                html_writer::link($deleteurl, 
+                    html_writer::tag('img', '', ['src' => $deleteicon, 'alt' => 'Icon', 'class' => 'plus-icon'])
                 ),
             ];
         }
@@ -128,12 +132,14 @@ function get_filters($categorytype) {
     $search = optional_param('search', '', PARAM_RAW_TRIMMED);
     $createdon = optional_param('createdon', '', PARAM_RAW_TRIMMED);
     $createcategory = optional_param('createcategory', '', PARAM_RAW_TRIMMED);
+    $categoryid = optional_param('categoryid', '', PARAM_INT);
 
     return [
         'search' => $search,
         'createdon' => $createdon,
         'categorytype' => $categorytype,
         'createcategory' => $createcategory,
+        'categoryid' => $categoryid
     ];
 }
 

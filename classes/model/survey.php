@@ -38,6 +38,11 @@ class survey {
         return $DB->delete_records('cc_surveys', ['id' => $id]);
     }
 
+    public static function delete_categories($id) {
+        global $DB;
+        return $DB->delete_records('cc_categories', ['id' => $id]);
+    }
+
     public static function get_all_survey_categories() {
         global $DB;
         return $DB->get_records('cc_categories', array('type' => 'survey'));
@@ -76,8 +81,7 @@ class survey {
                     continue;
                 
                 case 'createcategory':
-                    $iscategorytypesurvey = $categorytype === get_string('survey', 'local_moodle_survey');
-                    if (!empty($value) && $iscategorytypesurvey) {
+                    if (!empty($value)) {
                         $data = new \stdClass();
                         $data->label = $value;
                         $data->slug = $value;
@@ -85,6 +89,11 @@ class survey {
                         self::create_categories($data);
                     }
                     continue;
+                
+                case 'categoryid':
+                    if (!empty($value)) {
+                        self::delete_categories($value);
+                    }
             }
         }
     
