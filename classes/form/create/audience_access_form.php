@@ -9,6 +9,7 @@ class audience_access_form extends \moodleform {
         $attributes = $mform->getAttributes();
         $attributes['class'] = "create-survey-form";
         $mform->setAttributes($attributes);
+        $audienceaccessdata = $this->_customdata['audienceaccess'];
         $sections = [
             [
                 'label' => get_string('targetaudience', 'local_moodle_survey'),
@@ -25,12 +26,12 @@ class audience_access_form extends \moodleform {
         ];
 
         foreach($sections as $section) {
-            $this->get_audience_access_form($mform, $section);
+            $this->get_audience_access_form($mform, $section, $audienceaccessdata);
         }
         $this->get_form_action_button($mform);
     }
 
-    private function get_audience_access_form($mform, $section) {
+    private function get_audience_access_form($mform, $section, $audienceaccessdata = []) {
         $iconurl = new \moodle_url('/local/moodle_survey/pix/arrow-down.svg');
         $mform->addElement('html', '<div class="question-item-section">');
         $mform->addElement('html', '<div class="accordion-header general-details-section">');
@@ -38,17 +39,17 @@ class audience_access_form extends \moodleform {
         $mform->addElement('html', '<h5>' . $section['label'] . '</h5>');
         $mform->addElement('html', '</div>');
         $mform->addElement('html', '<div class="accordion-body question-score-form">');
-        $mform->addElement('html', $this->render_audience_access_associated_forms($section['formlabel'], $mform));
+        $mform->addElement('html', $this->render_audience_access_associated_forms($section['formlabel'], $mform, $audienceaccessdata));
         $mform->addElement('html', '</div>');
         $mform->addElement('html', '</div>');
     }
 
-    private function render_audience_access_associated_forms($sectionlabel, $mform) {
+    private function render_audience_access_associated_forms($sectionlabel, $mform, $audienceaccessdata) {
         switch($sectionlabel){
             case 'targetaudience':
-                return $this->target_audience_form($mform);
+                return $this->target_audience_form($mform, $audienceaccessdata);
             case 'accesstoresponse':
-                return $this->access_to_response_form($mform);
+                return $this->access_to_response_form($mform, $audienceaccessdata);
             case 'assigntoschool':
                 return $this->assign_to_school_form($mform);
             default:
@@ -56,13 +57,13 @@ class audience_access_form extends \moodleform {
         }
     }
 
-    private function target_audience_form($mform) {
-        $this->get_checkbox_input_fields(get_string('targetaudiencevalues', 'local_moodle_survey'), $mform, 'targetaudience');
+    private function target_audience_form($mform, $audienceaccessdata) {
+        $this->get_checkbox_input_fields(get_string('targetaudiencevalues', 'local_moodle_survey'), $mform, 'targetaudience', $audienceaccessdata);
         $mform->addRule('targetaudience', get_string('required'), 'required', null, 'client');
     }
 
-    private function access_to_response_form($mform) {
-        $this->get_checkbox_input_fields(get_string('accesstoresponsevalues', 'local_moodle_survey'), $mform, 'accesstoresponse');
+    private function access_to_response_form($mform, $audienceaccessdata) {
+        $this->get_checkbox_input_fields(get_string('accesstoresponsevalues', 'local_moodle_survey'), $mform, 'accesstoresponse', $audienceaccessdata);
         $mform->addRule('accesstoresponse', get_string('required'), 'required', null, 'client');
     }
 
@@ -89,10 +90,16 @@ class audience_access_form extends \moodleform {
         $mform->setType($key, PARAM_INT);
     }
 
-    private function get_checkbox_input_fields($sectionsvalues, $mform, $fieldname) {
+    private function get_checkbox_input_fields($sectionsvalues, $mform, $fieldname, $audienceaccessdata) {
         $mform->addElement('html', '<div class="audience-access-form">');
         foreach($sectionsvalues as $key => $accesstoresponsevalue) {
             $mform->addElement('checkbox', $fieldname . '[' . $key . ']', $accesstoresponsevalue);
+            if(in_array($key, json_decode($audienceaccessdata->target_audience, true))) {
+                $mform->setDefault($fieldname . '[' . $key . ']', 1);
+            }
+            else if(in_array($key, json_decode($audienceaccessdata->access_to_response, true))) {
+                $mform->setDefault($fieldname . '[' . $key . ']', 1);
+            }
         }
         $mform->setType($fieldname, PARAM_RAW);
         $mform->addElement('html', '</div>');

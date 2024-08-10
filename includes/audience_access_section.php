@@ -22,10 +22,10 @@ $existingaudienceaccess = $audienceaccess->get_audience_acccess_by_survey_id($su
 
             $audienceaccessrecord->survey_id = $survey->id;
             
-            $targetaudience = isset($data->targetaudience) ? array_filter($data->targetaudience) : [];
+            $targetaudience = isset($data->targetaudience) ? array_keys(array_filter($data->targetaudience)) : [];
             $audienceaccessrecord->target_audience = json_encode($targetaudience);
             
-            $accesstoresponse = isset($data->accesstoresponse) ? array_filter($data->accesstoresponse) : [];
+            $accesstoresponse = isset($data->accesstoresponse) ? array_keys(array_filter($data->accesstoresponse)) : [];
             $audienceaccessrecord->access_to_response = json_encode($accesstoresponse);
             
             $assigntoschool = isset($data->assigntoschool) ? implode(',', (array) $data->assigntoschool) : '';
