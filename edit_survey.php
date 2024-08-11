@@ -14,6 +14,10 @@ $PAGE->set_heading(get_string('editsurvey', 'local_moodle_survey'));
 
 $survey = $DB->get_record('cc_surveys', ['id' => $id], '*', MUST_EXIST);
 
+if (!$survey) {
+    redirect(new moodle_url('/local/moodle_survey/manage_survey.php'));
+}
+
 $PAGE->requires->css(new moodle_url('/local/moodle_survey/css/styles.css'));
 $PAGE->requires->js(new moodle_url('/local/moodle_survey/js/tabs.js'));
 $PAGE->requires->js(new moodle_url('/local/moodle_survey/js/forms.js'));

@@ -310,7 +310,7 @@
     margin-bottom: 16px;
 }
 
-.add-new-button {
+.add-new-button, .custom-question-form-cancel-button {
     border-radius: 8px;
     background-color: #FFFFFF !important;
     color: #F16824 !important;
@@ -318,7 +318,19 @@
     font-size: 14px;
     font-weight: 500;
     border: 1px solid #F16824;
+    padding-inline: 34px;
 }
+
+.custom-question-form-submit-button {
+    border-radius: 8px;
+    background-color: #F16824 !important;
+    color: #FFFFFF !important;
+    padding: 12px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid #F16824;
+}
+
 
 .plus-icon {
     margin-right: 9px;
@@ -385,7 +397,6 @@
 }
 
 .question-item-section {
-    width: 749px;
     border-bottom: 1px solid #D9D9D9;
     margin-bottom: 25px;
 }
