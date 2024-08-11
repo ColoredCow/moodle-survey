@@ -70,7 +70,7 @@ foreach ($surveyinsights as $surveyinsight) {
 
 ?>
 
-<div class="learning-survey-insights-section">
+<div class="survey-insights-section">
     <div class="accordion">
         <div class="accordion-header score-interpretation-details">
             <?php
