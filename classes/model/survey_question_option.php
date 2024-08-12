@@ -28,4 +28,11 @@ class survey_question_option {
         $params = ['surveyquestionid' => $surveyquestionid];
         return $DB->get_records_sql($sql, $params);
     }
+
+    public static function get_options_by_option_text($optiontext) {
+        global $DB;
+        $sql = "SELECT * FROM {cc_survey_question_options} WHERE option_text = :optiontext";
+        $params = ['optiontext' => $optiontext];
+        return $DB->get_record_sql($sql, $params);
+    }
 }

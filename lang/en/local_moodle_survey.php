@@ -110,7 +110,7 @@ $string['assigntoschools'] = [
     'school'  => 'School',
 ];
 $string['suveyparticipationcontent'] = 'Thank you for taking the time to participate in our survey. Your feedback is valuable and will help us improve our services.';
-$string['sruveyacceptancetext'] = 'I agree to participate in the survey as a student enrolled on this platform';
+$string['sruveyacceptancetext'] = 'I agree to participate in the survey enrolled on this platform';
 $string['whatsurveyabout'] = 'What is this survey about?';
 $string['instructionforfiillingsurveyheading'] = 'Instructions for Filling the Survey';
 $string['instructionforfiillingsurvey'] = [

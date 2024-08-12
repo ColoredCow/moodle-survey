@@ -1,89 +1,50 @@
 <?php
-namespace local_moodle_survey\fill_survey\form;
+    $surveydata = $dbhelper->get_survey_data($id);
+    $id = required_param('id', PARAM_INT);
+    $dbhelper = new \local_moodle_survey\model\survey();
+    $survey = $dbhelper->get_survey_by_id($id);
+?>
 
-defined('MOODLE_INTERNAL') || die();
-
-require_once("$CFG->libdir/formslib.php");
-
-class survey_learning_form extends \moodleform {
-
-    public function definition() {
-
-        $mform = $this->_form;
-        $attributes = $mform->getAttributes();
-        $attributes['class'] = "create-survey-form";
-        $mform->setAttributes($attributes);
-        $surveydata = $this->_customdata['questions'];
-
-        $mform->addElement('hidden', 'id', $this->_customdata['id']);
-        $mform->setType('id', PARAM_INT);
-        
-        foreach($surveydata as $key => $question) {
-            $this->get_survey_learning_questions($mform, $question, $questionindex);
-            $mform->addRule($question['questionId'], null, 'required', null, 'client');
-            $questionindex++;
-        }
-
-        $this->get_form_action_button($mform);
-    }
-
-    private function get_survey_learning_questions($mform, $question,  $questionindex) {
-        if(!$question['question']) {
-            return;
-        }
-        $mform->addElement('html', '<div class="mode-of-learning-question-section">');
-        $mform->addElement('html', '<p class="survey-learning-question">' .  $questionindex . ". " . $question['question'] . '</p>');
-        $mform->addElement('html', '<div class="survey-learning-question-option d-flex">');
-
-        $radioarray = [];
-        foreach ($question['options'] as $index => $option) {
-            $radioarray[] = $mform->createElement('radio', $question['questionId'], null, $option['optionText'], $index);
-        }
-
-        $mform->addGroup($radioarray, $question['questionId'], '', array(' '), false);
-        $mform->setDefault($question['questionId'], '');
-
-        $mform->addElement('html', '</div>');
-        $mform->addElement('html', '</div>');
-    }
-
-
-    private function get_form_action_button($mform) {
-        $submitbutton = $mform->createElement('submit', 'submitbutton1', get_string('saveandsubmit', 'local_moodle_survey'), ['class' => 'custom-form-action-btn custom-submit-button']);
-        $cancelbutton = $mform->createElement('cancel', 'cancelbutton1', get_string('cancel'), ['class' => 'custom-form-action-btn custom-cancel-button']);
-        $mform->addElement('html', '<div class="custom-form-action-buttons">');
-        $mform->addElement($cancelbutton);
-        $mform->addElement($submitbutton);
-        $mform->addElement('html', '</div>');
-    }
-
-
-    public function get_updated_survay_data($formdata) {
-        $surveydata = $this->_customdata['questions'];
-        $question_options = [];
-    
-        foreach ($surveydata as $question) {
-            $question_options[$question['questionId']] = $question['options'];
-        }
-    
-        $choosesoptions = [];
-        foreach ($formdata as $key => $value) {
-            $question_id = $key;
-            if (isset($question_options[$question_id])) {
-                $option_index = intval($value);
-                $options = $question_options[$question_id];
-                $selected_option = isset($options[$option_index]) ? $options[$option_index] : 'Unknown';
-                $choosesoptions[$question_id] = $selected_option;
+<form method="POST" class="needs-validation" novalidate>
+    <div id="question-item-section">
+        <?php
+            $questionindex = 0;
+            foreach ($surveydata as $question) {
+                if (!$question['question']) {
+                    continue;
+                }
+                $questionindex++;
+                $questionoptions = $question['options'];
+        ?>
+        <div class="mb-4">
+            <div class="mb-2 d-flex">
+                <p><?php echo $questionindex . '.'; ?></p>
+                <label for="question-<?php echo $question['questionId']; ?>" class="form-label"><?php echo htmlspecialchars($question['question']); ?></label>
+            </div>
+            <div class="form-check d-flex pl-0">
+                <?php
+                    $optionindex = 0;
+                    foreach ($questionoptions as $option) {
+                        $optionindex++;
+                ?>
+                <div class="form-check mr-5">
+                    <input class="form-check-input" type="radio" name="question[<?php echo $question['questionId']; ?>]" value="<?php echo htmlspecialchars($option['optionText']); ?>" id="question-<?php echo $question['questionId']; ?>-option-<?php echo $optionindex; ?>" required>
+                    <label class="form-check-label" for="question-<?php echo $question['questionId']; ?>-option-<?php echo $optionindex; ?>"><?php echo htmlspecialchars($option['optionText']); ?></label>
+                    <div class="invalid-feedback">
+                        - Please provide a valid input.
+                    </div>
+                </div>
+                <?php
+                    }
+                ?>
+            </div>
+        </div>
+        <?php
             }
-        }
-    
-        foreach ($surveydata as &$record) {
-            if (isset($record['questionId']) && isset($choosesoptions[$record['questionId']])) {
-                $record['answer'] = $choosesoptions[$record['questionId']];
-            }
-        }
-        unset($record);
-    
-        return $surveydata;
-    }
-}
+        ?>
+    </div>
+    <div class="custom-form-action-buttons">
+        <button name="pressed_button" value="cancel" type="submit" class="custom-question-form-cancel-button">Cancel</button>
+        <button name="pressed_button" value="save" type="submit" class="custom-question-form-submit-button ml-4">Save & Continue</button>
+    </div>
+</form>
