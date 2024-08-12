@@ -49,8 +49,7 @@
             return $questionrecord;
         }
 
-
-        if (count($_POST)) {
+        if (count($_POST) && $_POST['tab'] == 'questions') {
             if ($_POST['pressed_button'] == 'cancel') {
                 redirect(new moodle_url('/local/moodle_survey/manage_survey.php'));
             }

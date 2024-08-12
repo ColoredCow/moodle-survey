@@ -133,6 +133,11 @@ class survey {
         return $categories;
     }
 
+    public static function get_interpretation_for_survey_category($surveyid, $surveycategoryid) {
+        global $DB;
+        return $DB->get_records('cc_question_category_interpretations', ['survey_id' => $surveyid, 'question_category_id' => $surveycategoryid]);
+    }
+
     public static function get_surveys($filters) {
         global $DB;
     

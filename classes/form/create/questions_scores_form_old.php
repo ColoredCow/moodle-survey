@@ -46,7 +46,7 @@ class questions_scores_form extends \moodleform {
         $questionposition = $index;
         $iconurl = new \moodle_url('/local/moodle_survey/pix/arrow-down.svg');
         $mform->addElement('html', '<div id="question-template" class="question-item-section" data-question-number="' . $questionposition . '">');
-        $mform->addElement('html', '<div class="accordion-header general-details-section">');
+        $mform->addElement('html', '<div class="accordion-header accordion-header-section">');
         $mform->addElement('html', '<img src="' . $iconurl . '" alt="Icon" class="accordion-icon">');
         $mform->addElement('html', '<h5>Question <span class="question-number">' . $questionposition . '</span></h5>');
         $mform->addElement('html', '</div>');

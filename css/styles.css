@@ -178,7 +178,7 @@
     color: #FFF !important;
 }
 
-.general-details-section {
+.accordion-header-section {
     display: flex;
     align-items: center;
     margin-bottom: 20px;

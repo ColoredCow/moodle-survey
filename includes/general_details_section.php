@@ -6,7 +6,7 @@
 
 <div id="general" class="<?php echo $tab === 'general' ? 'active' : '' ?>">
     <div class="accordion">
-        <div class="accordion-header general-details-section">
+        <div class="accordion-header accordion-header-section">
             <?php $iconurl = new moodle_url('/local/moodle_survey/pix/arrow-down.svg');
                 echo '<img src="' . $iconurl . '" alt="Icon" class="accordion-icon">';
             ?>

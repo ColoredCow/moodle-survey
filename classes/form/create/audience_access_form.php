@@ -35,7 +35,7 @@ class audience_access_form extends \moodleform {
     private function get_audience_access_form($mform, $section, $audienceaccessdata = [], $surveyschools) {
         $iconurl = new \moodle_url('/local/moodle_survey/pix/arrow-down.svg');
         $mform->addElement('html', '<div class="question-item-section">');
-        $mform->addElement('html', '<div class="accordion-header general-details-section">');
+        $mform->addElement('html', '<div class="accordion-header accordion-header-section">');
         $mform->addElement('html', '<img src="' . $iconurl . '" alt="Icon" class="accordion-icon">');
         $mform->addElement('html', '<h5>' . $section['label'] . '</h5>');
         $mform->addElement('html', '</div>');

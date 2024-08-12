@@ -1,87 +1,113 @@
 <?php
-namespace local_moodle_survey\form\create;
+    $iconurl = new \moodle_url('/local/moodle_survey/pix/arrow-down.svg');
+    $addiconurl = new \moodle_url('/local/moodle_survey/pix/plus-icon.svg');
+    $dbhelper = new \local_moodle_survey\model\survey();
+    $questioncategories = $dbhelper->get_question_categories_for_survey($survey->id);
+?>
 
-defined('MOODLE_INTERNAL') || die();
+<div id="interpretation-template" class="d-none">
+    <div class="mb-3" id="interpretation-__INDEX__-__INTERPRETATIONINDEX__">
+        <div class="row col-8 pl-1 question-interpretation">
+            <div class="col-2">
+                <label for="from-__INTERPRETATIONINDEX__" class="col-form-label">From</label>
+                <input name="interpretation[__INDEX__][interpretations][__INTERPRETATIONINDEX__][from]" type="number" value="0" id="from-__INTERPRETATIONINDEX__" class="form-control" required>
+                <div class="invalid-feedback">
+                    - Invalid input.
+                </div>
+            </div>
+            <div class="col-2">
+                <label for="to-__INTERPRETATIONINDEX__" class="col-form-label">To</label>
+                <input name="interpretation[__INDEX__][interpretations][__INTERPRETATIONINDEX__][to]" type="number" value="0" id="to-__INTERPRETATIONINDEX__" class="form-control" required>
+                <div class="invalid-feedback">
+                    - Invalid input.
+                </div>
+            </div>
+            <div class="col-8">
+                <label for="interpreted-as-__INTERPRETATIONINDEX__" class="col-form-label">Interpreted as</label>
+                <input name="interpretation[__INDEX__][interpretations][__INTERPRETATIONINDEX__][interpreted_as]" type="text" value="" id="interpreted-as-__INTERPRETATIONINDEX__" class="form-control" required>
+                <div class="invalid-feedback">
+                    - Please provide a valid input.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-class interpretations_form extends \moodleform {
-    public function definition() {
-        $mform = $this->_form;
-        $attributes = $mform->getAttributes();
-        $attributes['class'] = "create-survey-form";
-        $mform->setAttributes($attributes);
 
-        $questioncategories = $this->_customdata['questioncategories'];
-        $categoryindex = 0;
-        foreach ($questioncategories as $category) {
-            $mform->addElement('html', '<div class="accordion">');
-            $this->get_question_score_form($mform, $categoryindex, $category);
-            $mform->addElement('html', '</div>');
-            $categoryindex++;
-        }
-        $this->get_form_action_button($mform);
-    }
+<form method="POST" class="needs-validation" novalidate>
+    <div id="survey-interpretation-container">
+        <?php 
+            $index = 0;
+            foreach ($questioncategories as $category) {
+                echo ' 
+                <div id="accordion-'. $index .'" class="accordion mb-5 active">
+                    <div class="accordion-header accordion-header-section">
+                        <img src="' . $iconurl . '" alt="Icon" class="accordion-icon">
+                        <h5>Question Category <span class="question-category-number" data-id="' . $index . '">' . $index + 1 . '</span></h5>
+                    </div>
+                    <div class="accordion-body pl-5">
+                        <div class="pl-1 mb-3">
+                            <div class="row">
+                                <div class="col-auto">
+                                    <label for="question-category-' . $index . '" class="col-form-label">Question Category</label>
+                                </div>
+                                <div class="col-4">
+                                    <input class="d-none" name="tab" value="interpretations" required/>  
+                                    <input name="interpretation[' . $index . '][category_id]" class="d-none" value="' . $category->id . '" required>
+                                    <input disabled id="question-category-' . $index . '" class="form-control" value="' . $category->label . '" required>
+                                    <div class="invalid-feedback">
+                                        - Please provide a valid input.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="interpretation-container-' . $index . '" class="mb-3">
+                        ';
 
-    protected function get_question_score_form($mform, $index, $category) {
-        $questioncount = $index + 1;
+                        $interpretationindex = 0;
+                        $interpretations = $dbhelper->get_interpretation_for_survey_category($survey->id, $category->id);
+                        foreach ($interpretations as $interpretation) {
+                            echo '<div class="mb-3" id="interpretation-' . $index . '-' . $interpretationindex . '">
+                                    <div class="row col-8 pl-1 question-interpretation">
+                                        <div class="col-2">
+                                            <label for="from-' . $interpretationindex . '" class="col-form-label">From</label>
+                                            <input name="interpretation[' . $index . '][interpretations][' . $interpretationindex . '][id]" class="d-none" value="' . $interpretation->id . '" required>
+                                            <input name="interpretation[' . $index . '][interpretations][' . $interpretationindex . '][from]" type="number" value="' . $interpretation->score_from . '" id="from-' . $interpretationindex . '" class="form-control" required>
+                                            <div class="invalid-feedback">
+                                                - Invalid input.
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            <label for="to-' . $interpretationindex . '" class="col-form-label">To</label>
+                                            <input name="interpretation[' . $index . '][interpretations][' . $interpretationindex . '][to]" type="number" value="' . $interpretation->score_to . '" id="to-' . $interpretationindex . '" class="form-control" required>
+                                            <div class="invalid-feedback">
+                                                - Invalid input.
+                                            </div>
+                                        </div>
+                                        <div class="col-8">
+                                            <label for="interpreted-as-' . $interpretationindex . '" class="col-form-label">Interpreted as</label>
+                                            <input name="interpretation[' . $index . '][interpretations][' . $interpretationindex . '][interpreted_as]" type="text" value="' . $interpretation->interpreted_as . '" id="interpreted-as-' . $interpretationindex . '" class="form-control" required>
+                                            <div class="invalid-feedback">
+                                                - Please provide a valid input.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>';
+                            $interpretationindex++;
+                        }
+                        echo '</div>
+                        <div class="pl-1 mb-3">
+                            <button type="button" id="add-new-interpretation-button-' . $index . '" class="add-new-button add-new-interpretation-button" data-id="' . $index . '"><img src="' . $addiconurl . '" alt="Icon" class="plus-icon">Add new score and associate option</button>
+                        </div>
+                    </div>
+                </div>';
+                $index++;
+            }
+        ?>
+    </div>
 
-        $iconurl = new \moodle_url('/local/moodle_survey/pix/arrow-down.svg');
-        $mform->addElement('html', '<div id="question-category-template" class="accordion-item question-item-section" data-question-number"' . $questioncount . '">');
-        $mform->addElement('html', '<div class="accordion-header general-details-section">');
-        $mform->addElement('html', '<img src="' . $iconurl . '" alt="Icon" class="accordion-icon">');
-        $mform->addElement('html', '<h5>QUESTION CATEGORY <span id="question-number">' . $questioncount . '</span></h5>');
-        $mform->addElement('html', '</div><div class="accordion-body">');
-        $this->get_interpretation_question_field($mform, $index, $category);
-        $mform->addElement('html', '</div></div>');
-        $mform->addElement('html', '<div class="new-sections-container"></div>');
-    }
-
-    protected function get_interpretation_question_field($mform, $index, $category){
-        $mform->addElement('text', null, get_string('questioncategorylabel', 'local_moodle_survey'), 'value="'. $category->label . '" disabled class="question-interpretedas"');
-        $mform->addElement('text', 'interpretation[' . $index . ']', get_string('questioncategorylabel', 'local_moodle_survey'), 'readonly value="'. $category->id . '" class="d-none question-interpretedas"');
-        $mform->setType('interpretation[' . $index . ']', PARAM_INT);
-        $mform->addRule('interpretation[' . $index . ']', null, 'required', null, 'client');
-        
-        $mform->addElement('html', '<div class="new-option-section question-score-option-section">');
-        $this->get_question_score_section($mform, $index, $category);
-        $mform->addElement('html', '</div>');
-        $mform->addElement('html', '<div id="new-score-sections-container"></div>');
-    }
-
-    protected function get_question_score_section($mform, $index, $category){
-        $mform->addElement('html', '<div class="question-score-section">');
-        
-        $mform->addElement('text', 'scorefrom[' . $index . ']', get_string('scorefrom', 'local_moodle_survey'));
-        $mform->setType('scorefrom[' . $index . ']', PARAM_INT);
-        $mform->addRule('scorefrom[' . $index . ']', null, 'required', null, 'client');
-        $mform->setDefault('scorefrom[' . $index . ']', $category->score_from);
-        
-        $mform->addElement('text', 'scoreto[' . $index . ']', get_string('scoreto', 'local_moodle_survey'));
-        $mform->setType('scoreto[' . $index . ']', PARAM_INT);
-        $mform->addRule('scoreto[' . $index . ']', null, 'required', null, 'client');
-        $mform->setDefault('scoreto[' . $index . ']', $category->score_to);
-        
-        $mform->addElement('text', 'interpretedas[' . $index . ']', get_string('interpretedas', 'local_moodle_survey'), 'size="50" placeholder="' . get_string('interpretedasplaceholder', 'local_moodle_survey') . '"');
-        $mform->setType('interpretedas[' . $index . ']', PARAM_TEXT);
-        $mform->addRule('interpretedas[' . $index . ']', null, 'required', null, 'client');
-        $mform->setDefault('interpretedas[' . $index . ']', $category->interpreted_as);
-
-        $this->get_add_new_option_button(get_string('newrangeandinterpretation', 'local_moodle_survey'), $mform, "");
-        $mform->addElement('html', '</div>');
-    }
-
-    public function get_form_action_button($mform) {
-        $submitbutton = $mform->createElement('submit', 'submitbutton1', get_string('savechanges'), ['class' => 'custom-form-action-btn custom-submit-button']);
-        $cancelbutton = $mform->createElement('cancel', 'cancelbutton1', get_string('cancel'), ['class' => 'custom-form-action-btn custom-cancel-button']);
-        $mform->addElement('html', '<div class="custom-form-action-buttons">');
-        $mform->addElement($cancelbutton);
-        $mform->addElement($submitbutton); 
-        $mform->addElement('html', '</div>');
-    }
-
-    protected function get_add_new_option_button($buttonlabel, $mform, $containerid) {
-        $mform->addElement('html', '<div id="' . $containerid . '">');
-        $iconurl = new \moodle_url('/local/moodle_survey/pix/plus-icon.svg');
-        $mform->addElement('html', '<button type="button" class="add-new-button"><img src="' . $iconurl . '" alt="Icon" class="plus-icon">' . $buttonlabel . '</button>');
-        $mform->addElement('html', '</div>');
-    }
-}
+    <div class="custom-form-action-buttons">
+        <button name="pressed_button" value="cancel" type="submit" class="custom-question-form-cancel-button">Cancel</button>
+        <button name="pressed_button" value="save" type="submit" class="custom-question-form-submit-button ml-4">Save & Continue</button>
+    </div>
+</form>

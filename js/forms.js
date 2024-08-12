@@ -47,11 +47,27 @@ document.addEventListener('DOMContentLoaded', function() {
   Array.from(addNewQuestionOptionButtons).forEach(function(button) {
     button.addEventListener('click', addNewQuestionOption);
   });
+  
+  const addNewInterpretationButtons = document.getElementsByClassName('add-new-interpretation-button');
+  Array.from(addNewInterpretationButtons).forEach(function(button) {
+    button.addEventListener('click', addNewInterpretation);
+  });
 
   let questionsCount = document.querySelectorAll('.question-number').length;
   if (questionsCount == 1) {
     addNewQuestionButton.click();
   }
+  
+  let categories = document.querySelectorAll('.question-category-number');
+  Array.from(categories).forEach(function(categoryElement) {
+    const categoryIndex = categoryElement.getAttribute('data-id')
+    const interpretationContainer = document.getElementById('interpretation-container-' + categoryIndex);
+    const interpretationCount = interpretationContainer.querySelectorAll('.question-interpretation').length;
+    const addNewInterpretationButton = document.getElementById('add-new-interpretation-button-' + categoryIndex);
+    if (interpretationCount == 0) {
+      addNewInterpretationButton.click();
+    }
+  })
 });
 
 const addNewQuestionOption = (e) => {
@@ -61,6 +77,16 @@ const addNewQuestionOption = (e) => {
   const optionTemplate = document.getElementById('question-option-template').innerHTML;
   newOptionHtml = optionTemplate.replace(/__OPTIONINDEX__/g, existingOptionsCount).replace(/__INDEX__/g, questionIndex)
   optionContainer.insertAdjacentHTML('beforeend', newOptionHtml);
+}
+
+
+const addNewInterpretation = (e) => {
+  const interpretationContainerIndex = e.target.getAttribute("data-id")
+  const interpretationContainer = document.getElementById('interpretation-container-' + interpretationContainerIndex)
+  const existingInterpretationCount = interpretationContainer.querySelectorAll('.question-interpretation').length;
+  const interpretationTemplate = document.getElementById('interpretation-template').innerHTML;
+  newInterpretationHtml = interpretationTemplate.replace(/__INTERPRETATIONINDEX__/g, existingInterpretationCount).replace(/__INDEX__/g, interpretationContainerIndex)
+  interpretationContainer.insertAdjacentHTML('beforeend', newInterpretationHtml);
 }
 
 function validateForms() {

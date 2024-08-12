@@ -22,7 +22,7 @@ class validity_form extends \moodleform {
     private function get_validity_form($mform, $survey) {
         $iconurl = new \moodle_url('/local/moodle_survey/pix/arrow-down.svg');
         $mform->addElement('html', '<div class="accordion-item question-item-section">');
-        $mform->addElement('html', '<div class="accordion-header general-details-section">');
+        $mform->addElement('html', '<div class="accordion-header accordion-header-section">');
         $mform->addElement('html', '<img src="' . $iconurl . '" alt="Icon" class="accordion-icon">');
         $mform->addElement('html', '<h5>Duration of collecting responses</h5>');
         $mform->addElement('html', '</div><div class="accordion-body">');

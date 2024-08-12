@@ -9,7 +9,7 @@
 
 <div id="question-template" class="d-none">
     <div id="accordion-__INDEX__" class="accordion mb-5 active">
-        <div class="accordion-header general-details-section">
+        <div class="accordion-header accordion-header-section">
             <img src="<?php echo $iconurl ?>" alt="Icon" class="accordion-icon">
             <h5>Question <span class="question-number">__POSITION__</span></h5>
         </div>
@@ -27,7 +27,7 @@
                     </div>
                 </div>
             </div>
-            <div class="pl-1 mb-3">
+            <div class="pl-1 mb-2">
                 <div class="row">
                     <div class="col-auto">
                         <label for="question-category-__INDEX__" class="col-form-label">Question Category</label>
@@ -93,7 +93,7 @@
             foreach ($surveyquestions['surveyquestions'] as $index => $question) {
                 echo ' 
                 <div id="accordion-'. $index .'" class="accordion mb-5 active">
-                    <div class="accordion-header general-details-section">
+                    <div class="accordion-header accordion-header-section">
                         <img src="' . $iconurl . '" alt="Icon" class="accordion-icon">
                         <h5>Question <span class="question-number">' . $index + 1 . '</span></h5>
                     </div>
@@ -104,15 +104,16 @@
                                     <label for="question' . $index . '" class="col-form-label">Question</label>
                                 </div>
                                 <div class="col-7">
-                                    <input name="question[' . $index . '][id]" class="d-none" value="' . $question['question']->id . '" required>
-                                    <input name="question[' . $index . '][text]" type="text" id="question' . $index . '" class="form-control" value="' . $question['question']->text . '" required>
+                                    <input class="d-none" name="tab" value="questions" required/>  
+                                    <input name="question[' . $index . '][id]" class="d-none" value="' . $question['question']->id . '" required/>
+                                    <input name="question[' . $index . '][text]" type="text" id="question' . $index . '" class="form-control" value="' . $question['question']->text . '" required/>
                                     <div class="invalid-feedback">
                                         - Please provide a valid input.
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="pl-1 mb-3">
+                        <div class="pl-1 mb-2">
                             <div class="row">
                                 <div class="col-auto">
                                     <label for="questionCategory' . $index . '" class="col-form-label">Question Category</label>
@@ -125,31 +126,30 @@
                                     echo '</select>
                                 </div>
                             </div>
-                        </div>';
+                        </div>
+                        <div class="pl-1 mb-3" id="option-container-' . $index . '">';
                         $optionindex = 0;
                         foreach ($question['options'] as $option) {
-                            echo '<div class="pl-1 mb-3" id="option-container-' . $index . '">
-                                    <div class="row question-option">
-                                        <div class="col-2">
-                                            <label for="score' . $optionindex . '" class="col-form-label">Score</label>
-                                            <input name="question[' . $index . '][options][' . $optionindex . '][id]" class="d-none" value="' . $option->id . '" required>
-                                            <input name="question[' . $index . '][options][' . $optionindex . '][score]" type="number" value="' . $option->score . '" id="score' . $optionindex . '" class="form-control" required>
-                                            <div class="invalid-feedback">
-                                                - Please provide a valid input.
-                                            </div>
+                            echo '<div class="row question-option">
+                                    <div class="col-2">
+                                        <label for="score' . $optionindex . '" class="col-form-label">Score</label>
+                                        <input name="question[' . $index . '][options][' . $optionindex . '][id]" class="d-none" value="' . $option->id . '" required>
+                                        <input name="question[' . $index . '][options][' . $optionindex . '][score]" type="number" value="' . $option->score . '" id="score' . $optionindex . '" class="form-control" required>
+                                        <div class="invalid-feedback">
+                                            - Please provide a valid input.
                                         </div>
-                                        <div class="col-6">
-                                            <label for="associatedOption' . $optionindex . '" class="col-form-label">Associated Option</label>
-                                            <input name="question[' . $index . '][options][' . $optionindex . '][option]" type="text" value="' . $option->option_text . '" id="associatedOption' . $optionindex . '" class="form-control" required>
-                                            <div class="invalid-feedback">
-                                                - Please provide a valid input.
-                                            </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="associatedOption' . $optionindex . '" class="col-form-label">Associated Option</label>
+                                        <input name="question[' . $index . '][options][' . $optionindex . '][option]" type="text" value="' . $option->option_text . '" id="associatedOption' . $optionindex . '" class="form-control" required>
+                                        <div class="invalid-feedback">
+                                            - Please provide a valid input.
                                         </div>
                                     </div>
                                 </div>';
                             $optionindex++;
                         }
-                        echo '<div class="pl-1 mb-3">
+                        echo '</div><div class="pl-1 mb-3">
                             <button type="button" class="add-new-button add-new-question-option-button" data-id="' . $index . '"><img src="' . $addiconurl . '" alt="Icon" class="plus-icon">Add new score and associate option</button>
                         </div>
                     </div>
