@@ -7,6 +7,7 @@ $dbhelper = new \local_moodle_survey\model\survey();
 $survey = $dbhelper->get_survey_by_id($id);
 $PAGE->set_heading($survey->name);
 $PAGE->set_title($survey->name);
+$PAGE->requires->js(new moodle_url('/local/moodle_survey/js/forms.js')); // Need to move this line inside the config file in moodle_survey plugin
 $surveydata = $dbhelper->get_survey_data($id);
 echo $OUTPUT->header();
 ?>

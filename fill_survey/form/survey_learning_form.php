@@ -30,6 +30,9 @@
                 <div class="form-check mr-5">
                     <input class="form-check-input" type="radio" name="question[<?php echo $questionindex; ?>]" value="<?php echo htmlspecialchars($option['optionText']); ?>" id="question-<?php echo $questionindex; ?>-option-<?php echo $optionindex; ?>" required>
                     <label class="form-check-label" for="question-<?php echo $questionindex; ?>-option-<?php echo $optionindex; ?>"><?php echo htmlspecialchars($option['optionText']); ?></label>
+                    <div class="invalid-feedback">
+                        - Please provide a valid input.
+                    </div>
                 </div>
                 <?php
                     }
