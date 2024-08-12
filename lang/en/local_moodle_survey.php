@@ -107,7 +107,7 @@ $string['accesstoresponsevalues'] = [
     'counsellor' => 'Counsellor',
 ];
 $string['assigntoschools'] = [
-    'stateofschool'  => 'State of School',
+    'school'  => 'School',
 ];
 $string['suveyparticipationcontent'] = 'Thank you for taking the time to participate in our survey. Your feedback is valuable and will help us improve our services.';
 $string['sruveyacceptancetext'] = 'I agree to participate in the survey as a student enrolled on this platform';

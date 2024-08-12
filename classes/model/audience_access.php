@@ -24,4 +24,9 @@ class audience_access {
         return $DB->get_record_sql($sql, $params);
     }
 
+    public static function get_schools() {
+        global $DB;
+        return $DB->get_records('company');
+    }
+
 }

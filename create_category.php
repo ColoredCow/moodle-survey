@@ -6,10 +6,10 @@ require_login();
 
 $context = context_system::instance();
 $categorytype = required_param('categorytype', PARAM_TEXT);
-$pagetype = "create_survey_category";
+$pagetype = "create_category";
 
 $PAGE->set_context($context);
-$PAGE->set_url(new moodle_url('/local/moodle_survey/create_survey_category.php'));
+$PAGE->set_url(new moodle_url('/local/moodle_survey/create_category.php'));
 $PAGE->set_title(get_string('createsurveycategory', 'local_moodle_survey'));
 $filters = get_filters($categorytype);
 echo $OUTPUT->header();
@@ -17,7 +17,7 @@ echo $OUTPUT->header();
 $dbhelper = new \local_moodle_survey\model\survey();
 $categories = $dbhelper->get_categories_by_filters($filters, $categorytype);
 if (strlen($filters['createcategory']) || $filters['categoryid']) {
-    redirect(new moodle_url('/local/moodle_survey/create_survey_category.php', ['categorytype' => $categorytype]));
+    redirect(new moodle_url('/local/moodle_survey/create_category.php', ['categorytype' => $categorytype]));
 }
 echo generate_page_header($categorytype, $filters);
 echo generate_filter_form($filters);
