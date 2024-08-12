@@ -318,5 +318,10 @@ class survey {
             SELECT COUNT(DISTINCT survey_id) 
             FROM {cc_survey_responses}
         ");
-    }    
+    }
+    
+    public static function get_completed_survey_count($status) {
+        global $DB;
+        return $DB->count_records('cc_surveys', ['status' => $status]);
+    }
 }
