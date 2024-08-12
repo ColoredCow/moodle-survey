@@ -17,30 +17,13 @@ echo $OUTPUT->header();
         require_once($CFG->dirroot . '/local/moodle_survey/fill_survey/form/survey_learning_form.php');
 
         function get_updated_survay_data($surveydata, $questions) {
-            $question_options = [];
-        
-            foreach ($surveydata as $question) {
-                $question_options[$question['questionId']] = $question['options'];
+            $surveyquestionoptiondbhelper = new \local_moodle_survey\model\survey_question_option();
+            foreach ($questions as $key => $data) {
+                $option = $surveyquestionoptiondbhelper->get_options_by_option_text($data);
+                $surveydata[$key]['answer'] = $data;
+                $surveydata[$key]['score'] = $option->score;
             }
-        
-            $choosesoptions = [];
-            foreach ($questions as $key => $value) {
-                $question_id = $key;
-                if (isset($question_options[$question_id])) {
-                    $option_index = intval($value);
-                    $options = $question_options[$question_id];
-                    $selected_option = isset($options[$option_index]) ? $options[$option_index] : 'Unknown';
-                    $choosesoptions[$question_id] = $selected_option;
-                }
-            }
-        
-            foreach ($surveydata as &$record) {
-                if (isset($record['questionId']) && isset($choosesoptions[$record['questionId']])) {
-                    $record['answer'] = $choosesoptions[$record['questionId']];
-                }
-            }
-            unset($record);
-        
+            
             return $surveydata;
         }
 

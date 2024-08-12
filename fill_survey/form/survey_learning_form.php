@@ -19,7 +19,7 @@
         <div class="mb-4">
             <div class="mb-2 d-flex">
                 <p><?php echo $questionindex . '.'; ?></p>
-                <label for="question-<?php echo $questionindex; ?>" class="form-label"><?php echo htmlspecialchars($question['question']); ?></label>
+                <label for="question-<?php echo $question['questionId']; ?>" class="form-label"><?php echo htmlspecialchars($question['question']); ?></label>
             </div>
             <div class="form-check d-flex pl-0">
                 <?php
@@ -28,8 +28,8 @@
                         $optionindex++;
                 ?>
                 <div class="form-check mr-5">
-                    <input class="form-check-input" type="radio" name="question[<?php echo $questionindex; ?>]" value="<?php echo htmlspecialchars($option['optionText']); ?>" id="question-<?php echo $questionindex; ?>-option-<?php echo $optionindex; ?>" required>
-                    <label class="form-check-label" for="question-<?php echo $questionindex; ?>-option-<?php echo $optionindex; ?>"><?php echo htmlspecialchars($option['optionText']); ?></label>
+                    <input class="form-check-input" type="radio" name="question[<?php echo $question['questionId']; ?>]" value="<?php echo htmlspecialchars($option['optionText']); ?>" id="question-<?php echo $question['questionId']; ?>-option-<?php echo $optionindex; ?>" required>
+                    <label class="form-check-label" for="question-<?php echo $question['questionId']; ?>-option-<?php echo $optionindex; ?>"><?php echo htmlspecialchars($option['optionText']); ?></label>
                     <div class="invalid-feedback">
                         - Please provide a valid input.
                     </div>

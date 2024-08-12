@@ -181,15 +181,16 @@ class survey {
 
     public static function get_survey_data($surveyId) {
         global $DB;
-        $sql = "SELECT sq.*, q.text AS question_text, q.type AS question_type, 
-                GROUP_CONCAT(o.option_text SEPARATOR ', ') AS option_texts,
+
+        $sql = "SELECT sq.*, q.text AS question_text, q.type AS question_type, cci.score_from, cci.score_to, cci.interpreted_as,
                 GROUP_CONCAT(o.option_text SEPARATOR ', ') AS option_texts
             FROM {cc_survey_questions} sq
-            JOIN {cc_questions} q ON sq.question_id = q.id
+            LEFT JOIN {cc_questions} q ON sq.question_id = q.id
             LEFT JOIN {cc_survey_question_options} o ON sq.id = o.survey_question_id
-            LEFT JOIN {cc_question_category_interpretations} cci ON q.id = cci.survey_id
+            LEFT JOIN {cc_question_category_interpretations} cci ON sq.question_category_id = cci.question_category_id
             WHERE sq.survey_id = :surveyid
-            GROUP BY sq.id, q.text, q.type, cci.id";
+            GROUP BY sq.id, q.text, q.type, cci.id, cci.score_from, cci.score_to, cci.interpreted_as";
+
         $params = ['surveyid' => $surveyId];
         $results = $DB->get_records_sql($sql, $params);
 
@@ -212,7 +213,7 @@ class survey {
                         "questionCategorySlug" => $questioncategory->slug,
                         "type" => $record->question_type,
                         "answer" => '',
-                        "score" => (int)$record->score,
+                        "score" => 0,
                         "position" => (int)$record->question_position,
                         "interpretation" => $record->interpreted_as,
                         "options" => []
