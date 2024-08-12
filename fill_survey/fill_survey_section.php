@@ -43,7 +43,7 @@ echo $OUTPUT->header();
             $record->response = $questionoptionsjson;
             $record->submitted_by = $USER->id;
             $response = $surveyresponsedbhelper->create_survey_responses($record);
-            $redirecturl = new moodle_url('/local/moodle_survey/fill_survey/survey-insights.php', ['id' => $survey->id]);
+            $redirecturl = new moodle_url('/local/moodle_survey/fill_survey/survey_insights.php', ['id' => $survey->id]);
             redirect($redirecturl);
         }
     ?>
