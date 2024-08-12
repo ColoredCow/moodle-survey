@@ -47,6 +47,11 @@ document.addEventListener('DOMContentLoaded', function() {
   Array.from(addNewQuestionOptionButtons).forEach(function(button) {
     button.addEventListener('click', addNewQuestionOption);
   });
+
+  let questionsCount = document.querySelectorAll('.question-number').length;
+  if (questionsCount == 1) {
+    addNewQuestionButton.click();
+  }
 });
 
 const addNewQuestionOption = (e) => {
