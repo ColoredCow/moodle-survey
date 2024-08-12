@@ -1,5 +1,3 @@
-
-
 const addEventListenerForAccordion = (accordionHeaders) => {
   accordionHeaders.forEach(header => {
     header.addEventListener('click', function() {
@@ -39,7 +37,6 @@ document.addEventListener('DOMContentLoaded', function() {
     Array.from(addNewQuestionOptionButtons).forEach(function(button) {
       button.addEventListener('click', addNewQuestionOption);
     });
-    console.log('accordion-' + (questionNumber - 1))
     const accordion = document.getElementById('accordion-' + (questionNumber-1));
     const accordionHeaders = accordion.querySelectorAll('.accordion-header');
 
@@ -54,33 +51,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
 const addNewQuestionOption = (e) => {
   const questionIndex = e.target.getAttribute("data-id")
-  console.log("questionIndex", questionIndex)
   const optionContainer = document.getElementById('option-container-' + questionIndex)
-  console.log("optionContainer", optionContainer)
   const existingOptionsCount = optionContainer.querySelectorAll('.question-option').length;
-  console.log(existingOptionsCount);
   const optionTemplate = document.getElementById('question-option-template').innerHTML;
   newOptionHtml = optionTemplate.replace(/__OPTIONINDEX__/g, existingOptionsCount).replace(/__INDEX__/g, questionIndex)
   optionContainer.insertAdjacentHTML('beforeend', newOptionHtml);
 }
 
-// Example starter JavaScript for disabling form submissions if there are invalid fields
-(function () {
-  'use strict'
+function validateForms() {
+  'use strict';
+  const forms = document.querySelectorAll('.needs-validation');
 
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  var forms = document.querySelectorAll('.needs-validation')
-
-  // Loop over them and prevent submission
-  Array.prototype.slice.call(forms)
-  .forEach(function (form) {
-    form.addEventListener('submit', function (event) {
+  forms.forEach(form => {
+    form.addEventListener('submit', (event) => {
       if (!form.checkValidity()) {
-        event.preventDefault()
-        event.stopPropagation()
+        event.preventDefault();
+        event.stopPropagation(); 
+
       }
 
-      form.classList.add('was-validated')
-    }, false)
-  })
-})()
+      form.classList.add('was-validated');
+
+    });
+  });
+}
+
+validateForms();
