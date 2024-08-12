@@ -38,7 +38,7 @@ echo html_writer::div(
     ) . html_writer::link(
         $continueurl,
         $submitlabel,
-        array('id' => 'continue-button', 'class' => 'custom-continue-button custom-action-btn')
+        array('id' => 'continue-button', 'class' => 'custom-continue-button custom-action-btn', 'role' => 'button', 'aria-disabled' => 'true', 'data-disabled' => 'true')
     ),
     'custom-form-action-buttons'
 );

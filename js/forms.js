@@ -81,4 +81,23 @@ function validateForms() {
   });
 }
 
+// Disable-Enable Checkbox JS
+document.addEventListener('DOMContentLoaded', function() {
+  var checkbox = document.getElementById('survey-participation-checkbox');
+  var continueButton = document.getElementById('continue-button');
+
+  function toggleButton() {
+      var isChecked = checkbox.checked;
+      continueButton.classList.toggle('disabled', !isChecked);
+      continueButton.setAttribute('aria-disabled', !isChecked);
+      continueButton.setAttribute('data-disabled', !isChecked);
+      continueButton.style.pointerEvents = isChecked ? 'auto' : 'none';
+      continueButton.style.opacity = isChecked ? '1' : '0.5';
+  }
+
+  checkbox.addEventListener('change', toggleButton);
+
+  toggleButton();
+});
+
 validateForms();
