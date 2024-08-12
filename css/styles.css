@@ -695,3 +695,8 @@ input[type="checkbox"]:focus {
     text-decoration: none;
     cursor: pointer;
 }
+
+a.disabled {
+    color: #FFFFFF !important;
+    font-style: normal !important;
+}

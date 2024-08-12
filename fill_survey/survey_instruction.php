@@ -27,7 +27,7 @@
 <?php
 $submitlabel = get_string('submit', 'local_moodle_survey');
 $cancellabel = get_string('cancel');
-$continueurl = new moodle_url('/local/moodle_survey/fill_survey/survey_learning_section.php', ['id' => $survey->id]);
+$continueurl = new moodle_url('/local/moodle_survey/fill_survey/fill_survey_section.php', ['id' => $survey->id]);
 $cancelurl = new moodle_url('/local/moodle_survey/manage_survey.php');
 
 echo html_writer::div(
@@ -38,7 +38,7 @@ echo html_writer::div(
     ) . html_writer::link(
         $continueurl,
         $submitlabel,
-        array('id' => 'continue-button', 'class' => 'custom-continue-button custom-action-btn')
+        array('id' => 'continue-button', 'class' => 'custom-continue-button custom-action-btn', 'role' => 'button', 'aria-disabled' => 'true', 'data-disabled' => 'true')
     ),
     'custom-form-action-buttons'
 );
