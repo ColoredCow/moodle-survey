@@ -58,6 +58,11 @@ class survey {
         return $DB->get_records('cc_categories', array('type' => 'question'));
     }
 
+    public static function get_active_survey_count() {
+        global $DB;
+        return $DB->count_records('cc_surveys', ['status' => 'Live']);
+    }
+
     public static function get_categories_by_filters($filters, $categorytype) {
         global $DB;
     
@@ -305,4 +310,12 @@ class survey {
 
         return $results;
     }
+
+    public static function get_survey_responses_count() {
+        global $DB;
+        return $DB->count_records_sql("
+            SELECT COUNT(DISTINCT survey_id) 
+            FROM {cc_survey_responses}
+        ");
+    }    
 }

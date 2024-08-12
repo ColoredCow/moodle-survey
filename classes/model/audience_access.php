@@ -29,4 +29,9 @@ class audience_access {
         return $DB->get_records('company');
     }
 
+    public static function get_schools_count() {
+        global $DB;
+        return $DB->count_records('company');
+    }
+
 }
