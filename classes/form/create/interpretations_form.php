@@ -36,6 +36,7 @@
 
 <form method="POST" class="needs-validation" novalidate>
     <div id="survey-interpretation-container">
+        <input class="d-none" name="tab" value="interpretations" required/>  
         <?php 
             $index = 0;
             foreach ($questioncategories as $category) {
@@ -52,7 +53,6 @@
                                     <label for="question-category-' . $index . '" class="col-form-label">Question Category</label>
                                 </div>
                                 <div class="col-4">
-                                    <input class="d-none" name="tab" value="interpretations" required/>  
                                     <input name="interpretation[' . $index . '][category_id]" class="d-none" value="' . $category->id . '" required>
                                     <input disabled id="question-category-' . $index . '" class="form-control" value="' . $category->label . '" required>
                                     <div class="invalid-feedback">

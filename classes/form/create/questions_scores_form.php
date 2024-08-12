@@ -54,7 +54,7 @@
                     </div>
                     <div class="col-6">
                         <label for="question-option-__INDEX__" class="col-form-label">Associated Option</label>
-                        <input name="question[__INDEX__][options][0][option]" type="number" value="0" id="question-option-__INDEX__" class="form-control" required>
+                        <input name="question[__INDEX__][options][0][option]" id="question-option-__INDEX__" class="form-control" required>
                         <div class="invalid-feedback">
                             - Please provide a valid input.
                         </div>
@@ -88,6 +88,7 @@
 </div>
 
 <form method="POST" class="needs-validation" novalidate>
+    <input class="d-none" name="tab" value="questions" required/>  
     <div id="question-item-section" class="question-item-section">
         <?php 
             foreach ($surveyquestions['surveyquestions'] as $index => $question) {
@@ -104,7 +105,6 @@
                                     <label for="question' . $index . '" class="col-form-label">Question</label>
                                 </div>
                                 <div class="col-7">
-                                    <input class="d-none" name="tab" value="questions" required/>  
                                     <input name="question[' . $index . '][id]" class="d-none" value="' . $question['question']->id . '" required/>
                                     <input name="question[' . $index . '][text]" type="text" id="question' . $index . '" class="form-control" value="' . $question['question']->text . '" required/>
                                     <div class="invalid-feedback">

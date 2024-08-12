@@ -34,7 +34,7 @@ class audience_access_form extends \moodleform {
 
     private function get_audience_access_form($mform, $section, $audienceaccessdata = [], $surveyschools) {
         $iconurl = new \moodle_url('/local/moodle_survey/pix/arrow-down.svg');
-        $mform->addElement('html', '<div class="question-item-section">');
+        $mform->addElement('html', '<div class="question-item-section accordion active">');
         $mform->addElement('html', '<div class="accordion-header accordion-header-section">');
         $mform->addElement('html', '<img src="' . $iconurl . '" alt="Icon" class="accordion-icon">');
         $mform->addElement('html', '<h5>' . $section['label'] . '</h5>');
@@ -59,11 +59,17 @@ class audience_access_form extends \moodleform {
     }
 
     private function target_audience_form($mform, $audienceaccessdata) {
+        if (gettype($audienceaccessdata) === 'object') {
+            $audienceaccessdata = json_decode($audienceaccessdata->target_audience, true);
+        }
         $this->get_checkbox_input_fields(get_string('targetaudiencevalues', 'local_moodle_survey'), $mform, 'targetaudience', $audienceaccessdata);
         $mform->addRule('targetaudience', get_string('required'), 'required', null, 'client');
     }
 
     private function access_to_response_form($mform, $audienceaccessdata) {
+        if (gettype($audienceaccessdata) === 'object') {
+            $audienceaccessdata = json_decode($audienceaccessdata->access_to_response, true);
+        }
         $this->get_checkbox_input_fields(get_string('accesstoresponsevalues', 'local_moodle_survey'), $mform, 'accesstoresponse', $audienceaccessdata);
         $mform->addRule('accesstoresponse', get_string('required'), 'required', null, 'client');
     }
@@ -89,12 +95,16 @@ class audience_access_form extends \moodleform {
 
     private function get_checkbox_input_fields($sectionsvalues, $mform, $fieldname, $audienceaccessdata) {
         $mform->addElement('html', '<div class="audience-access-form">');
+        if ($audienceaccessdata === false) {
+            $audienceaccessdata = [];
+        }
+
         foreach($sectionsvalues as $key => $accesstoresponsevalue) {
             $mform->addElement('checkbox', $fieldname . '[' . $key . ']', $accesstoresponsevalue);
-            if(in_array($key, json_decode($audienceaccessdata->target_audience, true))) {
+            if(in_array($key, $audienceaccessdata)) {
                 $mform->setDefault($fieldname . '[' . $key . ']', 1);
             }
-            else if(in_array($key, json_decode($audienceaccessdata->access_to_response, true))) {
+            else if(in_array($key, $audienceaccessdata)) {
                 $mform->setDefault($fieldname . '[' . $key . ']', 1);
             }
         }
