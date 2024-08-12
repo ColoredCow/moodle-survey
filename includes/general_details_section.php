@@ -34,7 +34,9 @@
                 $record->name = $data->name;
                 $record->description = $data->description;
                 $record->category_id = $data->category_id;
-                $record->status = get_string('draft', 'local_moodle_survey');
+                if(!$survey->status) {
+                    $record->status = get_string('draft', 'local_moodle_survey');
+                }
 
                 if ($pagetype === 'create') {
                     $surveyid = $dbhelper->create_survey($record);
