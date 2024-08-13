@@ -1,6 +1,7 @@
 <?php
 $table = new html_table();
 $dbhelper = new \local_moodle_survey\model\survey();
+$audienceaccessdbhelper = new \local_moodle_survey\model\audience_access();
 $table->head = [
     get_string('surveyname', 'local_moodle_survey'),
     get_string('surveycategory', 'local_moodle_survey'),
@@ -48,11 +49,13 @@ foreach ($surveys as $survey) {
     $surveycategory = $dbhelper->get_category_by_id($survey->category_id);
     $surveycreatedon = new DateTime($survey->created_at);
     $surveycreatedondate = $surveycreatedon->format('Y-m-d');
+    $audienceaccess = $audienceaccessdbhelper->get_audience_acccess_by_survey_id($survey->id);
+    $surveytargetaudience = implode(", ", json_decode($audienceaccess->target_audience, true));
 
     $table->data[] = [
         $surveyname,
         format_string($surveycategory->label),
-        format_string('student'),
+        format_string($surveytargetaudience),
         format_string($surveycreatedondate),
         format_string('0'),
         format_string('0'),
