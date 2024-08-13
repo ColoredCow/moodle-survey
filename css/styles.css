@@ -5,7 +5,7 @@
     padding-left: 0px;
 }
 
-.create-survey-button {
+.create-button {
     background-color: #FFFFFF;
     border: 1px solid #F16824 !important;
     border-radius: 8px;
@@ -162,13 +162,13 @@
     align-items: center;
     margin-top: 16px;
 
-    .survey-name {
+    .page-title {
         font-weight: 400;
         font-size: 22px;
         color: #232323;
     }
 
-    .create-survey-button-container {
+    .create-button-container {
         display: flex;
         gap: 20px;
     }

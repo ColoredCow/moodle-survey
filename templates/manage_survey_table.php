@@ -43,7 +43,7 @@ foreach ($surveys as $survey) {
     if($issurveyedit) {
         $surveyname = html_writer::link($editurl, $survey->name);
     } else {
-        $surveyname = html_writer::tag('span', $survey->name, ['class' => 'survey-name']);
+        $surveyname = html_writer::tag('span', $survey->name, ['class' => 'page-title']);
     }
     $takingsurvey = html_writer::link($takingsurvey, 'View');
     $surveycategory = $dbhelper->get_category_by_id($survey->category_id);
