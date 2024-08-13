@@ -38,9 +38,9 @@ function generate_page_header($categorytype, $filters) {
         html_writer::link(
             '#',
             html_writer::tag('img', '', ['src' => $plusicon, 'alt' => 'Icon', 'class' => 'plus-icon']) . ' ' . get_string('createsurvey', 'local_moodle_survey'),
-            ['class' => 'create-survey-button', 'id' => 'open-modal']
+            ['class' => 'create-button', 'id' => 'open-modal']
         ),
-        'create-survey-button-container'
+        'create-button-container'
     );
     if($categorytype == get_string('survey', 'local_moodle_survey')) {
         $addcategorytitle = get_string('addsurveycategory', 'local_moodle_survey');
@@ -50,7 +50,7 @@ function generate_page_header($categorytype, $filters) {
         $categoryheading = 'Surveys / '. get_string('questioncategorypagetitle', 'local_moodle_survey');
     }
     
-    $heading = html_writer::tag('span', $categoryheading, ['class' => 'survey-name']);
+    $heading = html_writer::tag('span', $categoryheading, ['class' => 'page-title']);
     $content = $heading . ' ' . $createbutton;
     $modallabel = $addcategorytitle;
     $modalurl = new moodle_url($PAGE->url, ['categorytype' => $categorytype]);

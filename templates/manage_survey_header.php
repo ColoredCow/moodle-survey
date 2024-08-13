@@ -10,20 +10,20 @@
         html_writer::link(
             $createquestioncategoryurl,
             get_string('newquestioncategory', 'local_moodle_survey'),
-            array('class' => 'create-survey-button')
+            array('class' => 'create-button')
         ) .
         html_writer::link(
             $createsurveycategoryurl,
             get_string('createsurveycategory', 'local_moodle_survey'),
-            array('class' => 'create-survey-button')
+            array('class' => 'create-button')
         ) . html_writer::link(
             $createurl,
             html_writer::tag('img', '', array('src' => $iconurl, 'alt' => 'Icon', 'class' => 'plus-icon')) . ' ' . get_string('createsurvey', 'local_moodle_survey'),
-            array('class' => 'create-survey-button')
+            array('class' => 'create-button')
         ),
-        'create-survey-button-container'
+        'create-button-container'
     );
-    $heading = html_writer::tag('span', get_string('managesurvey', 'local_moodle_survey'), ['class' => 'survey-name']);
+    $heading = html_writer::tag('span', get_string('managesurvey', 'local_moodle_survey'), ['class' => 'page-title']);
     $content = $heading . ' ' . $createbutton;
     echo html_writer::tag('div', $content, ['class' => 'survey-header']);
 
