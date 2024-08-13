@@ -325,8 +325,13 @@ class survey {
         ");
     }
     
-    public static function get_completed_survey_count($status) {
+    public static function get_survey_count_by_status($status) {
         global $DB;
         return $DB->count_records('cc_surveys', ['status' => $status]);
+    }
+
+    public static function get_survey_count() {
+        global $DB;
+        return $DB->count_records('cc_surveys');
     }
 }
