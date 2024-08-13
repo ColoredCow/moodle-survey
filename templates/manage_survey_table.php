@@ -64,5 +64,20 @@ foreach ($surveys as $survey) {
     ];
 }
 
+if(!$issurveylive) {
+    $index = array_search('Taking survey', $table->head);
+    if($index) {
+        unset($table->head[$index]);
+        foreach ($table->data as &$tabledata) {
+            unset($tabledata[$index]);
+        }
+        
+        $table->head = array_values($table->head);
+        foreach ($table->data as &$tabledata) {
+            $tabledata = array_values($tabledata);
+        }
+    }
+}
+
 echo html_writer::table($table);
 ?>
