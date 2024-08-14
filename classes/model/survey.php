@@ -89,7 +89,7 @@ class survey {
                     if (!empty($value)) {
                         $data = new \stdClass();
                         $data->label = $value;
-                        $data->slug = $value;
+                        $data->slug = strtolower($value);
                         $data->type = $categorytype;
                         self::create_categories($data);
                     }
@@ -188,7 +188,7 @@ class survey {
         global $DB;
 
         $sql = "SELECT sq.*, q.text AS question_text, q.type AS question_type, cci.score_from, cci.score_to, cci.interpreted_as,
-                GROUP_CONCAT(o.option_text SEPARATOR ', ') AS option_texts
+                GROUP_CONCAT(o.option_text SEPARATOR ', ') AS option_texts, GROUP_CONCAT(o.score SEPARATOR ', ') AS score
             FROM {cc_survey_questions} sq
             LEFT JOIN {cc_questions} q ON sq.question_id = q.id
             LEFT JOIN {cc_survey_question_options} o ON sq.id = o.survey_question_id
@@ -201,6 +201,7 @@ class survey {
 
         $response = [
             "surveyData" => [
+                "categoriesScores" => [],
                 "interpretations" => []
             ]
         ];
@@ -229,16 +230,16 @@ class survey {
                     foreach ($options as $option) {
                         $response[$questionId]['options'][] = [
                             "optionText" => trim($option),
-                            "scoreFrom" => (int)$record->score_from,
-                            "scoreTo" => (int)$record->score_to
+                            "score" => (int)$record->score_to
                         ];
                     }
                 }
 
                 $response['surveyData']['interpretations'][] = [
                     $questioncategory->slug = [
+                        "catgororySlug"=> $questioncategory->slug,
                         "text"  => $record->interpreted_as,
-                        "range" => [(int)$record->score_from, (int)$record->score_to]
+                        "range" => [(int)$record->score_from . ' - ' . (int)$record->score_to]
                     ]
                 ];
             }
@@ -282,36 +283,10 @@ class survey {
         return $statuses;
     }
 
-    public static function get_filling_survey_insights($surveyid) {
+    public static function get_filling_survey_insights($surveyid, $userid) {
         global $DB;
-        $sql = "SELECT
-                    sq.question_id,
-                    sq.survey_id,
-                    sq.question_category_id,
-                    c.label,
-                    c.slug,
-                    sqo.score,
-                    qci.score_from,
-                    qci.score_to,
-                    qci.interpreted_as
-                FROM
-                    {cc_survey_questions} sq
-                JOIN
-                    {cc_survey_question_options} sqo
-                ON
-                    sq.question_id = sqo.survey_question_id
-                JOIN
-                    {cc_categories} c
-                ON
-                    sq.question_category_id = c.id
-                JOIN
-                    {cc_question_category_interpretations} qci
-                ON
-                    sq.question_category_id = qci.question_category_id
-                    AND sq.survey_id = qci.survey_id
-                WHERE
-                    sq.survey_id = :surveyid";
-        $params = ['surveyid' => $surveyid];
+        $sql = "SELECT * FROM {cc_survey_responses} WHERE survey_id = :surveyid AND submitted_by = :userid";
+        $params = ['surveyid' => $surveyid, 'userid' => $userid];
         $results = $DB->get_records_sql($sql, $params);
 
         return $results;

@@ -16,16 +16,47 @@ echo $OUTPUT->header();
     <?php
         require_once($CFG->dirroot . '/local/moodle_survey/fill_survey/form/survey_learning_form.php');
 
-        function get_updated_survay_data($surveydata, $questions) {
+        function get_updated_survey_data($surveydata, $questions) {
             $surveyquestionoptiondbhelper = new \local_moodle_survey\model\survey_question_option();
+        
+            if (!isset($surveydata['surveyData']['categoriesScores'])) {
+                $surveydata['surveyData']['categoriesScores'] = [];
+            }
+        
             foreach ($questions as $key => $data) {
                 $option = $surveyquestionoptiondbhelper->get_options_by_option_text($data);
+                $categorySlug = $surveydata[$key]['questionCategory'];
+                $score = $option->score;
+        
+                // Flag to check if category was updated
+                $categoryUpdated = false;
+        
+                // Iterate through existing categoriesScores to update or add new category
+                foreach ($surveydata['surveyData']['categoriesScores'] as &$category) {
+                    if (isset($category[$categorySlug])) {
+                        $category[$categorySlug]['score'] = $score;
+                        $categoryUpdated = true;
+                        break;
+                    }
+                }
+        
+                // If the category was not found, add it
+                if (!$categoryUpdated) {
+                    $surveydata['surveyData']['categoriesScores'][] = [
+                        [
+                            "catgororySlug" => $categorySlug,
+                            "score" => $score,
+                        ]
+                    ];
+                }
+        
+                // Set answer and score for the current question
                 $surveydata[$key]['answer'] = $data;
-                $surveydata[$key]['score'] = $option->score;
+                $surveydata[$key]['score'] = $score;
             }
-            
+        
             return $surveydata;
-        }
+        }        
 
 
         if (count($_POST)) {
@@ -34,7 +65,7 @@ echo $OUTPUT->header();
             }
 
             $questions = $_POST['question'];
-            $updatedsurveydata = get_updated_survay_data($surveydata, $questions);
+            $updatedsurveydata = get_updated_survey_data($surveydata, $questions);
             $surveyresponsedbhelper = new \local_moodle_survey\model\survey_responses();
             $questionoptionsjson = json_encode($updatedsurveydata);
             $record = new stdClass();

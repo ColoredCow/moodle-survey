@@ -9,7 +9,13 @@ $survey = $dbhelper->get_survey_by_id($id);
 $PAGE->set_heading('Insights from '. $survey->name);
 $PAGE->set_title('Insights from ' . $survey->name);
 echo $OUTPUT->header();
-$surveyinsights = $dbhelper->get_filling_survey_insights($id);
+$surveyinsightsresponse = $dbhelper->get_filling_survey_insights($id, $USER->id);
+$questioncategories = $dbhelper->get_all_question_categories();
+foreach($surveyinsightsresponse as $surveyinsight) {
+    $surveyresponses = json_decode($surveyinsight->response);
+}
+$surveyinsightsdata = $surveyresponses->surveyData;
+
 $iconurl = new moodle_url('/local/moodle_survey/pix/arrow-down.svg');
 
 $table = new html_table();
@@ -24,50 +30,25 @@ $scroeinterpretationtable->head = [
     'Interpreted as',
 ];
 
-$scoreinterpretations = [];
-foreach ($surveyinsights as $index => $surveyinsight) {
-    $scoreinterpretations[] = [
-        'name' => $surveyinsight->label,
-        'score_range' =>  $surveyinsight->score_from . ' - ' . $surveyinsight->score_to,
-        'interpretation' => $surveyinsight->interpreted_as,
-    ];
-};
-
-foreach ($scoreinterpretations as $scoreinterpretation) {
-    $scroeinterpretationtable->data[] = [
-        $scoreinterpretation['name'],
-        $scoreinterpretation['score_range'],
-        $scoreinterpretation['interpretation'],
-    ];
-}
-
-$scores = [];
-foreach ($surveyinsights as $index => $surveyinsight) {
-    $scores[] = [
-        'name' => $surveyinsight->label,
-        'score' => $surveyinsight->score,
-    ];
-}
-
-foreach ($scores as $score) {
+foreach ($surveyinsightsdata->categoriesScores as $key => $categoriesscore) {
     $table->data[] = [
-        $score['name'],
-        $score['score'],
+        $categoriesscore[0]->catgororySlug,
+        $categoriesscore[0]->score,
     ];
 }
-foreach ($scroeinterpretations as $scroeinterpretation) {
+
+foreach ($surveyinsightsdata->interpretations as $surveyinsightsdatainterpretation) {
     $scroeinterpretationtable->data[] = [
-        $scroeinterpretation['name'],
-        $scroeinterpretation['score_range'],
-        $scroeinterpretation['interpretation'],
+        $surveyinsightsdatainterpretation[0]->catgororySlug,
+        $surveyinsightsdatainterpretation[0]->range[0],
+        $surveyinsightsdatainterpretation[0]->text,
     ];
 }
 
 $statusoptions = [];
-foreach ($surveyinsights as $surveyinsight) {
-    $statusoptions[$surveyinsight->slug] = $surveyinsight->label;
+foreach ($questioncategories as $questioncategorie) {
+    $statusoptions[$questioncategorie->slug] = $questioncategorie->label;
 }
-
 ?>
 
 <div class="survey-insights-section">
