@@ -41,7 +41,43 @@ document.addEventListener('DOMContentLoaded', function() {
     const accordionHeaders = accordion.querySelectorAll('.accordion-header');
 
     addEventListenerForAccordion(accordionHeaders)
+
+    document.addEventListener('click', function(event) {
+      if (event.target.classList.contains('delete-question-button')) {
+          deleteQuestion(event.target);
+      }
+      if (event.target.classList.contains('delete-option-button')) {
+          deleteOption(event.target);
+      }
+    });
+
+    // For hide the delete icon from the first question
+    hideDeleteButtonForFirstQuestion();
   });
+
+  const deleteQuestion = (button) => {
+    const index = button.getAttribute('data-id');
+    const questionElement = document.getElementById('accordion-' + index);
+    if (questionElement) {
+        questionElement.remove();
+    }
+  };
+
+  const deleteOption = (button) => {
+      const optionIndex = button.getAttribute('data-id');
+      const questionElement = button.closest('.accordion');
+      const optionElement = button.closest('.question-option');
+      if (optionElement) {
+          optionElement.remove();
+      }
+  };
+
+  const hideDeleteButtonForFirstQuestion = () => {
+    const firstQuestionButton = document.querySelector('#question-item-section .accordion .delete-question-button');
+    if (firstQuestionButton) {
+        firstQuestionButton.classList.add('d-none');
+    }
+  };
 
   const addNewQuestionOptionButtons = document.getElementsByClassName('add-new-question-option-button');
   Array.from(addNewQuestionOptionButtons).forEach(function(button) {

@@ -1,5 +1,6 @@
 <?php
     $iconurl = new \moodle_url('/local/moodle_survey/pix/arrow-down.svg');
+    $deleteicon = new \moodle_url('/local/moodle_survey/pix/delete-icon.svg');
     $addiconurl = new \moodle_url('/local/moodle_survey/pix/plus-icon.svg');
     $dbhelper = new \local_moodle_survey\model\survey();
     $surveyquestiondbhelper = new \local_moodle_survey\model\survey_question();
@@ -12,6 +13,7 @@
         <div class="accordion-header accordion-header-section">
             <img src="<?php echo $iconurl ?>" alt="Icon" class="accordion-icon">
             <h5>Question <span class="question-number">__POSITION__</span></h5>
+            <img src="<?php echo $deleteicon ?>" alt="Icon" data-id="__INDEX__" class="plus-icon delete-question-button">
         </div>
         <div class="accordion-body pl-5">
             <div class="pl-1 mb-3">
@@ -44,7 +46,7 @@
                 </div>
             </div>
             <div class="pl-1 mb-3" id="option-container-__INDEX__">
-                <div class="row question-option">
+                <div class="row question-option align-items-center">
                     <div class="col-2">
                         <label for="question-score-__INDEX__" class="col-form-label">Score</label>
                         <input name="question[__INDEX__][options][0][score]" type="number" value="0" id="question-score-__INDEX__" class="form-control" required>
@@ -69,7 +71,7 @@
 </div>
 
 <div id="question-option-template" class="d-none">
-    <div class="row question-option">
+    <div class="row question-option align-items-center">
         <div class="col-2">
             <label for="question-score-__INDEX__" class="col-form-label">Score</label>
             <input name="question[__INDEX__][options][__OPTIONINDEX__][score]" type="number" value="0" id="question-score-__INDEX__" class="form-control" required>
@@ -83,6 +85,9 @@
             <div class="invalid-feedback">
                 - Please provide a valid input.
             </div>
+        </div>
+        <div class="col-4">
+            <img src="<?php echo $deleteicon ?>" alt="Icon" data-id="__OPTIONINDEX__" class="plus-icon delete-option-button">
         </div>
     </div>
 </div>
@@ -130,7 +135,7 @@
                         <div class="pl-1 mb-3" id="option-container-' . $index . '">';
                         $optionindex = 0;
                         foreach ($question['options'] as $option) {
-                            echo '<div class="row question-option">
+                            echo '<div class="row question-option align-items-center">
                                     <div class="col-2">
                                         <label for="score' . $optionindex . '" class="col-form-label">Score</label>
                                         <input name="question[' . $index . '][options][' . $optionindex . '][id]" class="d-none" value="' . $option->id . '" required>

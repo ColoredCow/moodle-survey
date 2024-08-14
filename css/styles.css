@@ -723,3 +723,11 @@ a.disabled {
     color: #FFFFFF !important;
     font-style: normal !important;
 }
+
+.delete-option-button {
+    margin-top: 40px;
+}
+
+.delete-question-button {
+    margin-left: 10px;
+}
