@@ -39,6 +39,9 @@
         <input class="d-none" name="tab" value="interpretations" required/>  
         <?php 
             $index = 0;
+            if(sizeof($questioncategories) <= 0) {
+                echo html_writer::tag('div', get_string('noquestioncategorychooses', 'local_moodle_survey'), ['class' => 'alert alert-info']);
+            }
             foreach ($questioncategories as $category) {
                 echo ' 
                 <div id="accordion-'. $index .'" class="accordion mb-5 active">
