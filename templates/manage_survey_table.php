@@ -38,14 +38,14 @@ foreach ($surveys as $survey) {
             break;
     }
     $surveytext = html_writer::span($surveystatus, "badge badge-pill badge-color survey-status $surveystatuscolor");
-    $issurveylive = $currentDate >= $startDate && $currentDate <= $endDate;
+    $issurveylive = $currentDate >= $survey->start_date && $currentDate <= $endDate = $survey->end_date;
     $issurveyedit = $surveystatus == get_string('draft', 'local_moodle_survey') || !$issurveylive;
     if($issurveyedit) {
         $surveyname = html_writer::link($editurl, $survey->name);
     } else {
         $surveyname = html_writer::tag('span', $survey->name, ['class' => 'page-title']);
     }
-    $takingsurvey = html_writer::link($takingsurvey, 'View');
+    $takingsurvey = !$issurveyedit ? html_writer::link($takingsurvey, 'View', ['class' => 'view-btn']) : html_writer::span('View', 'disable-view-btn');
     $surveycategory = $dbhelper->get_category_by_id($survey->category_id);
     $surveycreatedon = new DateTime($survey->created_at);
     $surveycreatedondate = $surveycreatedon->format('Y-m-d');
@@ -65,21 +65,6 @@ foreach ($surveys as $survey) {
         $surveytext,
         $takingsurvey
     ];
-}
-
-if(!$issurveylive) {
-    $index = array_search('Taking survey', $table->head);
-    if($index) {
-        unset($table->head[$index]);
-        foreach ($table->data as &$tabledata) {
-            unset($tabledata[$index]);
-        }
-        
-        $table->head = array_values($table->head);
-        foreach ($table->data as &$tabledata) {
-            $tabledata = array_values($tabledata);
-        }
-    }
 }
 
 echo html_writer::table($table);

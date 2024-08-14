@@ -147,6 +147,24 @@
                 background-color: #04621B;
             }
 
+            .view-btn {
+                background: #ed753b;
+                padding: 10px 12px;
+                color: #FFFFFF !important;
+                border: 1px solid #ed753b;
+                font-weight: 700;
+                border-radius: 5px;
+            }
+
+            .disable-view-btn {
+                background: #949494;
+                padding: 10px 12px;
+                color: #FFFFFF !important;
+                border: 1px solid #949494;
+                font-weight: 700;
+                border-radius: 5px;
+            }
+
             a {
                 color: #1969B4 !important;
                 font-weight: 400;
