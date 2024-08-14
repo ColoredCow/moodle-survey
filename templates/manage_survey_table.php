@@ -50,7 +50,10 @@ foreach ($surveys as $survey) {
     $surveycreatedon = new DateTime($survey->created_at);
     $surveycreatedondate = $surveycreatedon->format('Y-m-d');
     $audienceaccess = $audienceaccessdbhelper->get_audience_acccess_by_survey_id($survey->id);
-    $surveytargetaudience = implode(", ", json_decode($audienceaccess->target_audience, true));
+    $surveytargetaudience = '';
+    if (isset($audienceaccess) && isset($audienceaccess->target_audience)) {
+        $surveytargetaudience = implode(", ", json_decode($audienceaccess->target_audience, true));
+    }
 
     $table->data[] = [
         $surveyname,
