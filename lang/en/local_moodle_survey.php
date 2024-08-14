@@ -130,3 +130,4 @@ $string['survey'] = 'survey';
 $string['question'] = 'question';
 $string['addsurveycategory'] = 'Add Survey Category';
 $string['addquestioncategory'] = 'Add Question Category';
+$string['competency'] = 'Competency';

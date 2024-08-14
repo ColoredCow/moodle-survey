@@ -19,17 +19,12 @@ $surveyinsightsdata = $surveyresponses->surveyData;
 $iconurl = new moodle_url('/local/moodle_survey/pix/arrow-down.svg');
 
 $table = new html_table();
-$scroeinterpretationtable = new html_table();
 $table->head = [
-    'Competency',
-    'Score',
-];
-$scroeinterpretationtable->head = [
-    'Competency',
-    'Score Range',
-    'Interpreted as',
+    get_string('competency', 'local_moodle_survey'),
+    get_string('score', 'local_moodle_survey'),
 ];
 
+$defaultCategory = reset($surveyinsightsdata->categoriesScores);
 foreach ($surveyinsightsdata->categoriesScores as $key => $categoriesscore) {
     $table->data[] = [
         $categoriesscore[0]->catgororySlug,
@@ -37,11 +32,11 @@ foreach ($surveyinsightsdata->categoriesScores as $key => $categoriesscore) {
     ];
 }
 
+$interpretationsData = [];
 foreach ($surveyinsightsdata->interpretations as $surveyinsightsdatainterpretation) {
-    $scroeinterpretationtable->data[] = [
-        $surveyinsightsdatainterpretation[0]->catgororySlug,
-        $surveyinsightsdatainterpretation[0]->range[0],
-        $surveyinsightsdatainterpretation[0]->text,
+    $interpretationsData[$surveyinsightsdatainterpretation[0]->catgororySlug] = [
+        'range' => $surveyinsightsdatainterpretation[0]->range[0],
+        'text' => $surveyinsightsdatainterpretation[0]->text,
     ];
 }
 
@@ -72,14 +67,76 @@ foreach ($questioncategories as $questioncategorie) {
                 ?>
                 <h5><?php echo get_string('scoreinterpretation', 'local_moodle_survey'); ?></h5>
             </div>
-            <?php echo html_writer::select($statusoptions, 'status', $status, null, ['class' => 'status-select', 'id' => 'status-select']); ?>
+            <?php echo html_writer::select($statusoptions, 'status', key($statusoptions), null, ['class' => 'status-select', 'id' => 'status-select']); ?>
         </div>
-        <div class="accordion-body survey-insights-score">
-            <?php echo html_writer::table($scroeinterpretationtable); ?>
+        <div class="accordion-body survey-insights-score" id="score-interpretation-table">
+            <?php
+                $defaultInterpretation = $interpretationsData[key($statusoptions)];
+                echo '
+                <div class="table-responsive">
+                    <table class="generaltable">
+                        <thead>
+                            <tr>
+                                <th>Competency</th>
+                                <th>Score Range</th>
+                                <th>Interpreted as</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>' . key($statusoptions) . '</td>
+                                <td>' . $defaultInterpretation['range'] . '</td>
+                                <td class="interpretation-as">' . $defaultInterpretation['text'] . '</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>';
+            ?>
         </div>
     </div>
 </div>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const statusSelect = document.getElementById('status-select');
+    const tableContainer = document.getElementById('score-interpretation-table');
+    
+    const interpretationsData = <?php echo json_encode($interpretationsData); ?>;
+    
+    statusSelect.addEventListener('change', function() {
+        const selectedCategory = this.value;
+        const data = interpretationsData[selectedCategory];
+
+        const tableHtml = generateTableHtml(selectedCategory, data.range, data.text);
+        tableContainer.innerHTML = tableHtml;
+    });
+
+    function generateTableHtml(category, range, interpretation) {
+        return `
+        <div class="table-responsive">
+            <table class="generaltable">
+                <thead>
+                    <tr>
+                        <th>Competency</th>
+                        <th>Score Range</th>
+                        <th>Interpreted as</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>${category}</td>
+                        <td>${range}</td>
+                        <td class="interpretation-as">${interpretation}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div
+        `;
+    }
+
+    statusSelect.dispatchEvent(new Event('change'));
+});
+</script>
 
 <?php
 echo $OUTPUT->footer();

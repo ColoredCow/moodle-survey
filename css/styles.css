@@ -114,6 +114,10 @@
         }
     }
     tbody tr {
+        .interpretation-as {
+            width: 360px;
+        }
+
         td {
             font-weight: 400;
             font-size: 14px;
