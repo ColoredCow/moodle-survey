@@ -282,36 +282,10 @@ class survey {
         return $statuses;
     }
 
-    public static function get_filling_survey_insights($surveyid) {
+    public static function get_filling_survey_insights($surveyid, $userid) {
         global $DB;
-        $sql = "SELECT
-                    sq.question_id,
-                    sq.survey_id,
-                    sq.question_category_id,
-                    c.label,
-                    c.slug,
-                    sqo.score,
-                    qci.score_from,
-                    qci.score_to,
-                    qci.interpreted_as
-                FROM
-                    {cc_survey_questions} sq
-                JOIN
-                    {cc_survey_question_options} sqo
-                ON
-                    sq.question_id = sqo.survey_question_id
-                JOIN
-                    {cc_categories} c
-                ON
-                    sq.question_category_id = c.id
-                JOIN
-                    {cc_question_category_interpretations} qci
-                ON
-                    sq.question_category_id = qci.question_category_id
-                    AND sq.survey_id = qci.survey_id
-                WHERE
-                    sq.survey_id = :surveyid";
-        $params = ['surveyid' => $surveyid];
+        $sql = "SELECT * FROM {cc_survey_responses} WHERE survey_id = :surveyid AND submitted_by = :userid";
+        $params = ['surveyid' => $surveyid, 'userid' => $userid];
         $results = $DB->get_records_sql($sql, $params);
 
         return $results;

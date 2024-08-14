@@ -9,7 +9,7 @@ $survey = $dbhelper->get_survey_by_id($id);
 $PAGE->set_heading('Insights from '. $survey->name);
 $PAGE->set_title('Insights from ' . $survey->name);
 echo $OUTPUT->header();
-$surveyinsights = $dbhelper->get_filling_survey_insights($id);
+$surveyinsights = $dbhelper->get_filling_survey_insights($id, $USER->id);
 $iconurl = new moodle_url('/local/moodle_survey/pix/arrow-down.svg');
 
 $table = new html_table();

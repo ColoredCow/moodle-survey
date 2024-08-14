@@ -7,7 +7,6 @@ initialize_page();
 echo $OUTPUT->header();
 
 $filters = get_filters();
-
 // Fetch surveys
 $surveys = fetch_surveys($filters);
 
@@ -65,7 +64,7 @@ function fetch_surveys($filters) {
  * @param array $surveys
  */
 function display_page($surveys) {
-    global $OUTPUT;
+    global $OUTPUT, $USER;
 
     // Include the HTML for the survey management interface
     include(__DIR__ . '/templates/manage_survey_header.php');
