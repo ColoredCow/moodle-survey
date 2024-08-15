@@ -19,11 +19,13 @@ foreach ($surveys as $survey) {
     $currentDate = date('Y-m-d');
     $issurveylive = $currentDate >= $survey->start_date && $currentDate <= $endDate = $survey->end_date;
     $issurveyedit = $surveystatus == get_string('draft', 'local_moodle_survey') || !$issurveylive;
-    if($issurveyedit) {
-        $surveyname = html_writer::link($editurl, $survey->name);
-    } else {
-        $surveyname = html_writer::tag('span', $survey->name, ['class' => 'page-title']);
-    }
+    $surveyname = html_writer::link($editurl, $survey->name);
+    // For now, user can also edit the live survey
+    // if($issurveyedit) {
+    //     $surveyname = html_writer::link($editurl, $survey->name);
+    // } else {
+    //     $surveyname = html_writer::tag('span', $survey->name, ['class' => 'page-title']);
+    // }
     $takingsurvey = get_taking_survey_link($survey, $issurveyedit, $dbhelper, $USER);
     $surveycategory = $dbhelper->get_category_by_id($survey->category_id);
     $surveycreatedon = new DateTime($survey->created_at);
