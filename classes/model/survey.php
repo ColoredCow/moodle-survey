@@ -333,4 +333,9 @@ class survey {
         global $DB;
         return $DB->count_records('cc_surveys');
     }
+
+    public static function get_question_category_count() {
+        global $DB;
+        return $DB->count_records('cc_categories', ['type' => 'question']);
+    }
 }
