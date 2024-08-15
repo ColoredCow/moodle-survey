@@ -225,26 +225,50 @@ class survey {
                         "options" => []
                     ];
                 }
-                if ($record->option_texts) {
+                if ($record->option_texts && $record->score) {
                     $options = explode(',', $record->option_texts);
-                    foreach ($options as $option) {
-                        $response[$questionId]['options'][] = [
-                            "optionText" => trim($option),
-                            "score" => (int)$record->score_to
-                        ];
+                    $scores = explode(',', $record->score);
+                
+                    $numOptions = count($options);
+                    $numScores = count($scores);
+                
+                    if ($numOptions === $numScores) {
+                        foreach ($options as $index => $option) {
+                            $response[$questionId]['options'][] = [
+                                "optionText" => trim($option),
+                                "score" => isset($scores[$index]) ? (int) trim($scores[$index]) : 0
+                            ];
+                        }
                     }
                 }
 
-                $response['surveyData']['interpretations'][] = [
-                    $questioncategory->slug = [
-                        "catgororySlug"=> $questioncategory->slug,
-                        "text"  => $record->interpreted_as,
-                        "range" => [(int)$record->score_from . ' - ' . (int)$record->score_to]
-                    ]
-                ];
+                $newcategoryslug = $questioncategory->slug;
+                $newinterpretedas = $record->interpreted_as;
+                $newinterpretedasrange = [(int)$record->score_from . ' - ' . (int)$record->score_to];
+                if (!self::interpretation_exists($response['surveyData']['interpretations'], $newcategoryslug, $newinterpretedas, $newinterpretedasrange)) {
+                    $response['surveyData']['interpretations'][] = [
+                        $newcategoryslug => [
+                            "catgororySlug" => $newcategoryslug,
+                            "text" => $newinterpretedas,
+                            "range" => $newinterpretedasrange
+                        ]
+                    ];
+                }
             }
         }
         return $response;
+    }
+
+    public static function interpretation_exists($surveydatainterpretations, $categoryslug, $text, $range) {
+        foreach ($surveydatainterpretations as $item) {
+            if (isset($item[$categoryslug])) {
+                $existingitem = $item[$categoryslug];
+                if ($existingitem['text'] === $text && $existingitem['range'] === $range) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public static function get_all_survey_status() {

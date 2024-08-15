@@ -23,31 +23,18 @@ echo $OUTPUT->header();
                 $surveydata['surveyData']['categoriesScores'] = [];
             }
         
+            $categoryScoresMap = [];
+        
             foreach ($questions as $key => $data) {
                 $option = $surveyquestionoptiondbhelper->get_options_by_option_text($data);
                 $categorySlug = $surveydata[$key]['questionCategory'];
                 $score = $option->score;
         
-                // Flag to check if category was updated
-                $categoryUpdated = false;
-        
-                // Iterate through existing categoriesScores to update or add new category
-                foreach ($surveydata['surveyData']['categoriesScores'] as &$category) {
-                    if (isset($category[$categorySlug])) {
-                        $category[$categorySlug]['score'] = $score;
-                        $categoryUpdated = true;
-                        break;
-                    }
-                }
-        
-                // If the category was not found, add it
-                if (!$categoryUpdated) {
-                    $surveydata['surveyData']['categoriesScores'][] = [
-                        [
-                            "catgororySlug" => $categorySlug,
-                            "score" => $score,
-                        ]
-                    ];
+                // Accumulate scores by category
+                if (isset($categoryScoresMap[$categorySlug])) {
+                    $categoryScoresMap[$categorySlug] += $score;
+                } else {
+                    $categoryScoresMap[$categorySlug] = $score;
                 }
         
                 // Set answer and score for the current question
@@ -55,8 +42,16 @@ echo $OUTPUT->header();
                 $surveydata[$key]['score'] = $score;
             }
         
+            $surveydata['surveyData']['categoriesScores'] = [];
+            foreach ($categoryScoresMap as $categorySlug => $score) {
+                $surveydata['surveyData']['categoriesScores'][] = [
+                    "catgororySlug" => $categorySlug,
+                    "score" => (int)$score,
+                ];
+            }
+        
             return $surveydata;
-        }        
+        }
 
 
         if (count($_POST)) {
