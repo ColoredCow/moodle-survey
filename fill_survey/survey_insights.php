@@ -11,10 +11,16 @@ $PAGE->set_title('Insights from ' . $survey->name);
 echo $OUTPUT->header();
 $surveyinsightsresponse = $dbhelper->get_filling_survey_insights($id, $USER->id);
 $questioncategories = $dbhelper->get_all_question_categories();
-foreach($surveyinsightsresponse as $surveyinsight) {
+
+foreach ($surveyinsightsresponse as $surveyinsight) {
     $surveyresponses = json_decode($surveyinsight->response);
 }
-$surveyinsightsdata = $surveyresponses->surveyData;
+
+if (isset($surveyresponses->surveyData)) {
+    $surveyinsightsdata = $surveyresponses->surveyData;
+} else {
+    $surveyinsightsdata = (object)[ 'categoriesScores' => [], 'interpretations' => [] ];
+}
 
 $iconurl = new moodle_url('/local/moodle_survey/pix/arrow-down.svg');
 
@@ -25,19 +31,21 @@ $table->head = [
 ];
 
 $defaultCategory = reset($surveyinsightsdata->categoriesScores);
-foreach ($surveyinsightsdata->categoriesScores as $key => $categoriesscore) {
+foreach ($surveyinsightsdata->categoriesScores as $categoriesscore) {
     $table->data[] = [
-        $categoriesscore[0]->catgororySlug,
-        $categoriesscore[0]->score,
+        $categoriesscore->catgororySlug,
+        $categoriesscore->score,
     ];
 }
 
 $interpretationsData = [];
-foreach ($surveyinsightsdata->interpretations as $surveyinsightsdatainterpretation) {
-    $interpretationsData[$surveyinsightsdatainterpretation[0]->catgororySlug] = [
-        'range' => $surveyinsightsdatainterpretation[0]->range[0],
-        'text' => $surveyinsightsdatainterpretation[0]->text,
-    ];
+foreach ($surveyinsightsdata->interpretations as $interpretation) {
+    foreach ($interpretation as $key => $value) {
+        $interpretationsData[$value->catgororySlug] = [
+            'range' => $value->range[0],
+            'text' => $value->text,
+        ];
+    }
 }
 
 $statusoptions = [];
@@ -71,7 +79,7 @@ foreach ($questioncategories as $questioncategorie) {
         </div>
         <div class="accordion-body survey-insights-score" id="score-interpretation-table">
             <?php
-                $defaultInterpretation = $interpretationsData[key($statusoptions)];
+                $defaultInterpretation = $interpretationsData[key($statusoptions)] ?? ['range' => '', 'text' => ''];
                 echo '
                 <div class="table-responsive">
                     <table class="generaltable">
@@ -130,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </tr>
                 </tbody>
             </table>
-        </div
+        </div>
         `;
     }
 
