@@ -13,7 +13,7 @@
         <div class="accordion-header accordion-header-section">
             <img src="<?php echo $iconurl ?>" alt="Icon" class="accordion-icon">
             <h5>Question <span class="question-number">__POSITION__</span></h5>
-            <img src="<?php echo $deleteicon ?>" alt="Icon" data-id="__INDEX__" class="plus-icon delete-question-button">
+            <img src="<?php echo $deleteicon ?>" alt="Delete Icon" data-id="__INDEX__" class="delete-question-button">
         </div>
         <div class="accordion-body pl-5">
             <div class="pl-1 mb-3">
@@ -87,7 +87,7 @@
             </div>
         </div>
         <div class="col-4">
-            <img src="<?php echo $deleteicon ?>" alt="Icon" data-id="__OPTIONINDEX__" class="plus-icon delete-option-button">
+            <img src="<?php echo $deleteicon ?>" alt="Delete Option" data-id="__OPTIONINDEX__" class="plus-icon delete-option-button">
         </div>
     </div>
 </div>
@@ -101,8 +101,13 @@
                 <div id="accordion-'. $index .'" class="accordion mb-5 active">
                     <div class="accordion-header accordion-header-section">
                         <img src="' . $iconurl . '" alt="Icon" class="accordion-icon">
-                        <h5>Question <span class="question-number">' . $index + 1 . '</span></h5>
-                    </div>
+                        <h5>Question <span class="question-number">' . ($index + 1) . '</span></h5>';
+                        
+                        if ($index > 0) {
+                            echo '<img src="' . $deleteicon . '" alt="Delete" data-id="' . $index . '" class="delete-question-button">';
+                        }
+                        
+                echo '</div>
                     <div class="accordion-body pl-5">
                         <div class="pl-1 mb-3">
                             <div class="row">
@@ -150,6 +155,9 @@
                                         <div class="invalid-feedback">
                                             - Please provide a valid input.
                                         </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <img src="' . $deleteicon . '" alt="Delete Option" data-id="' . $optionindex . '" class="delete-option-button">
                                     </div>
                                 </div>';
                             $optionindex++;
