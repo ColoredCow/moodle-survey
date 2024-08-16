@@ -132,3 +132,4 @@ $string['addsurveycategory'] = 'Add Survey Category';
 $string['addquestioncategory'] = 'Add Question Category';
 $string['competency'] = 'Competency';
 $string['noquestioncategorychooses'] = 'No Question Catgory Chooses';
+$string['selanalysis'] = 'SEL Analysis';
