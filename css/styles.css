@@ -755,3 +755,20 @@ a.disabled {
     margin-bottom: 20px;
     padding-bottom: 20px;
 }
+
+
+.survey-analysis-chart-body {
+    border: 1px solid #D9D9D9;
+    background-color: #F6F6F6;
+    padding: 30px;
+    gap: 20px;
+    border-radius: 13px;
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0px;
+}
+
+.survey-analysis-chart {
+    margin-bottom: 30px;
+    width: 350px;
+}
