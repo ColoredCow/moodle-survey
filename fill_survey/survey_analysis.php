@@ -63,20 +63,7 @@ function render_survey_insights($OUTPUT, $CFG) {
 }
 
 function get_bar_chart_labels() {
-    $charlabels = [
-        [
-            "label" => "Underdeveloped",
-            "color" => "#F47A29"
-        ],
-        [
-            "label" => "Developing",
-            "color" => "#FFF0E6"
-        ],
-        [
-            "label" => "Remarkable",
-            "color" => "#FFF"
-        ]
-    ];
+    $charlabels = get_string('chartlabels', 'local_moodle_survey');
     $html = html_writer::start_div('pie-chart-labels-container d-flex align-items-center');
         foreach ($charlabels as $key => $value) {
             $html .= html_writer::start_div('pie-chart-labels-section d-flex align-items-center');
@@ -93,7 +80,7 @@ function get_bar_chart_labels() {
 
 function render_survey_analysis_chart($OUTPUT, $CFG) {
     $html = html_writer::start_tag('div', array('class' => 'survey-analysis-chart'));
-        $CFG->chart_colorset = ['#F47A29', '#FFF0E6', '#FFF'];
+        $CFG->chart_colorset = get_string('chartcolorset', 'local_moodle_survey');
         $pieChart = new chart_pie();
         $pieChartData = [rand(0,100), rand(0,100), rand(0,100)];
         $series = new chart_series('Insights', $pieChartData);

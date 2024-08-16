@@ -133,3 +133,18 @@ $string['addquestioncategory'] = 'Add Question Category';
 $string['competency'] = 'Competency';
 $string['noquestioncategorychooses'] = 'No Question Catgory Chooses';
 $string['selanalysis'] = 'SEL Analysis';
+$string['chartlabels'] =  [
+        [
+            "label" => "Underdeveloped",
+            "color" => "#F47A29"
+        ],
+        [
+            "label" => "Developing",
+            "color" => "#FFF0E6"
+        ],
+        [
+            "label" => "Remarkable",
+            "color" => "#FFF"
+        ]
+    ];
+$string['chartcolorset'] = ['#F47A29', '#FFF0E6', '#FFF'];
