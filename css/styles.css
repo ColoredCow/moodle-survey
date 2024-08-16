@@ -756,13 +756,15 @@ a.disabled {
     padding-bottom: 20px;
 }
 
+.survey-analysis-chart-container {
+    border: 1px solid #D9D9D9;
+    border-radius: 13px;
+    background-color: #F6F6F6;
+}
 
 .survey-analysis-chart-body {
-    border: 1px solid #D9D9D9;
-    background-color: #F6F6F6;
     padding: 30px;
     gap: 20px;
-    border-radius: 13px;
     display: flex;
     flex-wrap: wrap;
     padding-left: 0px;
@@ -771,4 +773,22 @@ a.disabled {
 .survey-analysis-chart {
     margin-bottom: 30px;
     width: 350px;
+}
+
+.pie-chart-labels-container {
+    margin-left: 30px;
+    margin-top: 30px;
+}
+
+.pie-chart-labels-section {
+    margin-right: 15px;
+}
+
+.pie-chart-label-color {
+    box-sizing: border-box;
+    background-color: #F47A29;
+    height: 18px;
+    width: 18px;
+    border-radius: 66px;
+    margin-right: 10px;
 }

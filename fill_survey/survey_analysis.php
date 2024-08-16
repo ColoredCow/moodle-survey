@@ -49,7 +49,9 @@ function render_survey_insights($OUTPUT, $CFG) {
                 $html .= html_writer::tag('h3', 'Insights', array('class' => 'survey-about-heading mb-0 ml-2'));
             $html .= html_writer::end_tag('div');
             $html .= html_writer::start_tag('div', array('class' => 'accordion-body'));
-                $html .= html_writer::start_tag('div', array('class' => 'survey-analysis-chart-body'));
+            $html .= html_writer::start_tag('div', array('class' => 'survey-analysis-chart-container'));
+            $html .= get_bar_chart_labels();
+            $html .= html_writer::start_tag('div', array('class' => 'survey-analysis-chart-body'));
                     for ($i=0; $i < 3; $i++) { 
                         $html .= render_survey_analysis_chart($OUTPUT, $CFG);
                     }
@@ -57,6 +59,35 @@ function render_survey_insights($OUTPUT, $CFG) {
             $html .= html_writer::end_tag('div');
         $html .= html_writer::end_tag('div');
     $html .= html_writer::end_tag('div');
+    return $html;
+}
+
+function get_bar_chart_labels() {
+    $charlabels = [
+        [
+            "label" => "Underdeveloped",
+            "color" => "#F47A29"
+        ],
+        [
+            "label" => "Developing",
+            "color" => "#FFF0E6"
+        ],
+        [
+            "label" => "Remarkable",
+            "color" => "#FFF"
+        ]
+    ];
+    $html = html_writer::start_div('pie-chart-labels-container d-flex align-items-center');
+        foreach ($charlabels as $key => $value) {
+            $html .= html_writer::start_div('pie-chart-labels-section d-flex align-items-center');
+                $html .= html_writer::start_div('pie-chart-label-color');
+                $html .= html_writer::end_div();
+                $html .= html_writer::start_div('pie-chart-label-text');
+                    $html .= html_writer::tag('span', $value['label'], array('class' => 'pie-chart-label'));
+                $html .= html_writer::end_div();
+            $html .= html_writer::end_div();
+        }
+    $html .= html_writer::end_div();
     return $html;
 }
 
