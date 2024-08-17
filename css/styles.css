@@ -788,7 +788,7 @@ a.disabled {
 
 .pie-chart-labels-container {
     margin-left: 30px;
-    margin-top: 30px;
+    margin-top: 50px;
 }
 
 .pie-chart-labels-section {
@@ -801,16 +801,6 @@ a.disabled {
     width: 18px;
     border-radius: 66px;
     margin-right: 10px;
-}
-
-.insights-heading {
-    font-size: 14px;
-    font-weight: 500;
-    color: #232323;
-}
-
-.pie-chart-labels {
-    gap: 150px;
 }
 
 .primary-chart-color {

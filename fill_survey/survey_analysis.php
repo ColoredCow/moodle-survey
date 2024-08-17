@@ -64,11 +64,8 @@ function render_survey_insights($OUTPUT, $CFG) {
 
 function get_bar_chart_labels() {
     $charlabels = get_string('chartlabels', 'local_moodle_survey');
-    $html = html_writer::start_div('pie-chart-labels-container d-flex align-items-center');
-        $html .= html_writer::start_div('d-flex align-items-center pie-chart-labels');
-            $html .= html_writer::span('Overall Insights', 'insights-heading');
-            $html .= html_writer::end_span();
-            $html .= html_writer::start_div('d-flex');
+    $html = html_writer::start_div('pie-chart-labels-container d-flex align-items-center justify-content-center');
+        $html .= html_writer::start_div('d-flex align-items-center');
                 foreach ($charlabels as $key => $value) {
                     $html .= html_writer::start_div('pie-chart-labels-section d-flex ');
                         $html .= html_writer::start_div('pie-chart-label-color ' . get_bar_chart_colors($key));
@@ -78,7 +75,6 @@ function get_bar_chart_labels() {
                         $html .= html_writer::end_div();
                     $html .= html_writer::end_div();
                 }
-            $html .= html_writer::end_div();
         $html .= html_writer::end_div();
     $html .= html_writer::end_div();
     return $html;
