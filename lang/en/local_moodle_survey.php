@@ -140,6 +140,10 @@ $string['chartlabels'] =  [
         ],
         [
             "label" => "Developing",
+            "color" => "#FFB685"
+        ],
+        [
+            "label" => "Progressing",
             "color" => "#FFF0E6"
         ],
         [
@@ -147,4 +151,4 @@ $string['chartlabels'] =  [
             "color" => "#FFF"
         ]
     ];
-$string['chartcolorset'] = ['#F47A29', '#FFF0E6', '#FFF'];
+$string['chartcolorset'] = ['#F47A29', '#FFB685', '#FFF0E6', '#FFF'];
