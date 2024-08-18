@@ -87,7 +87,7 @@
             </div>
         </div>
         <div class="col-4">
-            <img src="<?php echo $deleteicon ?>" alt="Delete Option" data-id="__OPTIONINDEX__" class="plus-icon delete-option-button">
+            <img src="<?php echo $deleteicon ?>" alt="Delete Option" data-id="__OPTIONINDEX__" class="delete-option-button">
         </div>
     </div>
 </div>
@@ -101,11 +101,8 @@
                 <div id="accordion-'. $index .'" class="accordion mb-5 active">
                     <div class="accordion-header accordion-header-section">
                         <img src="' . $iconurl . '" alt="Icon" class="accordion-icon">
-                        <h5>Question <span class="question-number">' . ($index + 1) . '</span></h5>';
-                        
-                        if ($index > 0) {
-                            echo '<img src="' . $deleteicon . '" alt="Delete" data-id="' . $index . '" class="delete-question-button">';
-                        }
+                        <h5>Question <span class="question-number">' . ($index + 1) . '</span></h5>
+                        <img src="' . $deleteicon . '" alt="Delete Icon" data-id="' . $index . '" class="delete-question-button">';
                         
                 echo '</div>
                     <div class="accordion-body pl-5">
