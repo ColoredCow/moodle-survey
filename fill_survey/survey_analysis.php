@@ -64,16 +64,18 @@ function render_survey_insights($OUTPUT, $CFG) {
 
 function get_bar_chart_labels() {
     $charlabels = get_string('chartlabels', 'local_moodle_survey');
-    $html = html_writer::start_div('pie-chart-labels-container d-flex align-items-center');
-        foreach ($charlabels as $key => $value) {
-            $html .= html_writer::start_div('pie-chart-labels-section d-flex align-items-center');
-                $html .= html_writer::start_div('pie-chart-label-color');
-                $html .= html_writer::end_div();
-                $html .= html_writer::start_div('pie-chart-label-text');
-                    $html .= html_writer::tag('span', $value['label'], array('class' => 'pie-chart-label'));
-                $html .= html_writer::end_div();
-            $html .= html_writer::end_div();
-        }
+    $html = html_writer::start_div('pie-chart-labels-container d-flex align-items-center justify-content-center');
+        $html .= html_writer::start_div('d-flex align-items-center');
+                foreach ($charlabels as $key => $value) {
+                    $html .= html_writer::start_div('pie-chart-labels-section d-flex ');
+                        $html .= html_writer::start_div('pie-chart-label-color ' . get_bar_chart_colors($key));
+                        $html .= html_writer::end_div();
+                        $html .= html_writer::start_div('pie-chart-label-text');
+                            $html .= html_writer::tag('span', $value['label'], array('class' => 'pie-chart-label'));
+                        $html .= html_writer::end_div();
+                    $html .= html_writer::end_div();
+                }
+        $html .= html_writer::end_div();
     $html .= html_writer::end_div();
     return $html;
 }
@@ -82,7 +84,7 @@ function render_survey_analysis_chart($OUTPUT, $CFG) {
     $html = html_writer::start_tag('div', array('class' => 'survey-analysis-chart'));
         $CFG->chart_colorset = get_string('chartcolorset', 'local_moodle_survey');
         $pieChart = new chart_pie();
-        $pieChartData = [rand(0,100), rand(0,100), rand(0,100)];
+        $pieChartData = [rand(0,100), rand(0,100), rand(0,100),rand(0,100)];
         $series = new chart_series('Insights', $pieChartData);
         $pieChart->add_series($series);
         $pieChart->set_title('Survey Data');
@@ -90,6 +92,19 @@ function render_survey_analysis_chart($OUTPUT, $CFG) {
     $html .= $horizontalBarChartHtml;
     $html .= html_writer::end_tag('div');
     return $html;
+}
+
+function get_bar_chart_colors($key) {
+    switch($key){
+        case 0:
+            return 'primary-chart-color';
+        case 1:
+            return 'primary10-chart-color';
+        case 2:
+            return 'primary100-chart-color';
+        case 3:
+            return 'secondary-chart-color';
+    }
 }
 
 echo $OUTPUT->footer();

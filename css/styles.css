@@ -773,11 +773,22 @@ a.disabled {
 .survey-analysis-chart {
     margin-bottom: 30px;
     width: 350px;
+
+    .chart-area {
+        width: 400px;
+        height: 350px;
+        margin-bottom: 20px;
+    }
+
+    .chart-area .chart-image, .chart-area canvas {
+        width: 400px !important;
+        height: 350px !important;
+    }
 }
 
 .pie-chart-labels-container {
     margin-left: 30px;
-    margin-top: 30px;
+    margin-top: 50px;
 }
 
 .pie-chart-labels-section {
@@ -786,9 +797,24 @@ a.disabled {
 
 .pie-chart-label-color {
     box-sizing: border-box;
-    background-color: #F47A29;
     height: 18px;
     width: 18px;
     border-radius: 66px;
     margin-right: 10px;
+}
+
+.primary-chart-color {
+    background-color: #F47A29;
+}
+
+.primary10-chart-color {
+    background-color: #FFB685;
+}
+
+.primary100-chart-color {
+    background-color: #FFF0E6;
+}
+
+.secondary-chart-color {
+    background-color: #FFF;
 }
