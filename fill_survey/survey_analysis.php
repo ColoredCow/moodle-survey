@@ -11,15 +11,24 @@ $survey = $DB->get_record('cc_surveys', ['id' => $id], '*', MUST_EXIST);
 $PAGE->set_title(get_string('selanalysis', 'local_moodle_survey'));
 $PAGE->requires->js(new moodle_url('/local/moodle_survey/js/forms.js'));
 echo $OUTPUT->header();
-echo render_survey_analysis_title();
+echo render_survey_analysis_title($PAGE);
 echo render_survey_instruction($survey);
 echo render_survey_insights($OUTPUT, $CFG);
 
 
-function render_survey_analysis_title() {
-    $html = html_writer::start_tag('div', array('class' => 'survey-analysis-title'));
+function render_survey_analysis_title($PAGE) {
+    $statusoptions = [
+        'teacher' => 'Teachers Insights',
+        'student' => 'Student Insights',
+    ];
+    $html = html_writer::start_tag('div', array('class' => 'survey-analysis-title d-flex justify-content-between'));
         $html .= html_writer::tag('h3', 'Surveys/' .  get_string('selanalysis', 'local_moodle_survey') .'', array('class' => 'survey-analysis-heading'));
-    $html .= html_writer::end_tag('div');
+        $html .= html_writer::start_tag('div', array('class' => 'survey-analysis-title-actions'));
+            $html .= html_writer::start_tag('form', ['method' => 'get', 'action' => $PAGE->url, 'id' => 'filter-form']);
+                $html .= html_writer::select($statusoptions, 'status', key($statusoptions), null, ['class' => 'status-select', 'id' => 'status-select']);
+            $html .= html_writer::end_tag('form');
+        $html .= html_writer::end_div();
+    $html .= html_writer::end_div();
     return $html;
 }
 
