@@ -775,14 +775,13 @@ a.disabled {
     width: 350px;
 
     .chart-area {
-        width: 400px;
-        height: 350px;
+        width: 300px;
         margin-bottom: 20px;
     }
 
     .chart-area .chart-image, .chart-area canvas {
-        width: 400px !important;
-        height: 350px !important;
+        width: 300px !important;
+        height: 250px !important;
     }
 }
 
