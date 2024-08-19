@@ -160,15 +160,6 @@
                 border-radius: 5px;
             }
 
-            .disable-view-btn {
-                background: #949494;
-                padding: 10px 12px;
-                color: #FFFFFF !important;
-                border: 1px solid #949494;
-                font-weight: 700;
-                border-radius: 5px;
-            }
-
             a {
                 color: #1969B4 !important;
                 font-weight: 400;
@@ -176,6 +167,15 @@
             }
         }
     }
+}
+
+.disable-btn {
+    background: #949494;
+    padding: 10px 12px;
+    color: #FFFFFF !important;
+    border: 1px solid #949494;
+    font-weight: 700;
+    border-radius: 5px;
 }
 
 

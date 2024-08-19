@@ -3,6 +3,14 @@
     $addiconurl = new \moodle_url('/local/moodle_survey/pix/plus-icon.svg');
     $dbhelper = new \local_moodle_survey\model\survey();
     $questioncategories = $dbhelper->get_question_categories_for_survey($survey->id);
+    $isquestioncategoriesdata = sizeof($questioncategories) <= 0;
+    if($ispagetypecreate) {
+        echo html_writer::tag('div', get_string('fillgeneraldetailsform', 'local_moodle_survey'), ['class' => 'alert alert-info']);
+        return;
+    } else if($isquestioncategoriesdata) {
+        echo html_writer::tag('div', get_string('noquestioncategorychooses', 'local_moodle_survey'), ['class' => 'alert alert-info']);
+        return;
+    }
 ?>
 
 <div id="interpretation-template" class="d-none">
@@ -39,9 +47,6 @@
         <input class="d-none" name="tab" value="interpretations" required/>  
         <?php 
             $index = 0;
-            if(sizeof($questioncategories) <= 0) {
-                echo html_writer::tag('div', get_string('noquestioncategorychooses', 'local_moodle_survey'), ['class' => 'alert alert-info']);
-            }
             foreach ($questioncategories as $category) {
                 echo ' 
                 <div id="accordion-'. $index .'" class="accordion mb-5 active">

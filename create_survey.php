@@ -11,6 +11,7 @@ $PAGE->set_context($context);
 $PAGE->set_url(new moodle_url('/local/moodle_survey/create_survey.php'));
 $PAGE->set_title(get_string('createsurvey', 'local_moodle_survey'));
 $PAGE->set_heading(get_string('createsurvey', 'local_moodle_survey'));
+$ispagetypecreate = $pagetype == "create";
 
 $PAGE->requires->css(new moodle_url('/local/moodle_survey/css/styles.css'));
 $PAGE->requires->js(new moodle_url('/local/moodle_survey/js/tabs.js'));

@@ -1,4 +1,8 @@
 <?php
+    if ($ispagetypecreate) {
+        echo html_writer::tag('div', get_string('fillgeneraldetailsform', 'local_moodle_survey'), ['class' => 'alert alert-info']);
+        return;
+    }
     $iconurl = new \moodle_url('/local/moodle_survey/pix/arrow-down.svg');
     $deleteicon = new \moodle_url('/local/moodle_survey/pix/delete-icon.svg');
     $addiconurl = new \moodle_url('/local/moodle_survey/pix/plus-icon.svg');

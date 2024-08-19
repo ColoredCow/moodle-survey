@@ -57,7 +57,7 @@ function get_taking_survey_link($survey, $issurveyedit, $dbhelper, $USER) {
     } else {
         $takingsurveyurl = new moodle_url('/local/moodle_survey/fill_survey/index.php', ['id' => $survey->id]);
     }
-    $takingsurvey = !$issurveyedit ? html_writer::link($takingsurveyurl, 'View', ['class' => 'view-btn']) : html_writer::span('View', 'disable-view-btn');
+    $takingsurvey = !$issurveyedit ? html_writer::link($takingsurveyurl, 'View', ['class' => 'view-btn']) : html_writer::span('View', 'disable-btn');
 
     return $takingsurvey;
 }
