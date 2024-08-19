@@ -5,27 +5,29 @@ require_login();
 
 use core\chart_pie;
 use core\chart_series;
+
 $context = context_system::instance();
 $id = required_param('id', PARAM_INT);
 $survey = $DB->get_record('cc_surveys', ['id' => $id], '*', MUST_EXIST);
 $PAGE->set_title(get_string('selanalysis', 'local_moodle_survey'));
 $PAGE->requires->js(new moodle_url('/local/moodle_survey/js/forms.js'));
 echo $OUTPUT->header();
-echo render_survey_analysis_title($PAGE);
+echo render_survey_analysis_title($id);
 echo render_survey_instruction($survey);
 echo render_survey_insights($OUTPUT, $CFG);
 
-
-function render_survey_analysis_title($PAGE) {
+function render_survey_analysis_title($id) {
+    $url = new moodle_url('/local/moodle_survey/fill_survey/survey_analysis.php', ['id' => $id]);
     $statusoptions = [
         'teacher' => 'Teachers Insights',
         'student' => 'Student Insights',
     ];
     $html = html_writer::start_tag('div', array('class' => 'survey-analysis-title d-flex justify-content-between'));
-        $html .= html_writer::tag('h3', 'Surveys/' .  get_string('selanalysis', 'local_moodle_survey') .'', array('class' => 'survey-analysis-heading'));
+        $html .= html_writer::tag('h3', 'Surveys/' . get_string('selanalysis', 'local_moodle_survey'), array('class' => 'survey-analysis-heading'));
         $html .= html_writer::start_tag('div', array('class' => 'survey-analysis-title-actions'));
-            $html .= html_writer::start_tag('form', ['method' => 'get', 'action' => $PAGE->url, 'id' => 'filter-form']);
-                $html .= html_writer::select($statusoptions, 'status', key($statusoptions), null, ['class' => 'status-select', 'id' => 'status-select']);
+            $html .= html_writer::start_tag('form', ['method' => 'get', 'action' => $url, 'id' => 'filter-form']);
+                $html .= html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'id', 'value' => $id]);
+                $html .= html_writer::select($statusoptions, 'status', key($statusoptions), null, ['class' => 'status-select', 'id' => 'survey-insight-type']);
             $html .= html_writer::end_tag('form');
         $html .= html_writer::end_div();
     $html .= html_writer::end_div();
@@ -47,7 +49,6 @@ function render_survey_instruction($survey) {
     $html .= html_writer::end_tag('div');
     return $html;
 }
-
 
 function render_survey_insights($OUTPUT, $CFG) {
     $iconurl = new \moodle_url('/local/moodle_survey/pix/arrow-down.svg');
@@ -93,7 +94,7 @@ function render_survey_analysis_chart($OUTPUT, $CFG) {
     $html = html_writer::start_tag('div', array('class' => 'survey-analysis-chart'));
         $CFG->chart_colorset = get_string('chartcolorset', 'local_moodle_survey');
         $pieChart = new chart_pie();
-        $pieChartData = [rand(0,100), rand(0,100), rand(0,100),rand(0,100)];
+        $pieChartData = [rand(0,100), rand(0,100), rand(0,100), rand(0,100)];
         $series = new chart_series('Insights', $pieChartData);
         $pieChart->add_series($series);
         $pieChart->set_title('Survey Data');

@@ -152,3 +152,16 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 validateForms();
+
+document.addEventListener('DOMContentLoaded', function() {
+  var surveyInsightType = document.getElementById('survey-insight-type');
+  var form = document.getElementById('filter-form');
+  
+  function submitForm() {
+      form.submit();
+  }
+
+  if (surveyInsightType) {
+      surveyInsightType.addEventListener('change', submitForm);
+  }
+});
