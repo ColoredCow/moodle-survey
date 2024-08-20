@@ -338,4 +338,26 @@ class survey {
         global $DB;
         return $DB->count_records('cc_categories', ['type' => 'question']);
     }
+
+    public static function get_live_surveys_with_interpretations($categoryid) {
+        global $DB;
+        $sql = "SELECT DISTINCT
+                    s.category_id,
+                    sq.question_category_id,
+                    ca.`label` as question_category,
+                    qci.interpreted_as,
+                    sr.response AS survey_responses,
+                    sr.submitted_by
+                FROM
+                    {cc_surveys} s
+                    LEFT JOIN {cc_survey_questions} sq ON sq.survey_id = s.id
+                    LEFT JOIN {cc_categories} ca ON ca.id = sq.question_category_id
+                    LEFT JOIN {cc_question_category_interpretations} qci ON qci.question_category_id = sq.question_category_id
+                    LEFT JOIN {cc_survey_responses} sr ON sr.survey_id = s.id
+                WHERE s.status = :status AND s.category_id = :categoryid";
+
+        $params = ['status' => 'Live', 'categoryid' => $categoryid];
+
+        return $DB->get_records_sql($sql, $params);
+    }
 }
