@@ -100,11 +100,9 @@ class audience_access_form extends \moodleform {
         }
 
         foreach($sectionsvalues as $key => $accesstoresponsevalue) {
-            $mform->addElement('checkbox', $fieldname . '[' . $key . ']', $accesstoresponsevalue);
+            $checkboxid = $fieldname . '_' . $key;
+            $mform->addElement('checkbox', $fieldname . '[' . $key . ']', $accesstoresponsevalue, '', ['id' => $checkboxid]);
             if(in_array($key, $audienceaccessdata)) {
-                $mform->setDefault($fieldname . '[' . $key . ']', 1);
-            }
-            else if(in_array($key, $audienceaccessdata)) {
                 $mform->setDefault($fieldname . '[' . $key . ']', 1);
             }
         }
@@ -113,7 +111,7 @@ class audience_access_form extends \moodleform {
     }
 
     private function get_form_action_button($mform) {
-        $submitbutton = $mform->createElement('submit', 'submitbutton1', 'Save & Publish', ['class' => 'custom-form-action-btn custom-submit-button']);
+        $submitbutton = $mform->createElement('submit', 'submitbutton1', 'Save & Publish', ['class' => 'custom-form-action-btn custom-submit-button', 'id' => 'continue-button',  'role' => 'button', 'aria-disabled' => 'true', 'data-disabled' => 'true']);
         $cancelbutton = $mform->createElement('cancel', 'cancelbutton1', get_string('cancel'), ['class' => 'custom-form-action-btn custom-cancel-button']);
         $mform->addElement('html', '<div class="custom-form-action-buttons">');
         $mform->addElement($cancelbutton);

@@ -151,6 +151,30 @@ document.addEventListener('DOMContentLoaded', function() {
   toggleButton();
 });
 
+// Disable-Enable Audience & Access Checkbox JS
+document.addEventListener('DOMContentLoaded', function() {
+  var targetaudiencecheckboxes = document.querySelectorAll('input[id^="targetaudience_"]');
+  var accesstoresponsecheckboxes = document.querySelectorAll('input[id^="accesstoresponse_"]');
+  var continueButton = document.getElementById('continue-button');
+
+  function toggleButton() {
+    var isTargetAudienceChecked = Array.from(targetaudiencecheckboxes).some(checkbox => checkbox.checked);
+    var isAccessResponseChecked = Array.from(accesstoresponsecheckboxes).some(checkbox => checkbox.checked);
+
+    var isEnabled = isTargetAudienceChecked && isAccessResponseChecked;
+
+    continueButton.classList.toggle('disabled', !isEnabled);
+    continueButton.setAttribute('aria-disabled', !isEnabled);
+    continueButton.style.pointerEvents = isEnabled ? 'auto' : 'none';
+    continueButton.style.opacity = isEnabled ? '1' : '0.5';
+  }
+
+  targetaudiencecheckboxes.forEach(checkbox => checkbox.addEventListener('change', toggleButton));
+  accesstoresponsecheckboxes.forEach(checkbox => checkbox.addEventListener('change', toggleButton));
+
+  toggleButton();
+});
+
 validateForms();
 
 document.addEventListener('DOMContentLoaded', function() {
