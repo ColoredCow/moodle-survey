@@ -52,3 +52,8 @@ function get_user_role() {
 
     return 'sel_admin';
 }
+
+function get_user_school() {
+    global $USER, $DB;
+    return $DB->get_record('company_users', ['userid' => $USER->id]);
+}
