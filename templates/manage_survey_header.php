@@ -24,7 +24,11 @@
         'create-button-container'
     );
     $heading = html_writer::tag('span', get_string('managesurvey', 'local_moodle_survey'), ['class' => 'page-title']);
-    $content = $heading . ' ' . $createbutton;
+    $content = $heading;
+    if (has_capability('local/moodle_survey:create-surveys', context_system::instance())) {
+        $content .= ' ' . $createbutton;
+    }
+    
     echo html_writer::tag('div', $content, ['class' => 'survey-header']);
 
     // Filter form
