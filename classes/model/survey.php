@@ -61,7 +61,13 @@ class survey {
 
     public static function get_active_survey_count() {
         global $DB;
-        return $DB->count_records('cc_surveys', ['status' => 'Live']);
+        if (is_sel_admin()) {
+            return $DB->count_records('cc_surveys', ['status' => 'Live']);
+        }
+        
+        $userschool = get_user_school();
+        $sql = "SELECT count(*) FROM {cc_survey_audience_access} as a JOIN {cc_surveys} as b ON a.survey_id = b.id where b.status = 'Live' and a.school_id = :schoolid";
+        return $DB->count_records_sql($sql, ['schoolid' => $userschool->companyid]);
     }
 
     public static function get_categories_by_filters($filters, $categorytype) {
@@ -145,10 +151,10 @@ class survey {
     }
 
     protected static function get_survey_ids_for_user() {
-        global $DB, $USER;
+        global $DB;
     
         // Fetch the user's school information
-        $userschool = $DB->get_record('company_users', ['userid' => $USER->id], '*', MUST_EXIST);
+        $userschool = get_user_school();
 
         if (!$userschool) {
             return [];
@@ -363,7 +369,12 @@ class survey {
 
     public static function get_survey_count() {
         global $DB;
-        return $DB->count_records('cc_surveys');
+        if (is_sel_admin()) {
+            return $DB->count_records('cc_surveys');
+        }
+        
+        $userschool = get_user_school();
+        return $DB->count_records('cc_survey_audience_access', ['school_id' => $userschool->companyid]);
     }
 
     public static function get_question_category_count() {
