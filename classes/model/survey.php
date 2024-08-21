@@ -149,6 +149,10 @@ class survey {
     
         // Fetch the user's school information
         $userschool = $DB->get_record('company_users', ['userid' => $USER->id], '*', MUST_EXIST);
+
+        if (!$userschool) {
+            return [];
+        }
         
         // Define parameters
         $params = [
