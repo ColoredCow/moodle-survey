@@ -59,16 +59,16 @@ class audience_access_form extends \moodleform {
     }
 
     private function target_audience_form($mform, $audienceaccessdata) {
-        if (gettype($audienceaccessdata) === 'object') {
-            $audienceaccessdata = json_decode($audienceaccessdata->target_audience, true);
+        foreach ($audienceaccessdata as $value) {
+            $audienceaccessdata = json_decode($value->target_audience, true);
         }
         $this->get_checkbox_input_fields(get_string('targetaudiencevalues', 'local_moodle_survey'), $mform, 'targetaudience', $audienceaccessdata);
         $mform->addRule('targetaudience', get_string('required'), 'required', null, 'client');
     }
 
     private function access_to_response_form($mform, $audienceaccessdata) {
-        if (gettype($audienceaccessdata) === 'object') {
-            $audienceaccessdata = json_decode($audienceaccessdata->access_to_response, true);
+        foreach ($audienceaccessdata as $value) {
+            $audienceaccessdata = json_decode($value->access_to_response, true);
         }
         $this->get_checkbox_input_fields(get_string('accesstoresponsevalues', 'local_moodle_survey'), $mform, 'accesstoresponse', $audienceaccessdata);
         $mform->addRule('accesstoresponse', get_string('required'), 'required', null, 'client');
@@ -76,21 +76,24 @@ class audience_access_form extends \moodleform {
 
     private function assign_to_school_form($mform, $audienceaccessdata, $surveyschools) {
         $section = '';
-        foreach(get_string('assigntoschools', 'local_moodle_survey') as $key => $stateofschool) {
-            $section .= $this->get_select_input_fields($stateofschool, $mform, 'assigntoschool', $surveyschools, $audienceaccessdata);
+        foreach ($audienceaccessdata as $value) {
+            $schoolid[] = json_decode($value->school_id, true);
+        }
+        foreach(get_string('assigntoschools', 'local_moodle_survey') as $stateofschool) {
+            $section .= $this->get_select_input_fields($stateofschool, $mform, 'assigntoschool', $surveyschools, $schoolid);
         }
         $mform->addElement('html', $section);
         $mform->addRule('assigntoschool', get_string('required'), 'required', null, 'client');
     }
 
-    private function get_select_input_fields($label, $mform, $key, $surveyschools, $audienceaccessdata) {
+    private function get_select_input_fields($label, $mform, $key, $surveyschools, $schoolid) {
         $options = [];
         foreach ($surveyschools as $surveyschool) {
             $options[$surveyschool->id] = $surveyschool->name;
         }
         $schoolSelect = $mform->addElement('select', $key, $label, $options, 'class="custom-multi-select"');
         $mform->setType($key, PARAM_INT);
-        $mform->setDefault($key, $audienceaccessdata->school_id);
+        $mform->setDefault($key, $schoolid);
         $schoolSelect->setMultiple(true);
     }
 
@@ -103,6 +106,7 @@ class audience_access_form extends \moodleform {
         foreach($sectionsvalues as $key => $accesstoresponsevalue) {
             $checkboxid = $fieldname . '_' . $key;
             $mform->addElement('checkbox', $fieldname . '[' . $key . ']', $accesstoresponsevalue, '', ['id' => $checkboxid]);
+            
             if(in_array($key, $audienceaccessdata)) {
                 $mform->setDefault($fieldname . '[' . $key . ']', 1);
             }
