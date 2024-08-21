@@ -2,6 +2,9 @@
 
 require_once('../../config.php');
 require_login();
+if (!has_capability('local/moodle_survey:view-surveys', \context_system::instance())) {
+    redirect(new moodle_url('/'));
+}
 
 initialize_page();
 echo $OUTPUT->header();
