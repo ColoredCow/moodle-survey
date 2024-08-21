@@ -817,3 +817,7 @@ a.disabled {
 .secondary-chart-color {
     background-color: #FFF;
 }
+
+.custom-multi-select select {
+    width: 300px !important;
+}
