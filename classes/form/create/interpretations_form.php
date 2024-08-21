@@ -37,6 +37,13 @@
                     - Please provide a valid input.
                 </div>
             </div>
+            <div class="col-8 mt-4">
+                <label for="interpreted-as-description-__INTERPRETATIONINDEX__" class="col-form-label">Interpreted Description</label>
+                <textarea name="interpretation[__INDEX__][interpretations][__INTERPRETATIONINDEX__][interpreted_as_description]" rows="3" id="interpreted-as-description-__INTERPRETATIONINDEX__" class="form-control" required></textarea>
+                <div class="invalid-feedback">
+                    - Please provide a valid input.
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -95,6 +102,13 @@
                                         <div class="col-8">
                                             <label for="interpreted-as-' . $interpretationindex . '" class="col-form-label">Interpreted as</label>
                                             <input name="interpretation[' . $index . '][interpretations][' . $interpretationindex . '][interpreted_as]" type="text" value="' . $interpretation->interpreted_as . '" id="interpreted-as-' . $interpretationindex . '" class="form-control" required>
+                                            <div class="invalid-feedback">
+                                                - Please provide a valid input.
+                                            </div>
+                                        </div>
+                                        <div class="col-8 mt-4">
+                                            <label for="interpreted-as-description-' . $interpretationindex . '" class="col-form-label">Interpreted as Description</label>
+                                            <textarea name="interpretation[' . $index . '][interpretations][' . $interpretationindex . '][interpreted_as_description]" rows="3" id="interpreted-as-description-' . $interpretationindex . '" class="form-control" required>' . $interpretation->description . '</textarea>
                                             <div class="invalid-feedback">
                                                 - Please provide a valid input.
                                             </div>
