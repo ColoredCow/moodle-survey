@@ -156,7 +156,7 @@ class survey {
         
         // Define parameters
         $params = [
-            'schoolid' => $userschool->id,
+            'schoolid' => $userschool->companyid,
             'role' => '"' . get_user_role() . '"'  // JSON_CONTAINS requires the value to be in a valid JSON format
         ];
     
