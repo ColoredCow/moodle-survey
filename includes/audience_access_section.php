@@ -33,15 +33,22 @@ $existingaudienceaccess = $audienceaccess->get_audience_acccess_by_survey_id($su
                 $accesstoresponse = isset($data->accesstoresponse) ? array_keys(array_filter($data->accesstoresponse)) : [];
                 $audienceaccessrecord->access_to_response = json_encode($accesstoresponse);
                 
-                $assigntoschool = isset($data->assigntoschool) ? implode(',', (array) $data->assigntoschool) : '';
-                $audienceaccessrecord->school_id = $assigntoschool;
-
+                $assigntoschoolids = isset($data->assigntoschool) ? $data->assigntoschool : '';
+                
                 $survey = $dbhelper->get_survey_by_id($survey->id);
-                if(isset($existingaudienceaccess->id)) {
-                    $audienceaccessrecord->id = $existingaudienceaccess->id;
-                    $audienceaccess->update_audience_access($audienceaccessrecord);
-                } else {
-                    $audienceaccess->create_audience_access($audienceaccessrecord);
+                
+                foreach($assigntoschoolids as $schoolid) {
+                    $schoolid = (int)$schoolid;
+                    $existingrecord = $audienceaccess->get_audience_access_by_school_id_survey_id($survey->id, $schoolid);
+                
+                    if ($existingrecord) {
+                        $audienceaccessrecord->id = $existingrecord->id;
+                        $audienceaccessrecord->school_id = $schoolid;
+                        $audienceaccess->update_audience_access($audienceaccessrecord);
+                    } else {
+                        $audienceaccessrecord->school_id = $schoolid;
+                        $audienceaccess->create_audience_access($audienceaccessrecord);
+                    }
                 }
 
                 if(isset($survey->id)) {

@@ -24,6 +24,13 @@ class audience_access {
         return $DB->get_record_sql($sql, $params);
     }
 
+    public static function get_audience_access_by_school_id_survey_id($surveyid, $schoolid) {
+        global $DB;
+        $sql = "SELECT * FROM {cc_survey_audience_access} WHERE survey_id = :survey_id AND school_id = :school_id";
+        $params = ['survey_id' => $surveyid, 'school_id' => $schoolid];
+        return $DB->get_record_sql($sql, $params);
+    }
+
     public static function get_schools() {
         global $DB;
         return $DB->get_records('company');
