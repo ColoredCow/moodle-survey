@@ -95,7 +95,10 @@ function render_survey_analysis_chart($OUTPUT, $CFG) {
         $CFG->chart_colorset = get_string('chartcolorset', 'local_moodle_survey');
         $pieChart = new chart_pie();
         $pieChartData = [rand(0,100), rand(0,100), rand(0,100), rand(0,100)];
+        $pieChart->set_legend_options(['display' => false]);
         $series = new chart_series('Insights', $pieChartData);
+        $pieChartLabels = ["Underdeveloped", "Developing", "Progressing", "Remarkable"];
+        $pieChart->set_labels($pieChartLabels);
         $pieChart->add_series($series);
         $pieChart->set_title('Survey Data');
     $horizontalBarChartHtml = $OUTPUT->render_chart($pieChart, false);
