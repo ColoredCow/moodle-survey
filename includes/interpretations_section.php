@@ -23,7 +23,7 @@ if (!isset($tab)) {
                     $interpretationrecord->interpreted_as = $interpretation['interpreted_as'];
                     $interpretationrecord->score_from = $interpretation['from'];
                     $interpretationrecord->score_to = $interpretation['to'];
-                    $interpretationrecord->description = null;
+                    $interpretationrecord->description = $interpretation['interpreted_as_description'];
 
                     if (isset($interpretation['id'])) {
                         $interpretationrecord->id = $interpretation['id'];
