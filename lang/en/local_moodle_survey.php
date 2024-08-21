@@ -98,8 +98,8 @@ $string['targetaudience'] = 'TARGET AUDIENCE';
 $string['accesstoresponse'] = 'ACCESS TO RESPONSES';
 $string['assigntoschool'] = 'ASSIGN TO SCHOOL';
 $string['targetaudiencevalues'] = [
-    'students' => 'Students',
-    'teachers' => 'Teachers',
+    'student' => 'Students',
+    'teacher' => 'Teachers',
 ];
 $string['accesstoresponsevalues'] = [
     'principal' => 'Principal',

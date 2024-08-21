@@ -1,6 +1,7 @@
 <?php
 
 require_once('../../config.php');
+require_once($CFG->dirroot . '/local/moodle_survey/lib.php');
 require_login();
 if (!has_capability('local/moodle_survey:view-surveys', \context_system::instance())) {
     redirect(new moodle_url('/'));
@@ -67,7 +68,7 @@ function fetch_surveys($filters) {
  * @param array $surveys
  */
 function display_page($surveys) {
-    global $OUTPUT, $USER;
+    global $OUTPUT;
 
     // Include the HTML for the survey management interface
     include(__DIR__ . '/templates/manage_survey_header.php');

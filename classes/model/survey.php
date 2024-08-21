@@ -2,6 +2,7 @@
 namespace local_moodle_survey\model;
 
 defined('MOODLE_INTERNAL') || die();
+require_once($CFG->dirroot . '/local/moodle_survey/lib.php');
 
 class survey {
     public static function get_surveys_by_status($status) {
@@ -143,11 +144,37 @@ class survey {
         return $DB->get_records('cc_question_category_interpretations', ['survey_id' => $surveyid, 'question_category_id' => $surveycategoryid]);
     }
 
+    protected static function get_survey_ids_for_user() {
+        global $DB, $USER;
+    
+        // Fetch the user's school information
+        $userschool = $DB->get_record('company_users', ['userid' => $USER->id], '*', MUST_EXIST);
+        
+        // Define parameters
+        $params = [
+            'schoolid' => $userschool->id,
+            'role' => '"' . get_user_role() . '"'  // JSON_CONTAINS requires the value to be in a valid JSON format
+        ];
+    
+        $sqlquery = "SELECT survey_id
+                     FROM {cc_survey_audience_access}
+                     WHERE school_id = :schoolid AND JSON_CONTAINS(target_audience, :role)";
+    
+        return $DB->get_fieldset_sql($sqlquery, $params);
+    }
+
     public static function get_surveys($filters) {
         global $DB;
-    
-        $sql = "SELECT * FROM {cc_surveys} WHERE 1=1";
-        $params = [];
+        if (get_user_role() == 'sel_admin') {
+            $sql = "SELECT * FROM {cc_surveys} WHERE 1=1";
+        } else {
+            $survey_ids = self::get_survey_ids_for_user();
+            if (empty($survey_ids)) {
+                return []; // No surveys available for the user
+            }
+            list($in_sql, $params) = $DB->get_in_or_equal($survey_ids, SQL_PARAMS_NAMED, 'surveyid');
+            $sql = "SELECT * FROM {cc_surveys} WHERE id $in_sql";
+        }
     
         foreach ($filters as $key => $value) {
             switch ($key) {
