@@ -68,7 +68,7 @@ function fetch_surveys($filters) {
  * @param array $surveys
  */
 function display_page($surveys) {
-    global $OUTPUT;
+    global $OUTPUT, $USER;
 
     // Include the HTML for the survey management interface
     include(__DIR__ . '/templates/manage_survey_header.php');

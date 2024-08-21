@@ -214,14 +214,13 @@ class survey {
     public static function get_survey_data($surveyId) {
         global $DB;
 
-        $sql = "SELECT sq.*, q.text AS question_text, q.type AS question_type, cci.score_from, cci.score_to, cci.interpreted_as,
-                GROUP_CONCAT(o.option_text SEPARATOR ', ') AS option_texts, GROUP_CONCAT(o.score SEPARATOR ', ') AS score
+        $sql = "SELECT sq.*, q.text AS question_text, q.type AS question_type, cci.score_from, cci.score_to, cci.interpreted_as, cci.description, GROUP_CONCAT(o.option_text SEPARATOR ', ') AS option_texts, GROUP_CONCAT(o.score SEPARATOR ', ') AS score
             FROM {cc_survey_questions} sq
             LEFT JOIN {cc_questions} q ON sq.question_id = q.id
             LEFT JOIN {cc_survey_question_options} o ON sq.id = o.survey_question_id
             LEFT JOIN {cc_question_category_interpretations} cci ON sq.question_category_id = cci.question_category_id
             WHERE sq.survey_id = :surveyid
-            GROUP BY sq.id, q.text, q.type, cci.id, cci.score_from, cci.score_to, cci.interpreted_as";
+            GROUP BY sq.id, q.text, q.type, cci.id, cci.score_from, cci.score_to, cci.interpreted_as, cci.description";
 
         $params = ['surveyid' => $surveyId];
         $results = $DB->get_records_sql($sql, $params);
@@ -271,13 +270,15 @@ class survey {
 
                 $newcategoryslug = $questioncategory->slug;
                 $newinterpretedas = $record->interpreted_as;
+                $newinterpretationdescription = $record->description;
                 $newinterpretedasrange = [(int)$record->score_from . ' - ' . (int)$record->score_to];
                 if (!self::interpretation_exists($response['surveyData']['interpretations'], $newcategoryslug, $newinterpretedas, $newinterpretedasrange)) {
                     $response['surveyData']['interpretations'][] = [
                         $newcategoryslug => [
                             "catgororySlug" => $newcategoryslug,
                             "text" => $newinterpretedas,
-                            "range" => $newinterpretedasrange
+                            "range" => $newinterpretedasrange,
+                            "description" => $newinterpretationdescription,
                         ]
                     ];
                 }

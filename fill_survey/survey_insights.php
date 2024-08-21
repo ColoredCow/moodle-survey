@@ -42,6 +42,7 @@ $interpretationsData = [];
 foreach ($surveyinsightsdata->interpretations as $interpretation) {
     foreach ($interpretation as $key => $value) {
         $interpretationsData[$value->catgororySlug] = [
+            'description' => $value->description,
             'range' => $value->range[0],
             'text' => $value->text,
         ];
@@ -94,7 +95,7 @@ foreach ($questioncategories as $questioncategorie) {
                             <tr>
                                 <td>' . key($statusoptions) . '</td>
                                 <td>' . $defaultInterpretation['range'] . '</td>
-                                <td class="interpretation-as">' . $defaultInterpretation['text'] . '</td>
+                                <td class="interpretation-as">' . $defaultInterpretation['text'] . '<br/>' . $defaultInterpretation['description'] . '</td>
                             </tr>
                         </tbody>
                     </table>
@@ -115,11 +116,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedCategory = this.value;
         const data = interpretationsData[selectedCategory];
 
-        const tableHtml = generateTableHtml(selectedCategory, data.range, data.text);
+        const tableHtml = generateTableHtml(selectedCategory, data.range, data.text, data.description);
         tableContainer.innerHTML = tableHtml;
     });
 
-    function generateTableHtml(category, range, interpretation) {
+    function generateTableHtml(category, range, interpretation, description) {
         return `
         <div class="table-responsive">
             <table class="generaltable">
@@ -134,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <tr>
                         <td>${category}</td>
                         <td>${range}</td>
-                        <td class="interpretation-as">${interpretation}</td>
+                        <td class="interpretation-as">${interpretation}<br/>${description}</td>
                     </tr>
                 </tbody>
             </table>
