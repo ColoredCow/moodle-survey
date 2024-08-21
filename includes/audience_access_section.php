@@ -51,6 +51,12 @@ $existingaudienceaccess = $audienceaccess->get_audience_acccess_by_survey_id($su
                     }
                 }
 
+                foreach ($existingaudienceaccess as $existingrecord) {
+                    if (!in_array($existingrecord->school_id, $assigntoschoolids)) {
+                        $audienceaccess->delete_survey_audience_access($existingrecord->id);
+                    }
+                }
+
                 if(isset($survey->id)) {
                     $surveyrecord->id = $survey->id;
                     $surveyrecord ->status = get_string('live', 'local_moodle_survey');

@@ -17,11 +17,16 @@ class audience_access {
         return $DB->update_record('cc_survey_audience_access', $data);
     }
 
+    public static function delete_survey_audience_access($id) {
+        global $DB;
+        return $DB->delete_records('cc_survey_audience_access', ['id' => $id]);
+    }
+
     public static function get_audience_acccess_by_survey_id($surveyid) {
         global $DB;
         $sql = "SELECT * FROM {cc_survey_audience_access} WHERE survey_id = :survey_id";
         $params = ['survey_id' => $surveyid];
-        return $DB->get_record_sql($sql, $params);
+        return $DB->get_records_sql($sql, $params);
     }
 
     public static function get_audience_access_by_school_id_survey_id($surveyid, $schoolid) {
