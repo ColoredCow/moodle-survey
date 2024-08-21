@@ -88,9 +88,10 @@ class audience_access_form extends \moodleform {
         foreach ($surveyschools as $surveyschool) {
             $options[$surveyschool->id] = $surveyschool->name;
         }
-        $mform->addElement('select', $key, $label, $options);
+        $schoolSelect = $mform->addElement('select', $key, $label, $options, 'class="custom-multi-select"');
         $mform->setType($key, PARAM_INT);
         $mform->setDefault($key, $audienceaccessdata->school_id);
+        $schoolSelect->setMultiple(true);
     }
 
     private function get_checkbox_input_fields($sectionsvalues, $mform, $fieldname, $audienceaccessdata) {
