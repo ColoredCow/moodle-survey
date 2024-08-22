@@ -17,17 +17,15 @@ foreach ($surveys as $survey) {
     $editurl = new moodle_url('/local/moodle_survey/edit_survey.php', ['id' => $survey->id]);
     $deleteurl = new moodle_url('/local/moodle_survey/delete_survey.php', ['id' => $survey->id]);
     $currentDate = date('Y-m-d');
-    $issurveylive = $currentDate >= $survey->start_date && $currentDate <= $endDate = $survey->end_date;
-    $issurveyedit = $surveystatus == get_string('draft', 'local_moodle_survey') || !$issurveylive;
+    $issurveyactive = $currentDate >= $survey->start_date && $currentDate <= $endDate = $survey->end_date;
+    $issurveylive = $surveystatus == get_string('draft', 'local_moodle_survey') || !$issurveyactive;
     $surveyname = html_writer::link($editurl, $survey->name);
-    // For now user can edit live survey as well. This line will be removed later
-    $issurveyedit = true;
-    if($issurveyedit && has_capability('local/moodle_survey:create-surveys', context_system::instance())) {
+    if(has_capability('local/moodle_survey:create-surveys', context_system::instance())) {
         $surveyname = html_writer::link($editurl, $survey->name);
     } else {
         $surveyname = html_writer::tag('span', $survey->name, ['class' => 'page-title']);
     }
-    $takingsurvey = get_taking_survey_link($survey, $issurveyedit, $dbhelper, $USER);
+    $takingsurvey = get_taking_survey_link($survey, $issurveylive, $dbhelper, $USER);
     $surveycategory = $dbhelper->get_category_by_id($survey->category_id);
     $surveycreatedon = new DateTime($survey->created_at);
     $surveycreatedondate = $surveycreatedon->format('Y-m-d');
@@ -54,12 +52,12 @@ foreach ($surveys as $survey) {
 
 echo html_writer::table($table);
 
-function get_taking_survey_link($survey, $issurveyedit, $dbhelper, $USER) {
+function get_taking_survey_link($survey, $issurveylive, $dbhelper, $USER) {
     $surveyinsights = $dbhelper->get_filling_survey_insights($survey->id, (int)$USER->id);
     $buttonclass = 'view-btn';
     if(sizeof($surveyinsights) > 0) {
         $takingsurveyurl = new moodle_url('/local/moodle_survey/fill_survey/survey_insights.php', ['id' => $survey->id]);
-    } else if (is_student() || is_teacher()) {
+    } else if ($issurveylive && (is_student() || is_teacher())) {
         $takingsurveyurl = new moodle_url('/local/moodle_survey/fill_survey/index.php', ['id' => $survey->id]);
     } else {
         $buttonclass = 'view-btn-disabled disabled';
