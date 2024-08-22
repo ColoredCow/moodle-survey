@@ -176,3 +176,7 @@ $string['chartlabels'] =  [
         ]
     ];
 $string['chartcolorset'] = ['#F47A29', '#FFB685', '#FFF0E6', '#FFF'];
+$string['surveyinsighttypes'] = [
+    'teacher' => 'Teachers Insights',
+    'student' => 'Student Insights',
+];
