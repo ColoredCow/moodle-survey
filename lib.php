@@ -57,3 +57,14 @@ function get_user_school() {
     global $USER, $DB;
     return $DB->get_record('company_users', ['userid' => $USER->id]);
 }
+
+function get_school() {
+    global $USER, $DB;
+    return $DB->get_record('company', ['id' => get_user_school()->companyid]);
+}
+
+function get_user_school_department() {
+    global $USER, $DB;
+
+    return $DB->get_record('department', ['shortname' => get_school()->shortname]);
+}
