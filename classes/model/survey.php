@@ -96,7 +96,7 @@ class survey {
                     if (!empty($value)) {
                         $data = new \stdClass();
                         $data->label = $value;
-                        $data->slug = strtolower($value);
+                        $data->slug = strtolower(str_replace(' ', '-', $value));
                         $data->type = $categorytype;
                         self::create_categories($data);
                     }

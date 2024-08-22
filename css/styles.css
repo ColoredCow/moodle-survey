@@ -781,7 +781,6 @@ a.disabled {
     gap: 20px;
     display: flex;
     flex-wrap: wrap;
-    padding-left: 0px;
 }
 
 .survey-analysis-chart {
@@ -800,7 +799,8 @@ a.disabled {
 }
 
 .pie-chart-labels-container {
-    margin-left: 30px;
+    margin: 30px;
+    margin-bottom: 0px;
     margin-top: 50px;
 }
 
