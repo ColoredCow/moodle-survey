@@ -33,8 +33,11 @@ foreach ($surveys as $survey) {
     $surveycreatedondate = $surveycreatedon->format('Y-m-d');
     $audienceaccess = $audienceaccessdbhelper->get_audience_acccess_by_survey_id($survey->id);
     $surveytargetaudience = '';
-    if (isset($audienceaccess) && isset($audienceaccess->target_audience)) {
-        $surveytargetaudience = implode(", ", json_decode($audienceaccess->target_audience, true));
+    foreach ($audienceaccess as $audience) {
+        if (isset($audience) && isset($audience->target_audience)) {
+            $surveytargetaudience = implode(", ", json_decode($audience->target_audience, true));
+            continue;
+        }
     }
 
     $table->data[] = [
