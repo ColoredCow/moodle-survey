@@ -13,6 +13,7 @@ $table->head = [
     'Taking survey',
 ];
 
+// Need to optimize the code by retrieving all the data in a single query instead of triggering multiple queries.
 foreach ($surveys as $survey) {
     $editurl = new moodle_url('/local/moodle_survey/edit_survey.php', ['id' => $survey->id]);
     $deleteurl = new moodle_url('/local/moodle_survey/delete_survey.php', ['id' => $survey->id]);
@@ -33,7 +34,14 @@ foreach ($surveys as $survey) {
     $surveycreatedondate = $surveycreatedon->format('Y-m-d');
     $audienceaccess = $audienceaccessdbhelper->get_audience_acccess_by_survey_id($survey->id);
     $surveytargetaudience = '';
+    $surveyschoolcount = 0;
+    $surveyresponsescount  = $dbhelper->get_survey_responses_count_by_survey_id($survey->id);
     foreach ($audienceaccess as $audience) {
+        $surveyschoolid;
+        if($surveyschoolid != $audience->school_id) {
+            $surveyschoolcount++;
+        }
+        $surveyschoolcount = $audience->school_id;
         if (isset($audience) && isset($audience->target_audience)) {
             $surveytargetaudience = implode(", ", json_decode($audience->target_audience, true));
             continue;
@@ -45,8 +53,8 @@ foreach ($surveys as $survey) {
         format_string($surveycategory->label),
         format_string($surveytargetaudience),
         format_string($surveycreatedondate),
-        format_string('0'),
-        format_string('0'),
+        format_string($surveyschoolcount),
+        format_string($surveyresponsescount),
         get_survey_status($dbhelper, $survey),
         $takingsurvey
     ];

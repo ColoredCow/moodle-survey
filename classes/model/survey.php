@@ -438,4 +438,9 @@ class survey {
         
         return $DB->get_records_sql($sql, $params);
     }
+
+    public static function get_survey_responses_count_by_survey_id($surveyid) {
+        global $DB;
+        return $DB->count_records('cc_survey_responses', ['survey_id' => $surveyid]);
+    }
 }

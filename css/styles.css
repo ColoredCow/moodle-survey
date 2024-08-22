@@ -424,6 +424,20 @@
     margin-bottom: 25px;
 }
 
+#question-item-section {
+    div .fill-survey-questions {
+        font-weight: 600;
+        color: #232323;
+        font-size: 14px;
+    }
+
+    div .fill-survey-options {
+        font-weight: 400;
+        color: #626262;
+        font-size: 14px;
+    }
+}
+
 .audience-access-form {
     display: flex;
     gap: 30px;

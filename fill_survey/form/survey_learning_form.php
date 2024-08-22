@@ -5,7 +5,7 @@
     $survey = $dbhelper->get_survey_by_id($id);
 ?>
 
-<form method="POST" class="needs-validation" novalidate>
+<form method="POST" class="needs-validation mt-5" novalidate>
     <div id="question-item-section">
         <?php
             $questionindex = 0;
@@ -17,11 +17,11 @@
                 $questionoptions = $question['options'];
         ?>
         <div class="mb-4">
-            <div class="mb-2 d-flex">
-                <p><?php echo $questionindex . '.'; ?></p>
-                <label for="question-<?php echo $question['questionId']; ?>" class="form-label"><?php echo htmlspecialchars($question['question']); ?></label>
+            <div class="mb-1 d-flex fill-survey-questions">
+                <p class="mb-0"><?php echo $questionindex . '.'; ?></p>&nbsp;&nbsp;
+                <label for="question-<?php echo $question['questionId']; ?>" class="form-label d-flex align-items-center mb-0"><?php echo htmlspecialchars($question['question']); ?></label>
             </div>
-            <div class="form-check d-flex pl-0">
+            <div class="form-check d-flex pl-0 fill-survey-options">
                 <?php
                     $optionindex = 0;
                     foreach ($questionoptions as $option) {
