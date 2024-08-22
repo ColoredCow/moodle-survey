@@ -159,6 +159,16 @@
                 font-weight: 700;
                 border-radius: 5px;
             }
+            
+            .view-btn-disabled {
+                background: #949494;
+                padding: 10px 12px;
+                color: #FFFFFF !important;
+                border: 1px solid #949494;
+                font-weight: 700;
+                border-radius: 5px;
+                cursor: not-allowed;
+            }
 
             a {
                 color: #1969B4 !important;

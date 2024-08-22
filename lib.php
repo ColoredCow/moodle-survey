@@ -11,9 +11,9 @@ function is_sel_admin() {
     return is_siteadmin();
 }
 
-function is_counselor() {
+function is_counsellor() {
     global $USER, $DB;
-    $role = $DB->get_record('role', ['shortname' => 'schoolcounselor'], 'id', MUST_EXIST);
+    $role = $DB->get_record('role', ['shortname' => 'counsellor'], 'id', MUST_EXIST);
     return user_has_role_assignment($USER->id, $role->id);
 }
 
@@ -56,4 +56,15 @@ function get_user_role() {
 function get_user_school() {
     global $USER, $DB;
     return $DB->get_record('company_users', ['userid' => $USER->id]);
+}
+
+function get_school() {
+    global $USER, $DB;
+    return $DB->get_record('company', ['id' => get_user_school()->companyid]);
+}
+
+function get_user_school_department() {
+    global $USER, $DB;
+
+    return $DB->get_record('department', ['shortname' => get_school()->shortname]);
 }

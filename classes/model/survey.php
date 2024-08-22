@@ -163,12 +163,16 @@ class survey {
         // Define parameters
         $params = [
             'schoolid' => $userschool->companyid,
-            'role' => '"' . get_user_role() . '"'  // JSON_CONTAINS requires the value to be in a valid JSON format
         ];
     
         $sqlquery = "SELECT survey_id
                      FROM {cc_survey_audience_access}
-                     WHERE school_id = :schoolid AND JSON_CONTAINS(target_audience, :role)";
+                     WHERE school_id = :schoolid";
+
+        if (is_student() || is_teacher()) {
+            $params['role'] = '"' . get_user_role() . '"';  // JSON_CONTAINS requires the value to be in a valid JSON format       
+            $sqlquery .= "AND JSON_CONTAINS(target_audience, :role)";
+        }
     
         return $DB->get_fieldset_sql($sqlquery, $params);
     }
