@@ -56,12 +56,15 @@ echo html_writer::table($table);
 
 function get_taking_survey_link($survey, $issurveyedit, $dbhelper, $USER) {
     $surveyinsights = $dbhelper->get_filling_survey_insights($survey->id, (int)$USER->id);
+    $buttonclass = 'view-btn';
     if(sizeof($surveyinsights) > 0) {
         $takingsurveyurl = new moodle_url('/local/moodle_survey/fill_survey/survey_insights.php', ['id' => $survey->id]);
-    } else {
+    } else if (is_student() || is_teacher()) {
         $takingsurveyurl = new moodle_url('/local/moodle_survey/fill_survey/index.php', ['id' => $survey->id]);
+    } else {
+        $buttonclass = 'view-btn-disabled disabled';
     }
-    $takingsurvey = html_writer::link($takingsurveyurl, 'View', ['class' => 'view-btn']);
+    $takingsurvey = html_writer::link($takingsurveyurl, 'View', ['class' => $buttonclass]);
 
     return $takingsurvey;
 }
