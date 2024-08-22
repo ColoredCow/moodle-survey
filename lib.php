@@ -11,9 +11,9 @@ function is_sel_admin() {
     return is_siteadmin();
 }
 
-function is_counselor() {
+function is_counsellor() {
     global $USER, $DB;
-    $role = $DB->get_record('role', ['shortname' => 'schoolcounselor'], 'id', MUST_EXIST);
+    $role = $DB->get_record('role', ['shortname' => 'counsellor'], 'id', MUST_EXIST);
     return user_has_role_assignment($USER->id, $role->id);
 }
 
