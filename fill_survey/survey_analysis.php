@@ -5,6 +5,7 @@ require_login();
 
 use core\chart_pie;
 use core\chart_series;
+use core\chart_bar;
 
 initialize_page();
 $id = required_param('id', PARAM_INT);
@@ -83,6 +84,7 @@ function render_survey_insights($url, $downarrowiconurl, $id, $questioncategorie
                     $html .= html_writer::start_tag('div', ['class' => 'survey-analysis-chart-body justify-content-center']);
                         $html .= render_survey_analysis_chart($calculatedinterpretationdata, $questioncategory);
                     $html .= html_writer::end_tag('div');
+                        $html .= render_survey_questions_analysis_horizontal_chart($interpretationdata, $questioncategory);
                 $html .= html_writer::end_tag('div');
             $html .= html_writer::end_tag('div');
         $html .= html_writer::end_tag('div');
@@ -111,6 +113,21 @@ function render_survey_analysis_chart($calculatedinterpretationdata, $questionca
         $html .= $OUTPUT->render_chart($pieChart, false);
     }
     $html .= html_writer::end_tag('div');
+    
+    return $html;
+}
+
+function render_survey_questions_analysis_horizontal_chart($interpretationdata, $questioncategory) {
+    global $OUTPUT;
+    $calculatedinterpretationdata = calculate_bar_chart_data_by_question_category($interpretationdata, $questioncategory);
+    $barChart = new chart_bar();
+    $barChart->set_legend_options(['display' => false]);
+    $barChart->set_horizontal(true);
+    $series = new chart_series('', $calculatedinterpretationdata['barChartData']);
+    $barChart->set_labels($calculatedinterpretationdata['barChartLabels']);
+    $barChart->add_series($series);
+    $barChart->set_title(ucfirst($questioncategory));
+    $html = $OUTPUT->render_chart($barChart, false);
     
     return $html;
 }
@@ -196,5 +213,47 @@ function calculate_pie_chart_data_by_question_category($interpretationdata, $que
     return [
         'pieChartData' => $pieChartData,
         'pieChartLabels' => $pieChartLabels
+    ];
+}
+
+function calculate_bar_chart_data_by_question_category($interpretationdata, $questioncategory) {
+    // Initialize arrays to store counts of each option
+    $optionCounts = [];
+    
+    // Loop through interpretationdata to extract and count options
+    foreach ($interpretationdata as $data) {
+        $responses = json_decode($data->survey_responses, true);
+        foreach ($responses as $responseKey => $responseValue) {
+            if (is_array($responseValue)) {
+                if (isset($responseValue['questionCategorySlug']) && $responseValue['questionCategorySlug'] == $questioncategory) {
+                    $options = $responseValue['options'];
+                    foreach ($options as $option) {
+                        $optionText = $option['optionText'];
+                        if (!isset($optionCounts[$optionText])) {
+                            $optionCounts[$optionText] = 0;
+                        }
+                        if ($responseValue['answer'] === $optionText) {
+                            $optionCounts[$optionText]++;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Sort options by count in descending order
+    arsort($optionCounts);
+
+    // Prepare data for the horizontal bar chart
+    $barChartData = [];
+    $barChartLabels = [];
+    foreach ($optionCounts as $optionText => $count) {
+        $barChartData[] = $count;
+        $barChartLabels[] = $optionText;
+    }
+
+    return [
+        'barChartData' => $barChartData,
+        'barChartLabels' => $barChartLabels
     ];
 }
