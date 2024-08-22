@@ -835,3 +835,24 @@ a.disabled {
 .custom-multi-select select {
     width: 300px !important;
 }
+
+.horizontal-chart {
+    margin-left: 35px;
+    margin-bottom: 40px;
+    h4 {
+        color: #232323;
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    .chart-area {
+        margin-bottom: 39px;
+    }
+
+    .chart-area .chart-image {
+        margin: 0px !important;
+        width: auto;
+        margin-right: 50px !important;
+        height: 265px;
+    }
+}

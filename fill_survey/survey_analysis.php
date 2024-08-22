@@ -118,17 +118,37 @@ function render_survey_analysis_chart($calculatedinterpretationdata, $questionca
 }
 
 function render_survey_questions_analysis_horizontal_chart($interpretationdata, $questioncategory) {
-    global $OUTPUT;
-    $calculatedinterpretationdata = calculate_bar_chart_data_by_question_category($interpretationdata, $questioncategory);
-    $barChart = new chart_bar();
-    $barChart->set_legend_options(['display' => false]);
-    $barChart->set_horizontal(true);
-    $series = new chart_series('', $calculatedinterpretationdata['barChartData']);
-    $barChart->set_labels($calculatedinterpretationdata['barChartLabels']);
-    $barChart->add_series($series);
-    $barChart->set_title(ucfirst($questioncategory));
-    $html = $OUTPUT->render_chart($barChart, false);
+    global $OUTPUT, $CFG;
     
+    $html = '';
+    
+    // Loop through each question in the interpretation data
+    $CFG->chart_colorset = ['#F16824'];
+    $html .= html_writer::start_div('horizontal-chart');
+    foreach ($interpretationdata as $data) {
+        $responses = json_decode($data->survey_responses, true);
+
+        foreach ($responses as $responseKey => $responseValue) {
+            if (is_array($responseValue) && isset($responseValue['questionCategorySlug']) && $responseValue['questionCategorySlug'] == $questioncategory) {
+                
+                // Calculate the bar chart data for this question
+                $calculateddata = calculate_bar_chart_data_by_question_category($responseValue, $questioncategory);
+
+                // Create a bar chart for this question
+                $barChart = new chart_bar();
+                $barChart->set_legend_options(['display' => false]);
+                $barChart->set_horizontal(true);
+                $series = new chart_series('', $calculateddata['barChartData']);
+                $barChart->set_labels($calculateddata['barChartLabels']);
+                $barChart->add_series($series);
+
+                $html .= html_writer::tag('h4', $responseKey .': ' . $responseValue['question'], ['class' => '']);
+                $html .= $OUTPUT->render_chart($barChart, false);
+            }
+        }
+    }
+    $html .= html_writer::end_div();
+
     return $html;
 }
 
@@ -216,44 +236,36 @@ function calculate_pie_chart_data_by_question_category($interpretationdata, $que
     ];
 }
 
-function calculate_bar_chart_data_by_question_category($interpretationdata, $questioncategory) {
-    // Initialize arrays to store counts of each option
+function calculate_bar_chart_data_by_question_category($responseValue, $questioncategory) {
+    // Initialize array to store counts of each option
     $optionCounts = [];
-    
-    // Loop through interpretationdata to extract and count options
-    foreach ($interpretationdata as $data) {
-        $responses = json_decode($data->survey_responses, true);
-        foreach ($responses as $responseKey => $responseValue) {
-            if (is_array($responseValue)) {
-                if (isset($responseValue['questionCategorySlug']) && $responseValue['questionCategorySlug'] == $questioncategory) {
-                    $options = $responseValue['options'];
-                    foreach ($options as $option) {
-                        $optionText = $option['optionText'];
-                        if (!isset($optionCounts[$optionText])) {
-                            $optionCounts[$optionText] = 0;
-                        }
-                        if ($responseValue['answer'] === $optionText) {
-                            $optionCounts[$optionText]++;
-                        }
-                    }
+    $maxRange = 0;
+
+    if (is_array($responseValue)) {
+        if (isset($responseValue['questionCategorySlug']) && $responseValue['questionCategorySlug'] == $questioncategory) {
+            $options = $responseValue['options'];
+            $question = $responseValue['question'];
+            foreach ($options as $option) {
+                $optionText = $option['optionText'];
+                if (!isset($optionCounts[$optionText])) {
+                    $optionCounts[$optionText] = 0;
+                }
+                if ($responseValue['answer'] === $optionText) {
+                    $optionCounts[$optionText]++;
                 }
             }
         }
     }
+    // Calculate the appropriate max range for the bar chart
+    $maxRange = ceil($maxRange / 5) * 5; // Round up to the nearest multiple of 5 for better visualization
 
-    // Sort options by count in descending order
-    arsort($optionCounts);
-
-    // Prepare data for the horizontal bar chart
-    $barChartData = [];
-    $barChartLabels = [];
-    foreach ($optionCounts as $optionText => $count) {
-        $barChartData[] = $count;
-        $barChartLabels[] = $optionText;
-    }
+    // Separate labels and data
+    $barChartLabels = array_keys($optionCounts);
+    $barChartData = array_values($optionCounts);
 
     return [
+        'barChartLabels' => $barChartLabels,
         'barChartData' => $barChartData,
-        'barChartLabels' => $barChartLabels
+        'maxRange' => $maxRange
     ];
 }
