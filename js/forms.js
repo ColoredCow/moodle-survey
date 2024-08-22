@@ -132,6 +132,9 @@ function validateForms() {
   });
 }
 
+validateForms();
+
+
 // Disable-Enable Checkbox JS
 document.addEventListener('DOMContentLoaded', function() {
   var checkbox = document.getElementById('survey-participation-checkbox');
@@ -174,8 +177,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   toggleButton();
 });
-
-validateForms();
 
 document.addEventListener('DOMContentLoaded', function() {
   var surveyInsightType = document.getElementById('survey-insight-type');
