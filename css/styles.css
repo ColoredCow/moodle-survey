@@ -847,6 +847,8 @@ a.disabled {
 
     .chart-area {
         margin-bottom: 39px;
+        border-bottom: 1px solid #D9D9D9;
+        padding-bottom: 39px;
     }
 
     .chart-area .chart-image {

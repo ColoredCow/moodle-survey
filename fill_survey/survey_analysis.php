@@ -142,7 +142,7 @@ function render_survey_questions_analysis_horizontal_chart($interpretationdata, 
                 $barChart->set_labels($calculateddata['barChartLabels']);
                 $barChart->add_series($series);
 
-                $html .= html_writer::tag('h4', $responseKey .': ' . $responseValue['question'], ['class' => '']);
+                $html .= html_writer::tag('h4', 'Q' . $responseKey .': ' . $responseValue['question'], ['class' => '']);
                 $html .= $OUTPUT->render_chart($barChart, false);
             }
         }
