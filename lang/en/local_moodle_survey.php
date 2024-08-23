@@ -28,6 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 $string['pluginname'] = 'Saishiko Surveys';
 $string['managesurvey'] = 'Surveys';
 $string['createsurvey'] = 'Add New Survey';
+$string['createcategory'] = 'Add New Category';
 $string['createsurveycategory'] = 'Survey Categories';
 $string['newquestioncategory'] = 'Question Categories';
 $string['surveycategorypagetitle'] = 'Survey categories';

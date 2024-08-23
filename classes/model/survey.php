@@ -283,16 +283,14 @@ class survey {
                 }
 
                 $newcategoryslug = $questioncategory->slug;
-                $newinterpretedas = $record->interpreted_as;
-                $newinterpretationdescription = $record->description;
-                $newinterpretedasrange = [(int)$record->score_from . ' - ' . (int)$record->score_to];
-                if (!self::interpretation_exists($response['surveyData']['interpretations'], $newcategoryslug, $newinterpretedas, $newinterpretedasrange)) {
+                $newcategorylabel = $questioncategory->label;
+                if (!self::interpretation_exists($response['surveyData']['interpretations'], $newcategoryslug)) {
                     $response['surveyData']['interpretations'][] = [
-                        $newcategoryslug => [
+                        $newcategorylabel => [
                             "catgororySlug" => $newcategoryslug,
-                            "text" => $newinterpretedas,
-                            "range" => $newinterpretedasrange,
-                            "description" => $newinterpretationdescription,
+                            "text" => '',
+                            "range" => '',
+                            "description" => '',
                         ]
                     ];
                 }
@@ -301,11 +299,11 @@ class survey {
         return $response;
     }
 
-    public static function interpretation_exists($surveydatainterpretations, $categoryslug, $text, $range) {
+    public static function interpretation_exists($surveydatainterpretations, $categoryslug) {
         foreach ($surveydatainterpretations as $item) {
             if (isset($item[$categoryslug])) {
                 $existingitem = $item[$categoryslug];
-                if ($existingitem['text'] === $text && $existingitem['range'] === $range) {
+                if ($existingitem['catgororySlug'] === $categoryslug) {
                     return true;
                 }
             }

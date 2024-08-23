@@ -43,7 +43,7 @@ foreach ($surveyinsightsdata->interpretations as $interpretation) {
     foreach ($interpretation as $key => $value) {
         $interpretationsData[$value->catgororySlug] = [
             'description' => $value->description,
-            'range' => $value->range[0],
+            'range' => $value->range,
             'text' => $value->text,
         ];
     }
@@ -93,7 +93,7 @@ foreach ($questioncategories as $questioncategorie) {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>' . key($statusoptions) . '</td>
+                                <td>' . array_values($statusoptions) . '</td>
                                 <td>' . $defaultInterpretation['range'] . '</td>
                                 <td class="interpretation-as">' . $defaultInterpretation['text'] . '<br/>' . $defaultInterpretation['description'] . '</td>
                             </tr>
@@ -115,12 +115,13 @@ document.addEventListener('DOMContentLoaded', function() {
     statusSelect.addEventListener('change', function() {
         const selectedCategory = this.value;
         const data = interpretationsData[selectedCategory];
+        questionCategory = selectedCategory && selectedCategory[0].toUpperCase() + selectedCategory.slice(1);
 
-        const tableHtml = generateTableHtml(selectedCategory, data.range, data.text, data.description);
+        const tableHtml = generateTableHtml(questionCategory, data.range, data.text, data.description);
         tableContainer.innerHTML = tableHtml;
     });
 
-    function generateTableHtml(category, range, interpretation, description) {
+    function generateTableHtml(questionCategory, range, interpretation, description) {
         return `
         <div class="table-responsive">
             <table class="generaltable">
@@ -133,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </thead>
                 <tbody>
                     <tr>
-                        <td>${category}</td>
+                        <td>${questionCategory}</td>
                         <td>${range}</td>
                         <td class="interpretation-as">${interpretation}<br/>${description}</td>
                     </tr>

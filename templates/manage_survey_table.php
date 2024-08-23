@@ -10,27 +10,15 @@ $table->head = [
     get_string('schools', 'local_moodle_survey'),
     get_string('responses', 'local_moodle_survey'),
     get_string('surveystatus', 'local_moodle_survey'),
-    'Taking survey',
 ];
 
 // Need to optimize the code by retrieving all the data in a single query instead of triggering multiple queries.
 foreach ($surveys as $survey) {
-    $editurl = new moodle_url('/local/moodle_survey/edit_survey.php', ['id' => $survey->id]);
     $deleteurl = new moodle_url('/local/moodle_survey/delete_survey.php', ['id' => $survey->id]);
     $currentDate = date('Y-m-d');
     $issurveyactive = $currentDate >= $survey->start_date && $currentDate <= $survey->end_date;
     $issurveylive = $survey->status == get_string('live', 'local_moodle_survey') && $issurveyactive;
-    $surveyname = html_writer::link($editurl, $survey->name);
-    if(has_capability('local/moodle_survey:create-surveys', context_system::instance())) {
-        $surveyname = html_writer::link($editurl, $survey->name);
-    } else {
-        $surveyname = html_writer::tag('span', $survey->name, ['class' => 'page-title']);
-    }
-    if(is_principal() || is_counsellor()) {
-        $editurl = new moodle_url('/local/moodle_survey/fill_survey/survey_analysis.php', ['id' => $survey->id]);
-        $surveyname = html_writer::link($editurl, $survey->name);
-    }
-    $takingsurvey = get_taking_survey_link($survey, $issurveylive, $dbhelper, $USER);
+    $surveyname = get_survey_name($survey, $issurveylive, $USER, $dbhelper);
     $surveycategory = $dbhelper->get_category_by_id($survey->category_id);
     $surveycreatedon = new DateTime($survey->created_at);
     $surveycreatedondate = $surveycreatedon->format('Y-m-d');
@@ -58,25 +46,33 @@ foreach ($surveys as $survey) {
         format_string($surveyschoolcount),
         format_string($surveyresponsescount),
         get_survey_status($dbhelper, $survey),
-        $takingsurvey
     ];
 }
 
 echo html_writer::table($table);
 
-function get_taking_survey_link($survey, $issurveylive, $dbhelper, $USER) {
-    $surveyinsights = $dbhelper->get_filling_survey_insights($survey->id, (int)$USER->id);
-    $buttonclass = 'view-btn';
-    if(sizeof($surveyinsights) > 0) {
-        $takingsurveyurl = new moodle_url('/local/moodle_survey/fill_survey/survey_insights.php', ['id' => $survey->id]);
-    } else if ($issurveylive && (is_student() || is_teacher())) {
-        $takingsurveyurl = new moodle_url('/local/moodle_survey/fill_survey/index.php', ['id' => $survey->id]);
+function get_survey_name($survey, $issurveylive, $USER, $dbhelper) {
+    $editurl = new moodle_url('/local/moodle_survey/edit_survey.php', ['id' => $survey->id]);
+    $surveyname = html_writer::link($editurl, $survey->name);
+    if(has_capability('local/moodle_survey:create-surveys', context_system::instance())) {
+        $surveyname = html_writer::link($editurl, $survey->name);
+    } else if($issurveylive && (is_student() || is_teacher())) {
+        $surveyinsights = $dbhelper->get_filling_survey_insights($survey->id, (int)$USER->id);
+        if(sizeof($surveyinsights) > 0) {
+            $editurl = new moodle_url('/local/moodle_survey/fill_survey/survey_insights.php', ['id' => $survey->id]);
+        } else {
+            $editurl = new moodle_url('/local/moodle_survey/fill_survey/index.php', ['id' => $survey->id]);
+        }
+        $surveyname = html_writer::link($editurl, $survey->name);
     } else {
-        $buttonclass = 'view-btn-disabled disabled';
+        $surveyname = html_writer::tag('span', $survey->name, ['class' => 'page-title']);
+    } 
+    if(is_principal() || is_counsellor()) {
+        $editurl = new moodle_url('/local/moodle_survey/fill_survey/survey_analysis.php', ['id' => $survey->id]);
+        $surveyname = html_writer::link($editurl, $survey->name);
     }
-    $takingsurvey = html_writer::link($takingsurveyurl, 'View', ['class' => $buttonclass]);
 
-    return $takingsurvey;
+    return $surveyname;
 }
 
 function get_survey_status($dbhelper, $survey) {

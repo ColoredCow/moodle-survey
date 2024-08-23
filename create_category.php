@@ -37,7 +37,7 @@ function generate_page_header($categorytype, $filters) {
     $createbutton = html_writer::div(
         html_writer::link(
             '#',
-            html_writer::tag('img', '', ['src' => $plusicon, 'alt' => 'Icon', 'class' => 'plus-icon']) . ' ' . get_string('createsurvey', 'local_moodle_survey'),
+            html_writer::tag('img', '', ['src' => $plusicon, 'alt' => 'Icon', 'class' => 'plus-icon']) . ' ' . get_string('createcategory', 'local_moodle_survey'),
             ['class' => 'create-button', 'id' => 'open-modal']
         ),
         'create-button-container'
