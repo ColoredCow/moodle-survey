@@ -115,10 +115,14 @@ document.addEventListener('DOMContentLoaded', function() {
     statusSelect.addEventListener('change', function() {
         const selectedCategory = this.value;
         const data = interpretationsData[selectedCategory];
-        questionCategory = selectedCategory && selectedCategory[0].toUpperCase() + selectedCategory.slice(1);
+        const questionCategory = selectedCategory && selectedCategory[0].toUpperCase() + selectedCategory.slice(1);
 
-        const tableHtml = generateTableHtml(questionCategory, data.range, data.text, data.description);
-        tableContainer.innerHTML = tableHtml;
+        if (data) {
+            const tableHtml = generateTableHtml(questionCategory, data.range, data.text, data.description);
+            tableContainer.innerHTML = tableHtml;
+        } else {
+            tableContainer.innerHTML = generateNoDataHtml();
+        }
     });
 
     function generateTableHtml(questionCategory, range, interpretation, description) {
@@ -137,6 +141,29 @@ document.addEventListener('DOMContentLoaded', function() {
                         <td>${questionCategory}</td>
                         <td>${range}</td>
                         <td class="interpretation-as">${interpretation}<br/>${description}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        `;
+    }
+
+    function generateNoDataHtml() {
+        return `
+        <div class="table-responsive">
+            <table class="generaltable">
+                <thead>
+                    <tr>
+                        <th>Competency</th>
+                        <th>Score Range</th>
+                        <th>Interpreted as</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="3" class="text-center">
+                            <div class="alert alert-info">No Data Available.</div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
