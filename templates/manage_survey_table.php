@@ -2,11 +2,6 @@
 $table = new html_table();
 $dbhelper = new \local_moodle_survey\model\survey();
 $audienceaccessdbhelper = new \local_moodle_survey\model\audience_access();
-$userrole = get_user_role();
-$userroles = [
-    'isprincipal' => $userrole == 'principal',
-    'iscounsellor' => $userrole == 'counsellor',
-];
 $table->head = [
     get_string('surveyname', 'local_moodle_survey'),
     get_string('surveycategory', 'local_moodle_survey'),
@@ -23,15 +18,15 @@ foreach ($surveys as $survey) {
     $editurl = new moodle_url('/local/moodle_survey/edit_survey.php', ['id' => $survey->id]);
     $deleteurl = new moodle_url('/local/moodle_survey/delete_survey.php', ['id' => $survey->id]);
     $currentDate = date('Y-m-d');
-    $issurveyactive = $currentDate >= $survey->start_date && $currentDate <= $endDate = $survey->end_date;
-    $issurveylive = $surveystatus == get_string('draft', 'local_moodle_survey') || !$issurveyactive;
+    $issurveyactive = $currentDate >= $survey->start_date && $currentDate <= $survey->end_date;
+    $issurveylive = $survey->status == get_string('live', 'local_moodle_survey') && $issurveyactive;
     $surveyname = html_writer::link($editurl, $survey->name);
     if(has_capability('local/moodle_survey:create-surveys', context_system::instance())) {
         $surveyname = html_writer::link($editurl, $survey->name);
     } else {
         $surveyname = html_writer::tag('span', $survey->name, ['class' => 'page-title']);
     }
-    if($userroles['isprincipal'] || $userroles['iscounsellor']) {
+    if(is_principal() || is_counsellor()) {
         $editurl = new moodle_url('/local/moodle_survey/fill_survey/survey_analysis.php', ['id' => $survey->id]);
         $surveyname = html_writer::link($editurl, $survey->name);
     }
