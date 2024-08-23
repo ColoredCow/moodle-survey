@@ -177,7 +177,7 @@ function get_bar_chart_labels($calculatedinterpretationdata) {
     $html = html_writer::start_div('pie-chart-labels-container d-flex align-items-center justify-content-center');
         $html .= html_writer::start_div('d-flex align-items-center');
             foreach ($charlabels as $key => $value) {
-                $html .= html_writer::start_div('pie-chart-labels-section d-flex ');
+                $html .= html_writer::start_div('pie-chart-labels-section d-flex align-items-center');
                     $html .= html_writer::start_div('pie-chart-label-color ' . get_bar_chart_colors($key));
                     $html .= html_writer::end_div();
                     $html .= html_writer::start_div('pie-chart-label-text');
@@ -241,7 +241,6 @@ function calculate_pie_chart_data_by_question_category($interpretationdata, $que
 function calculate_bar_chart_data_by_question_category($responseValue, $questioncategory) {
     // Initialize array to store counts of each option
     $optionCounts = [];
-    $maxRange = 0;
 
     if (is_array($responseValue)) {
         if (isset($responseValue['questionCategorySlug']) && $responseValue['questionCategorySlug'] == $questioncategory) {
@@ -258,8 +257,6 @@ function calculate_bar_chart_data_by_question_category($responseValue, $question
             }
         }
     }
-    // Calculate the appropriate max range for the bar chart
-    $maxRange = ceil($maxRange / 5) * 5; // Round up to the nearest multiple of 5 for better visualization
 
     // Separate labels and data
     $barChartLabels = array_keys($optionCounts);
@@ -268,6 +265,5 @@ function calculate_bar_chart_data_by_question_category($responseValue, $question
     return [
         'barChartLabels' => $barChartLabels,
         'barChartData' => $barChartData,
-        'maxRange' => $maxRange
     ];
 }
