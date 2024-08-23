@@ -125,10 +125,11 @@ function render_survey_questions_analysis_horizontal_chart($interpretationdata, 
     // Loop through each question in the interpretation data
     $CFG->chart_colorset = ['#F16824'];
     $html .= html_writer::start_div('horizontal-chart');
+    $questioncount = 1;
     foreach ($interpretationdata as $data) {
         $responses = json_decode($data->survey_responses, true);
 
-        foreach ($responses as $responseKey => $responseValue) {
+        foreach ($responses as $responseValue) {
             if (is_array($responseValue) && isset($responseValue['questionCategorySlug']) && $responseValue['questionCategorySlug'] == $questioncategory) {
                 
                 // Calculate the bar chart data for this question
@@ -142,8 +143,9 @@ function render_survey_questions_analysis_horizontal_chart($interpretationdata, 
                 $barChart->set_labels($calculateddata['barChartLabels']);
                 $barChart->add_series($series);
 
-                $html .= html_writer::tag('h4', 'Q' . $responseKey .': ' . $responseValue['question'], ['class' => '']);
+                $html .= html_writer::tag('h4', 'Q' . $questioncount .': ' . $responseValue['question'], ['class' => '']);
                 $html .= $OUTPUT->render_chart($barChart, false);
+                $questioncount++;
             }
         }
     }
