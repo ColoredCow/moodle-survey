@@ -2,6 +2,11 @@
 $table = new html_table();
 $dbhelper = new \local_moodle_survey\model\survey();
 $audienceaccessdbhelper = new \local_moodle_survey\model\audience_access();
+$userrole = get_user_role();
+$userroles = [
+    'isprincipal' => $userrole == 'principal',
+    'iscounsellor' => $userrole == 'counsellor',
+];
 $table->head = [
     get_string('surveyname', 'local_moodle_survey'),
     get_string('surveycategory', 'local_moodle_survey'),
@@ -25,6 +30,10 @@ foreach ($surveys as $survey) {
         $surveyname = html_writer::link($editurl, $survey->name);
     } else {
         $surveyname = html_writer::tag('span', $survey->name, ['class' => 'page-title']);
+    }
+    if($userroles['isprincipal'] || $userroles['iscounsellor']) {
+        $editurl = new moodle_url('/local/moodle_survey/fill_survey/survey_analysis.php', ['id' => $survey->id]);
+        $surveyname = html_writer::link($editurl, $survey->name);
     }
     $takingsurvey = get_taking_survey_link($survey, $issurveylive, $dbhelper, $USER);
     $surveycategory = $dbhelper->get_category_by_id($survey->category_id);
