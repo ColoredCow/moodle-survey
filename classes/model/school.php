@@ -73,4 +73,9 @@ class school {
         $sql = "SELECT count(*) FROM {course} where category in (SELECT id from {course_categories} where parent = :parentcategoryid)";
         return $DB->count_records_sql($sql, $params);
     }
+
+    public function get_school_by_id($id) {
+        global $DB;
+        return $DB->get_record('company', ['id' => $id], '*', MUST_EXIST);
+    }
 }
