@@ -138,6 +138,7 @@ $string['moodle_survey:view-course-category'] = 'Can view list of course categor
 $string['moodle_survey:view-individual-survey-insights'] = 'Can view list of individual survey insights';
 $string['moodle_survey:view-quick-access-buttons'] = 'Can view quick access buttons';
 $string['moodle_survey:view-my-courses'] = 'Can view associated courses';
+$string['moodle_survey:can-assign-survey-to-users'] = 'Can assign survey to users of the school';
 $string['sruveyacceptancetext'] = 'I agree to participate in the survey enrolled on this platform';
 $string['whatsurveyabout'] = 'What is this survey about?';
 $string['instructionforfiillingsurveyheading'] = 'Instructions for Filling the Survey';

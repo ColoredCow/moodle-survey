@@ -7,6 +7,11 @@ $capabilities = array(
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
             'manager' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW,
+            'student' => CAP_ALLOW,
+            'principal' => CAP_ALLOW,
+            'counsellor' => CAP_ALLOW,
+            'schooladmin' => CAP_ALLOW,
         ),
     ),
     'local/moodle_survey:create-surveys' => array(
@@ -34,91 +39,116 @@ $capabilities = array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
-            'manager' => CAP_ALLOW,
+            'schooladmin' => CAP_ALLOW,
         ),
     ),
     'local/moodle_survey:view-principal' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
-            'manager' => CAP_ALLOW,
+            'schooladmin' => CAP_ALLOW,
         ),
     ),
     'local/moodle_survey:create-counsellor' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
-            'manager' => CAP_ALLOW,
+            'principal' => CAP_ALLOW,
+            'schooladmin' => CAP_ALLOW,
         ),
     ),
     'local/moodle_survey:view-counsellor' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
-            'manager' => CAP_ALLOW,
+            'principal' => CAP_ALLOW,
+            'schooladmin' => CAP_ALLOW,
         ),
     ),
     'local/moodle_survey:create-teacher' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
-            'manager' => CAP_ALLOW,
+            'principal' => CAP_ALLOW,
+            'counsellor' => CAP_ALLOW,
+            'schooladmin' => CAP_ALLOW,
         ),
     ),
     'local/moodle_survey:view-teacher' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
-            'manager' => CAP_ALLOW,
+            'principal' => CAP_ALLOW,
+            'counsellor' => CAP_ALLOW,
+            'schooladmin' => CAP_ALLOW,
         ),
     ),
     'local/moodle_survey:create-student' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
-            'manager' => CAP_ALLOW,
+            'principal' => CAP_ALLOW,
+            'counsellor' => CAP_ALLOW,
+            'schooladmin' => CAP_ALLOW,
         ),
     ),
     'local/moodle_survey:view-student' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
-            'manager' => CAP_ALLOW,
+            'principal' => CAP_ALLOW,
+            'counsellor' => CAP_ALLOW,
+            'schooladmin' => CAP_ALLOW,
         ),
     ),
     'local/moodle_survey:create-courses' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
-            'manager' => CAP_ALLOW,
+            'principal' => CAP_ALLOW,
+            'counsellor' => CAP_ALLOW,
+            'schooladmin' => CAP_ALLOW,
         ),
     ),
     'local/moodle_survey:view-courses' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
-            'manager' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW,
+            'student' => CAP_ALLOW,
+            'principal' => CAP_ALLOW,
+            'counsellor' => CAP_ALLOW,
+            'schooladmin' => CAP_ALLOW,
         ),
     ),
     'local/moodle_survey:view-my-courses' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
-            'manager' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW,
+            'student' => CAP_ALLOW,
+            'principal' => CAP_ALLOW,
+            'counsellor' => CAP_ALLOW,
+            'schooladmin' => CAP_ALLOW,
         ),
     ),
     'local/moodle_survey:create-moocs' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
-            'manager' => CAP_ALLOW,
+            'principal' => CAP_ALLOW,
+            'counsellor' => CAP_ALLOW,
+            'schooladmin' => CAP_ALLOW,
         ),
     ),
     'local/moodle_survey:view-moocs' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
-            'manager' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW,
+            'principal' => CAP_ALLOW,
+            'counsellor' => CAP_ALLOW,
+            'schooladmin' => CAP_ALLOW,
         ),
     ),
     'local/moodle_survey:create-mooc-category' => array(
@@ -160,7 +190,14 @@ $capabilities = array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
-            'manager' => CAP_ALLOW,
+            'principal' => CAP_ALLOW,
+        ),
+    ),
+    'local/moodle_survey:can-assign-survey-to-users' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => array(
+            'counsellor' => CAP_ALLOW,
         ),
     )
 );
