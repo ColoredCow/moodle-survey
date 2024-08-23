@@ -179,14 +179,17 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-  var surveyInsightType = document.getElementById('survey-insight-type');
-  var form = document.getElementById('filter-form');
-  
-  function submitForm() {
-      form.submit();
-  }
+  const selectElement = document.getElementById('survey-insight-type');
+  const questionCategorySelectElement = document.getElementById('question-category-select');
+  selectElement.addEventListener('change', function() {
+      document.getElementById('filter-form').submit();
+  });
 
-  if (surveyInsightType) {
-      surveyInsightType.addEventListener('change', submitForm);
-  }
+  questionCategorySelectElement.addEventListener('change', function() {
+    document.getElementById('filter-category-form').submit();
+  });
+
+  selectElement.addEventListener('click', function(event) {
+    event.stopPropagation();
+  });
 });

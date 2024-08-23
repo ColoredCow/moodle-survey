@@ -96,7 +96,7 @@ class survey {
                     if (!empty($value)) {
                         $data = new \stdClass();
                         $data->label = $value;
-                        $data->slug = strtolower($value);
+                        $data->slug = strtolower(str_replace(' ', '-', $value));
                         $data->type = $categorytype;
                         self::create_categories($data);
                     }
@@ -413,5 +413,38 @@ class survey {
         ];
         
         return $DB->get_records_sql($sql, $params);
+    }
+
+    public static function get_interpretations_data_by_survey_id_and_question_category_id($surveyid, $rolename) {
+        global $DB;
+        $sql = "SELECT
+                    DISTINCT sr.id,
+                    sr.response AS survey_responses,
+                    ra.roleid
+                FROM
+                    mdl_cc_survey_responses sr
+                    LEFT JOIN mdl_role_assignments ra ON ra.userid = sr.submitted_by
+                WHERE
+                    sr.survey_id = :surveyid
+                    AND ra.roleid = (
+                        SELECT
+                            id
+                        FROM
+                            mdl_role
+                        WHERE
+                            shortname = :roleshortname
+                    )";
+    
+        $params = [
+            'surveyid' => $surveyid,
+            'roleshortname' => $rolename
+        ];
+        
+        return $DB->get_records_sql($sql, $params);
+    }
+
+    public static function get_survey_responses_count_by_survey_id($surveyid) {
+        global $DB;
+        return $DB->count_records('cc_survey_responses', ['survey_id' => $surveyid]);
     }
 }

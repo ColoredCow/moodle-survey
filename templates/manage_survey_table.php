@@ -2,6 +2,11 @@
 $table = new html_table();
 $dbhelper = new \local_moodle_survey\model\survey();
 $audienceaccessdbhelper = new \local_moodle_survey\model\audience_access();
+$userrole = get_user_role();
+$userroles = [
+    'isprincipal' => $userrole == 'principal',
+    'iscounsellor' => $userrole == 'counsellor',
+];
 $table->head = [
     get_string('surveyname', 'local_moodle_survey'),
     get_string('surveycategory', 'local_moodle_survey'),
@@ -13,6 +18,7 @@ $table->head = [
     'Taking survey',
 ];
 
+// Need to optimize the code by retrieving all the data in a single query instead of triggering multiple queries.
 foreach ($surveys as $survey) {
     $editurl = new moodle_url('/local/moodle_survey/edit_survey.php', ['id' => $survey->id]);
     $deleteurl = new moodle_url('/local/moodle_survey/delete_survey.php', ['id' => $survey->id]);
@@ -25,13 +31,24 @@ foreach ($surveys as $survey) {
     } else {
         $surveyname = html_writer::tag('span', $survey->name, ['class' => 'page-title']);
     }
+    if($userroles['isprincipal'] || $userroles['iscounsellor']) {
+        $editurl = new moodle_url('/local/moodle_survey/fill_survey/survey_analysis.php', ['id' => $survey->id]);
+        $surveyname = html_writer::link($editurl, $survey->name);
+    }
     $takingsurvey = get_taking_survey_link($survey, $issurveylive, $dbhelper, $USER);
     $surveycategory = $dbhelper->get_category_by_id($survey->category_id);
     $surveycreatedon = new DateTime($survey->created_at);
     $surveycreatedondate = $surveycreatedon->format('Y-m-d');
     $audienceaccess = $audienceaccessdbhelper->get_audience_acccess_by_survey_id($survey->id);
     $surveytargetaudience = '';
+    $surveyschoolcount = 0;
+    $surveyresponsescount  = $dbhelper->get_survey_responses_count_by_survey_id($survey->id);
     foreach ($audienceaccess as $audience) {
+        $surveyschoolid;
+        if($surveyschoolid != $audience->school_id) {
+            $surveyschoolcount++;
+        }
+        $surveyschoolcount = $audience->school_id;
         if (isset($audience) && isset($audience->target_audience)) {
             $surveytargetaudience = implode(", ", json_decode($audience->target_audience, true));
             continue;
@@ -43,8 +60,8 @@ foreach ($surveys as $survey) {
         format_string($surveycategory->label),
         format_string($surveytargetaudience),
         format_string($surveycreatedondate),
-        format_string('0'),
-        format_string('0'),
+        format_string($surveyschoolcount),
+        format_string($surveyresponsescount),
         get_survey_status($dbhelper, $survey),
         $takingsurvey
     ];
