@@ -63,8 +63,12 @@ function get_school() {
     return $DB->get_record('company', ['id' => get_user_school()->companyid]);
 }
 
-function get_user_school_department() {
+function get_user_school_department($schoolshortname=null) {
     global $USER, $DB;
 
-    return $DB->get_record('department', ['shortname' => get_school()->shortname]);
+    if (!$schoolshortname) {
+        $schoolshortname = get_school()->shortname;
+    }
+
+    return $DB->get_record('department', ['shortname' => $schoolshortname]);
 }
