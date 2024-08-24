@@ -386,31 +386,28 @@ class survey {
 
     public static function get_live_surveys_with_interpretations($categoryid, $rolename) {
         global $DB;
-        $sql = "SELECT DISTINCT
+        $sql = "SELECT
                     s.category_id,
-                    sq.question_category_id,
-                    ca.label AS question_category,
-                    qci.interpreted_as,
                     sr.response AS survey_responses,
-                    sr.submitted_by
+                    sr.submitted_by,
+                    s.id AS survey_id
                 FROM
-                    {cc_surveys} s
-                    LEFT JOIN {cc_survey_questions} sq ON sq.survey_id = s.id
-                    LEFT JOIN {cc_categories} ca ON ca.id = sq.question_category_id
-                    LEFT JOIN {cc_question_category_interpretations} qci ON qci.question_category_id = sq.question_category_id
-                    LEFT JOIN {cc_survey_responses} sr ON sr.survey_id = s.id
-                    LEFT JOIN {role_assignments} ra ON ra.userid = sr.submitted_by
-                WHERE s.status = :status 
-                    AND s.category_id = :categoryid 
-                    AND ra.roleid = (SELECT id FROM {role} WHERE shortname = :roleshortname)";
-    
+                    mdl_cc_surveys s
+                    LEFT JOIN mdl_cc_survey_responses sr ON sr.survey_id = s.id
+                    LEFT JOIN mdl_user u ON sr.submitted_by = u.id
+                    LEFT JOIN mdl_role_assignments ra ON ra.userid = u.id
+                    LEFT JOIN mdl_role r ON ra.roleid = r.id
+                WHERE
+                    s.category_id = :categoryid
+                    AND s.status = :status
+                    AND r.shortname = :roleshortname";
         $params = [
             'status' => 'Live',
             'categoryid' => $categoryid,
             'roleshortname' => $rolename
         ];
         
-        return $DB->get_records_sql($sql, $params);
+        return $DB->get_recordset_sql($sql, $params);
     }
 
     public static function get_interpretations_data_by_survey_id_and_question_category_id($surveyid, $rolename) {
@@ -420,15 +417,15 @@ class survey {
                     sr.response AS survey_responses,
                     ra.roleid
                 FROM
-                    mdl_cc_survey_responses sr
-                    LEFT JOIN mdl_role_assignments ra ON ra.userid = sr.submitted_by
+                    cc_survey_responses sr
+                    LEFT JOIN role_assignments ra ON ra.userid = sr.submitted_by
                 WHERE
                     sr.survey_id = :surveyid
                     AND ra.roleid = (
                         SELECT
                             id
                         FROM
-                            mdl_role
+                            role
                         WHERE
                             shortname = :roleshortname
                     )";
