@@ -24,7 +24,10 @@ jobs:
       with:
         host: 'https://uat.sel.saishiko.com'
         username: 'ubuntu'
-        key: 'b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAACFwAAAAdzc2gtcn
+        port: '22'
+        key: |
+              -----BEGIN OPENSSH PRIVATE KEY-----
+              b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAACFwAAAAdzc2gtcn
               NhAAAAAwEAAQAAAgEAmtJvUD7i15Wv2Gu5vaoIwcGT9bSTqNTatwamvAOQyBy/NQBnxE9K
               fVi5VFp+majE40SrVN89vxvhIN70zssLxdqLxxjxgJkJshyorRiZC9vfKQS3sFZClrUxOG
               PFlHPMzsIcRKjGsMRvVhSCx75Ivg4yeZTZjSet5M8zT4U0jtGh6HOJ2blisINeppbqBmr2
@@ -70,7 +73,8 @@ jobs:
               +aWQbX8eWMh0rA1JyNC1O5cWDkoLaSSEhxWrh/nbvgPiKGV7qPei4j2/Y23qbDqHMrrtHN
               pQXc3Lixev7uySap71nzfqNo3FBb2nSjTHmwxNiA7zIw5/YMOfORsYr7NvoovDljTS322k
               ww1A4n0czA9uGqECWPpHxDSAaNAJnBPxweahEW3pgtIMybxKEyAnlf01IPCRDguEXleCK2
-              ehE/WCeLZaCpAAAACHNhaXNoaWtvAQI='
+              ehE/WCeLZaCpAAAACHNhaXNoaWtvAQI=
+              -----END OPENSSH PRIVATE KEY-----
         envs: SSH_BUILD_DIRECTORY,SSH_POST_BUILD_SCRIPT
         script: |
           cd /var/www/html/moodle/local/moodle-survey
