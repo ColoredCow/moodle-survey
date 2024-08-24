@@ -171,7 +171,7 @@ class survey {
 
         if (is_student() || is_teacher()) {
             $params['role'] = '"' . get_user_role() . '"';  // JSON_CONTAINS requires the value to be in a valid JSON format       
-            $sqlquery .= "AND JSON_CONTAINS(target_audience, :role)";
+            $sqlquery .= "AND JSON_CONTAINS(assigned_to, :role)";
         }
     
         return $DB->get_fieldset_sql($sqlquery, $params);

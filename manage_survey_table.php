@@ -60,12 +60,10 @@ function get_survey_name($survey, $issurveylive, $USER, $dbhelper) {
     $context = context_system::instance();
     if (has_capability('local/moodle_survey:can-assign-survey-to-users', $context)) {
         $schoolid = get_user_school()->companyid;
-        $audienceaccessdbhelper = new \local_moodle_survey\model\audience_access();
         $schoolsurvey = $audienceaccessdbhelper->get_audience_access_by_school_id_survey_id($survey->id, $schoolid);
         $surveyassignstatus = $schoolsurvey->status;
         $surveyassignees = $schoolsurvey->assigned_to;
     }
-
     if(has_capability('local/moodle_survey:create-surveys', $context)) {
         $surveyname = html_writer::link($editurl, $survey->name);
     } else if ($surveyassignstatus == 'not-assigned') {
@@ -81,7 +79,7 @@ function get_survey_name($survey, $issurveylive, $USER, $dbhelper) {
     } else {
         $surveyname = html_writer::tag('span', $survey->name, ['class' => 'page-title']);
     } 
-    if($surveyassignstatus == 'assigned' && (is_principal() || is_counsellor())) {
+    if(is_principal() || is_counsellor()) {
         $editurl = new moodle_url('/local/moodle_survey/fill_survey/survey_analysis.php', ['id' => $survey->id]);
         $surveyname = html_writer::link($editurl, $survey->name);
     }
