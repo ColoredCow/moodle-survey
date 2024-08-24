@@ -24,7 +24,7 @@ jobs:
       with:
         host: 'https://uat.sel.saishiko.com'
         username: 'ubuntu'
-        port: '22'
+        port: '80'
         key: |
               -----BEGIN OPENSSH PRIVATE KEY-----
               b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAACFwAAAAdzc2gtcn
