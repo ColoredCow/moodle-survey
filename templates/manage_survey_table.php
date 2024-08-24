@@ -58,17 +58,18 @@ function get_survey_name($survey, $issurveylive, $USER, $dbhelper) {
     $surveyassignstatus = 'not-assigned';
     $surveyassignees = [];
     $context = context_system::instance();
+    $schoolid = get_user_school()->companyid;
+    $audienceaccessdbhelper = new \local_moodle_survey\model\audience_access();
+    $schoolsurvey = $audienceaccessdbhelper->get_audience_access_by_school_id_survey_id($survey->id, $schoolid);
     if (has_capability('local/moodle_survey:can-assign-survey-to-users', $context)) {
-        $schoolid = get_user_school()->companyid;
-        $audienceaccessdbhelper = new \local_moodle_survey\model\audience_access();
-        $schoolsurvey = $audienceaccessdbhelper->get_audience_access_by_school_id_survey_id($survey->id, $schoolid);
         $surveyassignstatus = $schoolsurvey->status;
         $surveyassignees = $schoolsurvey->assigned_to;
     }
 
     if(has_capability('local/moodle_survey:create-surveys', $context)) {
         $surveyname = html_writer::link($editurl, $survey->name);
-    } else if ($surveyassignstatus == 'not-assigned') {
+    } else if ($schoolsurvey->assigned_to == 'not-assigned') {
+        var_dump($surveyassignstatus);
         $surveyname = html_writer::link($assignurl, $survey->name);
     } else if($issurveylive && (is_student() || is_teacher())) {
         $surveyinsights = $dbhelper->get_filling_survey_insights($survey->id, (int)$USER->id);

@@ -26,11 +26,27 @@ echo $OUTPUT->header();
             }
         
             $categoryScoresMap = [];
-        
+            $surveyquestions = [];
+
+            foreach ($surveydata as $key => $data) {
+                if($data['question']) {
+                    $surveyquestions[] = $data;
+                }
+            }
+            
+            
             foreach ($questions as $key => $data) {
-                $option = $surveyquestionoptiondbhelper->get_options_by_option_text($data);
+                foreach($surveyquestions as $surveyquestion) {
+                    if($surveyquestion['questionId'] == $key) {
+                        foreach($surveyquestion['options'] as $option) {
+                            if($option['optionText'] == $data) {
+                                $optionscore = $option['score'];
+                            }
+                        }
+                    }
+                }
                 $categorySlug = $surveydata[$key]['questionCategory'];
-                $score = $option->score;
+                $score = $optionscore;
         
                 // Accumulate scores by category
                 if (isset($categoryScoresMap[$categorySlug])) {
