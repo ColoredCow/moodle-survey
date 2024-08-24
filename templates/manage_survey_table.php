@@ -68,8 +68,7 @@ function get_survey_name($survey, $issurveylive, $USER, $dbhelper) {
 
     if(has_capability('local/moodle_survey:create-surveys', $context)) {
         $surveyname = html_writer::link($editurl, $survey->name);
-    } else if ($schoolsurvey->assigned_to == 'not-assigned') {
-        var_dump($surveyassignstatus);
+    } else if ($schoolsurvey->status == 'not-assigned') {
         $surveyname = html_writer::link($assignurl, $survey->name);
     } else if($issurveylive && (is_student() || is_teacher())) {
         $surveyinsights = $dbhelper->get_filling_survey_insights($survey->id, (int)$USER->id);
