@@ -1,0 +1,82 @@
+name: Staging Deployment
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+
+    # uses GitHub environment
+    environment:
+      name: Staging
+      url: "https://uat.sel.saishiko.com"
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Deploy to staging
+      uses: appleboy/ssh-action@master
+      env:
+        SSH_BUILD_DIRECTORY: ${{ secrets.SSH_BUILD_DIRECTORY }}
+        SSH_POST_BUILD_SCRIPT: post_build_script.sh
+      with:
+        host: 'https://uat.sel.saishiko.com'
+        username: 'ubuntu'
+        key: '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
+              ehE/WCeLZaCpAAAACHNhaXNoaWtvAQI='
+        envs: SSH_BUILD_DIRECTORY,SSH_POST_BUILD_SCRIPT
+        script: |
+          cd /var/www/html/moodle/local/moodle-survey
+
+          echo "Pulling latest code"
+          sudo git pull
+
+          echo "Purging caches"
+          php admin/cli/purge_caches.php
