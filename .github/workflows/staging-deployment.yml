@@ -22,7 +22,7 @@ jobs:
         SSH_BUILD_DIRECTORY: ${{ secrets.SSH_BUILD_DIRECTORY }}
         SSH_POST_BUILD_SCRIPT: post_build_script.sh
       with:
-        host: 'https://uat.sel.saishiko.com'
+        host: 'uat.sel.saishiko.com'
         username: 'ubuntu'
         port: '22'
         key: |
