@@ -417,15 +417,15 @@ class survey {
                     sr.response AS survey_responses,
                     ra.roleid
                 FROM
-                    cc_survey_responses sr
-                    LEFT JOIN role_assignments ra ON ra.userid = sr.submitted_by
+                    {cc_survey_responses} sr
+                    LEFT JOIN {role_assignments} ra ON ra.userid = sr.submitted_by
                 WHERE
                     sr.survey_id = :surveyid
                     AND ra.roleid = (
                         SELECT
                             id
                         FROM
-                            role
+                            {role}
                         WHERE
                             shortname = :roleshortname
                     )";
