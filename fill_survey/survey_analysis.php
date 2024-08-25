@@ -22,7 +22,7 @@ $interpretationdata = $surveydbhelper->get_interpretations_data_by_survey_id_and
 $url = new moodle_url('/local/moodle_survey/fill_survey/survey_analysis.php', ['id' => $id]);
 $downarrowiconurl = new moodle_url('/local/moodle_survey/pix/arrow-down.svg');
 
-echo render_survey_analysis_title($id, $url, $currentinsighttype, $questioncategory, $statusoptions);
+echo render_survey_analysis_title($id, $url, $currentinsighttype, $questioncategory, $statusoptions, $survey);
 echo render_survey_instruction($survey, $downarrowiconurl);
 echo render_survey_insights($url, $downarrowiconurl, $id, $questioncategories, $questioncategory, $currentinsighttype, $interpretationdata);
 echo $OUTPUT->footer();
@@ -38,10 +38,10 @@ function initialize_page() {
     $PAGE->requires->js(new moodle_url('/local/moodle_survey/js/forms.js'));
 }
 
-function render_survey_analysis_title($id, $url, $currentinsighttype, $questioncategory, $statusoptions) {
+function render_survey_analysis_title($id, $url, $currentinsighttype, $questioncategory, $statusoptions, $survey) {
     $html = html_writer::start_tag('form', ['method' => 'get', 'action' => $url, 'id' => 'filter-form']);
     $html .= html_writer::start_tag('div', ['class' => 'survey-analysis-title d-flex justify-content-between']);
-        $html .= html_writer::tag('h3', 'Surveys/' . get_string('selanalysis', 'local_moodle_survey'), ['class' => 'survey-analysis-heading']);
+        $html .= html_writer::tag('h3', 'Surveys/' . $survey->name, ['class' => 'survey-analysis-heading']);
         $html .= html_writer::start_tag('div', ['class' => 'survey-analysis-title-actions']);
             $html .= html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'id', 'value' => $id]);
             $html .= html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'category', 'value' => $questioncategory]);
@@ -210,28 +210,29 @@ function calculate_pie_chart_data_by_question_category($interpretationdata, $que
     // Loop through interpretationdata to extract and count interpretations
     foreach ($interpretationdata as $data) {
         $responses = json_decode($data->survey_responses, true);
-        foreach ($responses as $responseKey => $responseValue) {
-            if (is_array($responseValue)) {
-                if (isset($responseValue['questionCategorySlug']) && $responseValue['questionCategorySlug'] == $questioncategory) {
-                    $interpretation = $responseValue['interpretation'];
-                    if (!isset($interpretationCounts[$interpretation])) {
-                        $interpretationCounts[$interpretation] = 0;
+        foreach ($responses['surveyData']['interpretations'] as $responseGroup) {
+            foreach ($responseGroup as $category => $response) {
+                if (is_array($response)) {
+                    if (isset($response['catgororySlug']) && $response['catgororySlug'] == $questioncategory) {
+                        $interpretation = $response['text'];
+                        // Check if the interpretation exists in interpretationCounts and increment or initialize
+                        if (isset($interpretationCounts[$interpretation])) {
+                            $interpretationCounts[$interpretation]++;
+                        } else {
+                            $interpretationCounts[$interpretation] = 1;
+                        }
                     }
-                    $interpretationCounts[$interpretation]++;
                 }
             }
         }
     }
 
-    // Calculate the total number of interpretations
-    $totalResponses = array_sum($interpretationCounts);
-
-    // Calculate percentages for each interpretation
     $pieChartData = [];
     $pieChartLabels = [];
+
     foreach ($interpretationCounts as $interpretation => $count) {
-        $percentage = ($count / $totalResponses) * 100;
-        $pieChartData[] = round($percentage, 2);
+        $percentage = (1 / count($interpretationCounts)) * 100;
+        $pieChartData[] = number_format($percentage, 1);
         $pieChartLabels[] = $interpretation;
     }
 
