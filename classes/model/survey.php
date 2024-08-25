@@ -284,7 +284,7 @@ class survey {
 
                 $newcategoryslug = $questioncategory->slug;
                 $newcategorylabel = $questioncategory->label;
-                if (!self::interpretation_exists($response['surveyData']['interpretations'], $newcategoryslug)) {
+                if (!self::interpretation_exists($response['surveyData']['interpretations'], $newcategoryslug, $newcategorylabel)) {
                     $response['surveyData']['interpretations'][] = [
                         $newcategorylabel => [
                             "catgororySlug" => $newcategoryslug,
@@ -299,10 +299,10 @@ class survey {
         return $response;
     }
 
-    public static function interpretation_exists($surveydatainterpretations, $categoryslug) {
+    public static function interpretation_exists($surveydatainterpretations, $categoryslug, $categorylabel) {
         foreach ($surveydatainterpretations as $item) {
-            if (isset($item[$categoryslug])) {
-                $existingitem = $item[$categoryslug];
+            if (isset($item[$categorylabel])) {
+                $existingitem = $item[$categorylabel];
                 if ($existingitem['catgororySlug'] === $categoryslug) {
                     return true;
                 }

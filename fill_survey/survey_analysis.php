@@ -2,6 +2,7 @@
 
 require_once('../../../config.php');
 require_login();
+echo $OUTPUT->header();
 
 use core\chart_pie;
 use core\chart_series;
@@ -21,7 +22,6 @@ $interpretationdata = $surveydbhelper->get_interpretations_data_by_survey_id_and
 $url = new moodle_url('/local/moodle_survey/fill_survey/survey_analysis.php', ['id' => $id]);
 $downarrowiconurl = new moodle_url('/local/moodle_survey/pix/arrow-down.svg');
 
-echo $OUTPUT->header();
 echo render_survey_analysis_title($id, $url, $currentinsighttype, $questioncategory, $statusoptions);
 echo render_survey_instruction($survey, $downarrowiconurl);
 echo render_survey_insights($url, $downarrowiconurl, $id, $questioncategories, $questioncategory, $currentinsighttype, $interpretationdata);
@@ -122,33 +122,36 @@ function render_survey_questions_analysis_horizontal_chart($interpretationdata, 
     
     $html = '';
     
-    // Loop through each question in the interpretation data
     $CFG->chart_colorset = ['#F16824'];
     $html .= html_writer::start_div('horizontal-chart');
     $questioncount = 1;
+
     foreach ($interpretationdata as $data) {
         $responses = json_decode($data->survey_responses, true);
-
+        
         foreach ($responses as $responseValue) {
-            if (is_array($responseValue) && isset($responseValue['questionCategorySlug']) && $responseValue['questionCategorySlug'] == $questioncategory) {
-                
-                // Calculate the bar chart data for this question
-                $calculateddata = calculate_bar_chart_data_by_question_category($responseValue, $questioncategory);
-
-                // Create a bar chart for this question
-                $barChart = new chart_bar();
-                $barChart->set_legend_options(['display' => false]);
-                $barChart->set_horizontal(true);
-                $series = new chart_series('', $calculateddata['barChartData']);
-                $barChart->set_labels($calculateddata['barChartLabels']);
-                $barChart->add_series($series);
-
-                $html .= html_writer::tag('h4', 'Q' . $questioncount .': ' . $responseValue['question'], ['class' => '']);
-                $html .= $OUTPUT->render_chart($barChart, false);
-                $questioncount++;
-            }
+            $calculateddata = calculate_bar_chart_data_by_question_category($responseValue, $questioncategory);
         }
     }
+
+    foreach ($calculateddata as $questionId => $questionData) {
+        $barChart = new chart_bar();
+        $barChart->set_legend_options(['display' => false]);
+        $barChart->set_horizontal(true);
+
+        // Prepare data and labels for the chart
+        $barChartLabels = array_keys($questionData['labels']);
+        $barChartData = array_values($questionData['labels']);
+
+        $series = new chart_series('', $barChartData);
+        $barChart->add_series($series);
+        $barChart->set_labels($barChartLabels);
+
+        $html .= html_writer::tag('h4', 'Q' . $questioncount .': ' . $questionData['question'], ['class' => '']);
+        $html .= $OUTPUT->render_chart($barChart, false);
+        $questioncount++;
+    }
+
     $html .= html_writer::end_div();
 
     return $html;
@@ -239,31 +242,39 @@ function calculate_pie_chart_data_by_question_category($interpretationdata, $que
 }
 
 function calculate_bar_chart_data_by_question_category($responseValue, $questioncategory) {
-    // Initialize array to store counts of each option
-    $optionCounts = [];
+    // Initialize array to store counts of each option per question
+    static $optionCounts = [];
 
     if (is_array($responseValue)) {
         if (isset($responseValue['questionCategorySlug']) && $responseValue['questionCategorySlug'] == $questioncategory) {
             $options = $responseValue['options'];
-            $question = $responseValue['question'];
+            $questionId = $responseValue['questionId'];
+
+            // Initialize the question ID array if it doesn't exist
+            if (!isset($optionCounts[$questionId])) {
+                $optionCounts[$questionId] = [
+                    'question' => $responseValue['question'],
+                    'labels' => [],
+                    'data' => []
+                ];
+            }
+
+            // Initialize counts for each option text
             foreach ($options as $option) {
                 $optionText = $option['optionText'];
-                if (!isset($optionCounts[$optionText])) {
-                    $optionCounts[$optionText] = 0;
+                if (!isset($optionCounts[$questionId]['labels'][$optionText])) {
+                    $optionCounts[$questionId]['labels'][$optionText] = 0;
                 }
-                if ($responseValue['answer'] === $optionText) {
-                    $optionCounts[$optionText]++;
+            }
+
+            if (isset($responseValue['answer'])) {
+                $answer = $responseValue['answer'];
+                if (isset($optionCounts[$questionId]['labels'][$answer])) {
+                    $optionCounts[$questionId]['labels'][$answer]++;
                 }
             }
         }
     }
 
-    // Separate labels and data
-    $barChartLabels = array_keys($optionCounts);
-    $barChartData = array_values($optionCounts);
-
-    return [
-        'barChartLabels' => $barChartLabels,
-        'barChartData' => $barChartData,
-    ];
+    return $optionCounts;
 }
