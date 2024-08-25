@@ -231,7 +231,7 @@ function calculate_pie_chart_data_by_question_category($interpretationdata, $que
     $pieChartLabels = [];
 
     foreach ($interpretationCounts as $interpretation => $count) {
-        $percentage = (1 / count($interpretationCounts)) * 100;
+        $percentage = ($count / array_sum($interpretationCounts)) * 100;
         $pieChartData[] = number_format($percentage, 1);
         $pieChartLabels[] = $interpretation;
     }
