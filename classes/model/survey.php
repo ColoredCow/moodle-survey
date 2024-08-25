@@ -284,14 +284,16 @@ class survey {
 
                 $newcategoryslug = $questioncategory->slug;
                 $newcategorylabel = $questioncategory->label;
-                if (!self::interpretation_exists($response['surveyData']['interpretations'], $newcategoryslug, $newcategorylabel)) {
+                $newinterpretation = [
+                    "catgororySlug" => $newcategoryslug,
+                    "text" => '',
+                    "range" => '',
+                    "description" => '',
+                ];
+
+                if (!self::interpretation_exists($response['surveyData']['interpretations'], $newcategoryslug, $newinterpretation)) {
                     $response['surveyData']['interpretations'][] = [
-                        $newcategorylabel => [
-                            "catgororySlug" => $newcategoryslug,
-                            "text" => '',
-                            "range" => '',
-                            "description" => '',
-                        ]
+                        $newcategorylabel => $newinterpretation
                     ];
                 }
             }
@@ -299,11 +301,16 @@ class survey {
         return $response;
     }
 
-    public static function interpretation_exists($surveydatainterpretations, $categoryslug, $categorylabel) {
+    public static function interpretation_exists($surveydatainterpretations, $categoryslug, $newinterpretation) {
         foreach ($surveydatainterpretations as $item) {
-            if (isset($item[$categorylabel])) {
-                $existingitem = $item[$categorylabel];
-                if ($existingitem['catgororySlug'] === $categoryslug) {
+            if (isset($item[$categoryslug])) {
+                $existingitem = $item[$categoryslug];
+                if (
+                    $existingitem['catgororySlug'] === $newinterpretation['catgororySlug'] &&
+                    $existingitem['text'] === $newinterpretation['text'] &&
+                    $existingitem['range'] === $newinterpretation['range'] &&
+                    $existingitem['description'] === $newinterpretation['description']
+                ) {
                     return true;
                 }
             }
