@@ -17,10 +17,8 @@ echo $OUTPUT->header();
 <div>
     <?php
         require_once($CFG->dirroot . '/local/moodle_survey/fill_survey/form/survey_learning_form.php');
-        function get_updated_survey_data($surveydata, $questions, $interpretationdata) {
+        function get_updated_survey_data($surveydata, $questions, $dbhelper, $questioncategoryinterpretationdbhelper, $surveyid) {
 
-            $surveyquestionoptiondbhelper = new \local_moodle_survey\model\survey_question_option();
-        
             if (!isset($surveydata['surveyData']['categoriesScores'])) {
                 $surveydata['surveyData']['categoriesScores'] = [];
             }
@@ -66,10 +64,12 @@ echo $OUTPUT->header();
                     "catgororySlug" => $categorySlug,
                     "score" => (int)$score,
                 ];
-        
+
+                
+                
                 $existinginterpretationdata = $surveydata['surveyData']['interpretations'];
-        
-                $interpretationforscore = get_interpretation_for_score($interpretationdata, $score);
+                
+                $interpretationforscore = get_interpretation_for_score($score, $categorySlug, $dbhelper, $questioncategoryinterpretationdbhelper, $surveyid);
                 foreach ($existinginterpretationdata as &$interpretation) {
                     if (isset($interpretation[$categorySlug])) {
                         $interpretation[$categorySlug]['description'] = $interpretationforscore['description'];
@@ -84,12 +84,18 @@ echo $OUTPUT->header();
             return $surveydata;
         }
 
-        function get_interpretation_for_score($interpretationData, $score) {
+        function get_interpretation_for_score($score, $categorySlug, $dbhelper, $questioncategoryinterpretationdbhelper, $surveyid) {
+            $caytegoryid = $dbhelper->get_category_id_by_slug($categorySlug, "question");
+            $interpretationData = $questioncategoryinterpretationdbhelper->get_interpretation_by_survey_id_category_id($surveyid, (int)$caytegoryid);
+            
             foreach ($interpretationData as $interpretation) {
-                if ($score >= $interpretation->score_from && $score <= $interpretation->score_to) {
+                $score_from = (int)$interpretation->score_from;
+                $score_to = (int)$interpretation->score_to;
+            
+                if ($score >= $score_from && $score <= $score_to) {
                     return [
-                        'score_from' => $interpretation->score_from,
-                        'score_to' => $interpretation->score_to,
+                        'score_from' => $score_from,
+                        'score_to' => $score_to,
                         'interpreted_as' => $interpretation->interpreted_as,
                         'description' => $interpretation->description
                     ];
@@ -104,7 +110,7 @@ echo $OUTPUT->header();
             }
 
             $questions = $_POST['question'];
-            $updatedsurveydata = get_updated_survey_data($surveydata, $questions, $interpretationdata);
+            $updatedsurveydata = get_updated_survey_data($surveydata,  $_POST['question'], $dbhelper, $questioncategoryinterpretationdbhelper, $surveyid);
             $surveyresponsedbhelper = new \local_moodle_survey\model\survey_responses();
             $questionoptionsjson = json_encode($updatedsurveydata);
             $record = new stdClass();

@@ -449,4 +449,10 @@ class survey {
         global $DB;
         return $DB->count_records('cc_survey_responses', ['survey_id' => $surveyid]);
     }
+
+    public function get_category_id_by_slug($categoryslug, $type) {
+        global $DB;
+        $category = $DB->get_record('cc_categories', ['label' => $categoryslug, 'type' => $type]);
+        return $category->id;
+    }
 }

@@ -28,4 +28,11 @@ class question_category_interpretation {
         $params = ['survey_id' => $surveyid];
         return $DB->get_records_sql($sql, $params);
     }
+
+    public function get_interpretation_by_survey_id_category_id($surveyid, $categoryid) {
+        global $DB;
+        $sql = "SELECT * FROM {cc_question_category_interpretations} WHERE survey_id = :survey_id AND question_category_id = :question_category_id";
+        $params = ['survey_id' => $surveyid, 'question_category_id' => $categoryid];
+        return $DB->get_records_sql($sql, $params);
+    }
 }
