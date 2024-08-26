@@ -3,8 +3,15 @@ defined('MOODLE_INTERNAL') || die();
 
 function local_moodle_survey_extend_navigation(global_navigation $nav) {
     global $PAGE;
-
     $PAGE->requires->css(new moodle_url('/local/moodle_survey/css/styles.css'));
+}
+
+function local_moodle_survey_before_http_headers() {
+    global $CFG;
+    $currenturl = $_SERVER['REQUEST_URI'];
+    if (strpos($currenturl, '/blocks/iomad_company_admin/index.php') !== false) {
+        redirect($CFG->wwwroot . '/theme/academi/moodle_school/manage_school.php');
+    }
 }
 
 function is_sel_admin() {
