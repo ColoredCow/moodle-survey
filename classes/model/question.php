@@ -28,4 +28,16 @@ class question {
         $params = ['questiontext' => $questiontext];
         return $DB->get_record_sql($sql, $params);
     }
+
+    public static function get_questions_ids_for_survey($surveyid) {
+        global $DB;
+        $sql = "SELECT id FROM {cc_survey_questions} WHERE survey_id = :surveyid";
+        $params = ['surveyid' => $surveyid];
+        return $DB->get_fieldset_sql($sql, $params);
+    }
+
+    public static function delete_list_of_questions($questionids) {
+        global $DB;
+        $DB->delete_records_list('cc_survey_questions', 'id', $questionids);
+    }
 }

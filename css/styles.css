@@ -750,10 +750,17 @@ a.disabled {
 
 .delete-option-button {
     margin-top: 40px;
+    cursor: pointer;
+}
+
+.delete-interpretation-score-button {
+    margin-top: 35px;
+    cursor: pointer;
 }
 
 .delete-question-button {
     margin-left: 10px;
+    cursor: pointer;
 }
 
 .survey-analysis-title {

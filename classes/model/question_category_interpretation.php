@@ -28,4 +28,16 @@ class question_category_interpretation {
         $params = ['survey_id' => $surveyid];
         return $DB->get_records_sql($sql, $params);
     }
+    
+    public static function get_interpretation_ids_by_survey_id($surveyid) {
+        global $DB;
+        $sql = "SELECT id FROM {cc_question_category_interpretations} WHERE survey_id = :survey_id";
+        $params = ['survey_id' => $surveyid];
+        return $DB->get_fieldset_sql($sql, $params);
+    }
+
+    public static function delete_list_of_interpretations($interpretationids) {
+        global $DB;
+        $DB->delete_records_list('cc_question_category_interpretations', 'id', $interpretationids);
+    }
 }

@@ -14,6 +14,7 @@ if (!isset($tab)) {
             }
 
             $dbhelper = new \local_moodle_survey\model\question_category_interpretation();
+            $interpretationidsList = $dbhelper->get_interpretation_ids_by_survey_id($survey->id);
 
             foreach ($_POST['interpretation'] as $index => $questioncategory) {
                 foreach ($questioncategory['interpretations'] as $interpretation) {
@@ -26,6 +27,12 @@ if (!isset($tab)) {
                     $interpretationrecord->description = $interpretation['interpreted_as_description'];
 
                     if (isset($interpretation['id'])) {
+                        $indextoremove = array_search($interpretation['id'], $interpretationidsList);
+                        if ($indextoremove !== false) {
+                            unset($interpretationidsList[$indextoremove]);
+                        }
+                        $interpretationidsList = array_values($interpretationidsList);
+
                         $interpretationrecord->id = $interpretation['id'];
                         $dbhelper->update_interpretation($interpretationrecord);
                     } else {
@@ -33,6 +40,8 @@ if (!isset($tab)) {
                     }
                 }
             }
+
+            $dbhelper->delete_list_of_interpretations($interpretationidsList);
 
             redirect(new moodle_url('/local/moodle_survey/edit_survey.php', ['id' => $survey->id, 'tab' => 'validity']));
         }

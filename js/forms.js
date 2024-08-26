@@ -50,6 +50,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (event.target.classList.contains('delete-option-button')) {
         deleteOption(event.target);
     }
+    if (event.target.classList.contains('delete-interpretation-score-button')) {
+        deleteInterpretationScore(event.target);
+    }
   });
 
 
@@ -90,6 +93,13 @@ const deleteQuestion = (button) => {
 
 const deleteOption = (button) => {
   const optionElement = button.closest('.question-option');
+  if (optionElement) {
+    optionElement.remove();
+  }
+};
+
+const deleteInterpretationScore = (button) => {
+  const optionElement = button.closest('.question-interpretation');
   if (optionElement) {
     optionElement.remove();
   }

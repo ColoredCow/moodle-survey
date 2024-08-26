@@ -1,6 +1,7 @@
 <?php
     $iconurl = new \moodle_url('/local/moodle_survey/pix/arrow-down.svg');
     $addiconurl = new \moodle_url('/local/moodle_survey/pix/plus-icon.svg');
+    $deleteicon = new \moodle_url('/local/moodle_survey/pix/delete-icon.svg');
     $dbhelper = new \local_moodle_survey\model\survey();
     $questioncategories = $dbhelper->get_question_categories_for_survey($survey->id);
     $isquestioncategoriesdata = sizeof($questioncategories) <= 0;
@@ -30,15 +31,18 @@
                     - Invalid input.
                 </div>
             </div>
-            <div class="col-8">
+            <div class="col-7">
                 <label for="interpreted-as-__INTERPRETATIONINDEX__" class="col-form-label">Interpreted as</label>
                 <input name="interpretation[__INDEX__][interpretations][__INTERPRETATIONINDEX__][interpreted_as]" type="text" value="" id="interpreted-as-__INTERPRETATIONINDEX__" class="form-control" required>
                 <div class="invalid-feedback">
                     - Please provide a valid input.
                 </div>
             </div>
+            <div class="d-flex align-items-center">
+                <img src="<?php echo $deleteicon ?>" alt="Delete Icon" data-id="__INTERPRETATIONINDEX__" class="delete-interpretation-score-button">
+            </div>
             <div class="col-8 mt-4">
-                <label for="interpreted-as-description-__INTERPRETATIONINDEX__" class="col-form-label">Interpreted Description</label>
+                <label for="interpreted-as-description-__INTERPRETATIONINDEX__" class="col-form-label">Interpretation Description</label>
                 <textarea name="interpretation[__INDEX__][interpretations][__INTERPRETATIONINDEX__][interpreted_as_description]" rows="3" id="interpreted-as-description-__INTERPRETATIONINDEX__" class="form-control" required></textarea>
                 <div class="invalid-feedback">
                     - Please provide a valid input.
@@ -99,15 +103,18 @@
                                                 - Invalid input.
                                             </div>
                                         </div>
-                                        <div class="col-8">
+                                        <div class="col-7">
                                             <label for="interpreted-as-' . $interpretationindex . '" class="col-form-label">Interpreted as</label>
                                             <input name="interpretation[' . $index . '][interpretations][' . $interpretationindex . '][interpreted_as]" type="text" value="' . $interpretation->interpreted_as . '" id="interpreted-as-' . $interpretationindex . '" class="form-control" required>
                                             <div class="invalid-feedback">
                                                 - Please provide a valid input.
                                             </div>
                                         </div>
+                                        <div class="d-flex align-items-center">
+                                            <img src="' . $deleteicon . '" alt="Delete Icon" data-id="__INTERPRETATIONINDEX__" class="delete-interpretation-score-button">
+                                        </div>
                                         <div class="col-8 mt-4">
-                                            <label for="interpreted-as-description-' . $interpretationindex . '" class="col-form-label">Interpreted as Description</label>
+                                            <label for="interpreted-as-description-' . $interpretationindex . '" class="col-form-label">Interpretation Description</label>
                                             <textarea name="interpretation[' . $index . '][interpretations][' . $interpretationindex . '][interpreted_as_description]" rows="3" id="interpreted-as-description-' . $interpretationindex . '" class="form-control" required>' . $interpretation->description . '</textarea>
                                             <div class="invalid-feedback">
                                                 - Please provide a valid input.

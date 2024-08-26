@@ -53,30 +53,48 @@
             if ($_POST['pressed_button'] == 'cancel') {
                 redirect(new moodle_url('/local/moodle_survey/manage_survey.php'));
             }
-            
+            $surveyquestionoptiondbhelper = new \local_moodle_survey\model\survey_question_option();
+            $questiondbhelper = new \local_moodle_survey\model\question();
+
             $questions = $_POST['question'];
+            $questionidslist = $questiondbhelper->get_questions_ids_for_survey($survey->id);
+            $optionidslist = $surveyquestionoptiondbhelper->get_option_ids_for_survey($survey->id);
 
             foreach ($questions as $index => $question) {
+                if (isset($question['id'])) {
+                    $indextoremove = array_search($question['id'], $questionidslist);
+                    if ($indextoremove !== false) {
+                        unset($questionidslist[$indextoremove]);
+                    }
+                    $questionidslist = array_values($questionidslist);
+                }
+
                 $questionrecord = updateOrCreateQuestion($question);
                 $surveyquestionrecord = attachQuestionToSurvey($questionrecord, $index, $survey);
-                
                 foreach ($question['options'] as $optionindex => $option) {
                     $optionrecord = new stdClass();
-                    $surveyquestionoptiondbhelper = new \local_moodle_survey\model\survey_question_option();
+                    
                     $optionrecord->survey_question_id = $surveyquestionrecord->id;
                     $optionrecord->option_text = $option['option'];
                     $optionrecord->score = $option['score'];
                     $optionrecord->option_position = $optionindex + 1;
 
                     if(isset($option['id'])) {
+                        $indextoremove = array_search($option['id'], $optionidslist);
+                        if ($indextoremove !== false) {
+                            unset($optionidslist[$indextoremove]);
+                        }
+                        $optionidslist = array_values($optionidslist);
+                        
                         $optionrecord->id = $option['id'];
                         $surveyquestionoptiondbhelper->update_survey_question_options($optionrecord);
                     } else {
                         $surveyquestionoptiondbhelper->create_survey_question_options($optionrecord);
                     }
                 }
-            }
-            
+            }            
+            $surveyquestionoptiondbhelper->delete_list_of_question_options($optionidslist);
+            $questiondbhelper->delete_list_of_questions($questionidslist);
             redirect(new moodle_url('/local/moodle_survey/edit_survey.php', ['id' => $survey->id, 'tab' => 'interpretations']));
         }
     ?>
