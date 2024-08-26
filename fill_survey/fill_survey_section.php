@@ -110,7 +110,7 @@ echo $OUTPUT->header();
             }
 
             $questions = $_POST['question'];
-            $updatedsurveydata = get_updated_survey_data($surveydata,  $_POST['question'], $dbhelper, $questioncategoryinterpretationdbhelper, $surveyid);
+            $updatedsurveydata = get_updated_survey_data($surveydata,  $questions, $dbhelper, $questioncategoryinterpretationdbhelper, $id);
             $surveyresponsedbhelper = new \local_moodle_survey\model\survey_responses();
             $questionoptionsjson = json_encode($updatedsurveydata);
             $record = new stdClass();
