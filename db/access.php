@@ -101,6 +101,18 @@ $capabilities = array(
             'schooladmin' => CAP_ALLOW,
         ),
     ),
+    'local/moodle_survey:create-school-admin' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => array(
+        ),
+    ),
+    'local/moodle_survey:view-school-admin' => array(
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => array(
+        ),
+    ),
     'local/moodle_survey:create-courses' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
