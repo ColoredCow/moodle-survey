@@ -14,7 +14,7 @@ $filters = get_filters();
 // Fetch surveys
 $surveys = fetch_surveys($filters);
 
-display_page($surveys);
+display_page($surveys, $filters);
 
 /**
  * Initializes the page context and resources.
@@ -67,7 +67,7 @@ function fetch_surveys($filters) {
  *
  * @param array $surveys
  */
-function display_page($surveys) {
+function display_page($surveys, $filters) {
     global $OUTPUT, $USER;
 
     // Include the HTML for the survey management interface

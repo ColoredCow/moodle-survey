@@ -104,7 +104,6 @@ $string['targetaudiencevalues'] = [
 ];
 $string['accesstoresponsevalues'] = [
     'principal' => 'Principal',
-    'teacher' => 'Teacher',
     'counsellor' => 'Counsellor',
 ];
 $string['assigntoschools'] = [

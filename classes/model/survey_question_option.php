@@ -35,4 +35,19 @@ class survey_question_option {
         $params = ['optiontext' => $optiontext];
         return $DB->get_record_sql($sql, $params);
     }
+    
+    public static function get_option_ids_for_survey($surveyid) {
+        global $DB;
+        $sql = "SELECT option.id FROM {cc_survey_questions} as survey_question
+            JOIN {cc_survey_question_options} as option ON option.survey_question_id = survey_question.id
+            WHERE survey_question.survey_id = :surveyid
+        ";
+        $params = ['surveyid' => $surveyid];
+        return $DB->get_fieldset_sql($sql, $params);
+    }
+
+    public static function delete_list_of_question_options($optionids) {
+        global $DB;
+        $DB->delete_records_list('cc_survey_question_options', 'id', $optionids);
+    }
 }
