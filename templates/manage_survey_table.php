@@ -63,12 +63,12 @@ function get_survey_name($survey, $issurveylive, $USER, $dbhelper) {
     if (has_capability('local/moodle_survey:can-assign-survey-to-users', $context)) {
         $surveyassignstatus = $schoolsurvey->status;
         $surveyassignees = $schoolsurvey->assigned_to;
-        $issurveyassign = true;
+        $issurveyassign = $surveyassignstatus == "assigned";
     }
 
     if (has_capability('local/moodle_survey:create-surveys', $context)) {
         $surveyname = html_writer::link($editurl, $survey->name);
-    } elseif ($issurveyassign) {
+    } elseif (!$issurveyassign && is_counsellor()) {
         $surveyname = html_writer::link($assignurl, $survey->name);
     } elseif ($issurveylive && (is_student() || is_teacher())) {
         $surveyinsights = $dbhelper->get_filling_survey_insights($survey->id, (int)$USER->id);

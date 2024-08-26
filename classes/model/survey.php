@@ -228,7 +228,7 @@ class survey {
     public static function get_survey_data($surveyId) {
         global $DB;
 
-        $sql = "SELECT sq.*, q.text AS question_text, q.type AS question_type, cci.score_from, cci.score_to, cci.interpreted_as, cci.description, GROUP_CONCAT(o.option_text SEPARATOR ', ') AS option_texts, GROUP_CONCAT(o.score SEPARATOR ', ') AS score
+        $sql = "SELECT sq.*, q.text AS question_text, q.type AS question_type, cci.score_from, cci.score_to, cci.interpreted_as, cci.description, GROUP_CONCAT(o.option_text ORDER BY o.id SEPARATOR ', ') AS option_texts, GROUP_CONCAT(o.score ORDER BY o.id SEPARATOR ', ') AS score
             FROM {cc_survey_questions} sq
             LEFT JOIN {cc_questions} q ON sq.question_id = q.id
             LEFT JOIN {cc_survey_question_options} o ON sq.id = o.survey_question_id
