@@ -45,8 +45,20 @@ class survey {
     }
 
     public static function get_all_survey_categories() {
-        global $DB;
-        return $DB->get_records('cc_categories', array('type' => 'survey'));
+        global $DB, $USER;
+
+        if (is_sel_admin()) {
+            return $DB->get_records('cc_categories', array('type' => 'survey'));
+        }
+
+        $userschool = get_user_school();
+        $sql = "SELECT categories.* FROM {cc_survey_audience_access} as survey_school
+            JOIN {cc_surveys} as survey ON survey.id = survey_school.survey_id
+            JOIN {cc_categories} as categories ON survey.category_id = categories.id
+            WHERE survey_school.school_id = :schoolid;
+        ";
+        $params = ['schoolid' => $userschool->companyid];
+        return $DB->get_records_sql($sql, $params);
     }
 
     public static function get_category_by_id($id) {
