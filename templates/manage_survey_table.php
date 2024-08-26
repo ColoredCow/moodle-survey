@@ -63,7 +63,7 @@ function get_survey_name($survey, $issurveylive, $USER, $dbhelper) {
     if (has_capability('local/moodle_survey:can-assign-survey-to-users', $context)) {
         $surveyassignstatus = $schoolsurvey->status;
         $surveyassignees = $schoolsurvey->assigned_to;
-        $issurveyassign = true;
+        $issurveyassign = $surveyassignstatus == "assigned";
     }
 
     if (has_capability('local/moodle_survey:create-surveys', $context)) {
