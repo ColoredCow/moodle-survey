@@ -1,6 +1,7 @@
 <?php
 require_once(__DIR__.'/../../config.php');
 require_login();
+$PAGE->set_title('Assign Survey');
 echo $OUTPUT->header();
 require_once($CFG->dirroot . '/local/moodle_survey/lib.php');
 
@@ -11,7 +12,6 @@ if (!has_capability('local/moodle_survey:can-assign-survey-to-users', $context))
 
 global $PAGE;
 $PAGE->requires->js(new moodle_url('/local/moodle_survey/js/forms.js'));
-$PAGE->set_title('Assign Survey');
 
 $surveyid = required_param('id', PARAM_INT);
 $surveyhelper = new \local_moodle_survey\model\survey();

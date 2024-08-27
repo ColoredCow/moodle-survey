@@ -49,10 +49,12 @@
         </div>
         <div class="accordion-body pl-5">
             <div class="row">
-                <select class="form-control" name="assign_to_teachers[]" multiple required>
+                <select class="form-control" name="assign_to_students[]" multiple required>
                     <?php
+                        $selectedGrades = json_decode($schoolsurvey->teacher_grade);
                         for ($grade = 1; $grade <= 12; $grade++) {
-                            echo '<option value="' . $grade . '">Grade ' . $grade . '</option>';
+                            $selected = in_array($grade, $selectedGrades) ? 'selected' : '';
+                            echo '<option value="' . $grade . '" ' . $selected . '>Grade ' . $grade . '</option>';
                         }
                     ?>
                 </select>
@@ -69,8 +71,10 @@
             <div class="row">
                 <select class="form-control" name="assign_to_students[]" multiple required>
                     <?php
+                        $selectedGrades = json_decode($schoolsurvey->student_grade);
                         for ($grade = 1; $grade <= 12; $grade++) {
-                            echo '<option value="' . $grade . '">Grade ' . $grade . '</option>';
+                            $selected = in_array($grade, $selectedGrades) ? 'selected' : '';
+                            echo '<option value="' . $grade . '" ' . $selected . '>Grade ' . $grade . '</option>';
                         }
                     ?>
                 </select>
