@@ -49,10 +49,10 @@
         </div>
         <div class="accordion-body pl-5">
             <div class="row">
-                <select class="form-control" name="assign_to_teachers[]" multiple>
+                <select class="form-control" name="assign_to_teachers[]" multiple required>
                     <?php
                         for ($grade = 1; $grade <= 12; $grade++) {
-                            echo '<option value="Grade ' . $grade . '">Grade ' . $grade . '</option>';
+                            echo '<option value="' . $grade . '">Grade ' . $grade . '</option>';
                         }
                     ?>
                 </select>
@@ -67,10 +67,10 @@
         </div>
         <div class="accordion-body pl-5">
             <div class="row">
-                <select class="form-control" name="assign_to_students[]" multiple>
+                <select class="form-control" name="assign_to_students[]" multiple required>
                     <?php
                         for ($grade = 1; $grade <= 12; $grade++) {
-                            echo '<option value="Grade ' . $grade . '">Grade ' . $grade . '</option>';
+                            echo '<option value="' . $grade . '">Grade ' . $grade . '</option>';
                         }
                     ?>
                 </select>
