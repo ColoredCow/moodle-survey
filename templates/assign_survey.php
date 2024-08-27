@@ -22,13 +22,13 @@
     </div>
 </div>
 
-<div class="accordion my-5 active">
-    <div class="accordion-header accordion-header-section">
-        <img src="<?php echo $iconurl; ?>" alt="Icon" class="accordion-icon">
-        <h5>Assign To</h5>
-    </div>
-    <div class="accordion-body pl-5">
-        <form method="POST" class="needs-validation" novalidate>
+<form method="POST" class="needs-validation" novalidate>
+    <div class="accordion my-5 active">
+        <div class="accordion-header accordion-header-section">
+            <img src="<?php echo $iconurl; ?>" alt="Icon" class="accordion-icon">
+            <h5>Assign To</h5>
+        </div>
+        <div class="accordion-body pl-5">
             <div class="row">
                 <?php
                     foreach (json_decode($schoolsurvey->target_audience) as $audience) {
@@ -39,10 +39,47 @@
                     }
                 ?>
             </div>
-            <div class="custom-form-action-buttons">
-                <button name="pressed_button" value="cancel" type="submit" class="custom-question-form-cancel-button">Cancel</button>
-                <button name="pressed_button" value="save" type="submit" class="custom-question-form-submit-button ml-4">Assign</button>
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+
+    <div class="accordion my-5 active">
+        <div class="accordion-header accordion-header-section">
+            <img src="<?php echo $iconurl; ?>" alt="Icon" class="accordion-icon">
+            <h5>Teacher details</h5>
+        </div>
+        <div class="accordion-body pl-5">
+            <div class="row">
+                <select class="form-control" name="assign_to_teachers[]" multiple>
+                    <?php
+                        for ($grade = 1; $grade <= 12; $grade++) {
+                            echo '<option value="Grade ' . $grade . '">Grade ' . $grade . '</option>';
+                        }
+                    ?>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion my-5 active">
+        <div class="accordion-header accordion-header-section">
+            <img src="<?php echo $iconurl; ?>" alt="Icon" class="accordion-icon">
+            <h5>Student details</h5>
+        </div>
+        <div class="accordion-body pl-5">
+            <div class="row">
+                <select class="form-control" name="assign_to_students[]" multiple>
+                    <?php
+                        for ($grade = 1; $grade <= 12; $grade++) {
+                            echo '<option value="Grade ' . $grade . '">Grade ' . $grade . '</option>';
+                        }
+                    ?>
+                </select>
+            </div>
+        </div>
+    </div>
+        
+    <div class="custom-form-action-buttons">
+        <button name="pressed_button" value="cancel" type="submit" class="custom-question-form-cancel-button">Cancel</button>
+        <button name="pressed_button" value="save" type="submit" class="custom-question-form-submit-button ml-4">Assign</button>
+    </div>
+</form>

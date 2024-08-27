@@ -29,20 +29,8 @@ if ($hassiteconfig) {
     $ADMIN->add('root', new admin_category('moodle_survey', get_string('pluginname', 'local_moodle_survey')));
 	
 	$ADMIN->add('moodle_survey', new admin_externalpage('manage_survey', get_string('managesurvey', 'local_moodle_survey'),
-                 new moodle_url('/local/moodle_survey/manage_survey.php')));
+                new moodle_url('/local/moodle_survey/manage_survey.php')));
 
     $ADMIN->add('moodle_survey', new admin_externalpage('create_survey', get_string('createsurvey', 'local_moodle_survey'),
-                 new moodle_url('/local/moodle_survey/create_survey.php')));
-
-    // $ADMIN->add('root', new admin_category('moodle_survey', get_string('pluginname', 'Saishiko Surveys')));
-
-    // $settings = new admin_settingpage('saishiko_survey_settings', 'Saishiko Surveys Settings');
-
-    // $settings->add(new admin_externalpage('moodle_survey/manage', '', 
-    //     html_writer::link(new moodle_url('/local/moodle_survey/manage_survey.php'), get_string('managesurvey', 'Manage Surveys'))));
-
-    // $settings->add(new admin_setting_heading('moodle_survey/create', '', 
-    //     html_writer::link(new moodle_url('/local/moodle_survey/create_survey.php'), get_string('createsurvey', 'Create Survey'))));
-
-    // $ADMIN->add('moodle_survey', $settings);
+                new moodle_url('/local/moodle_survey/create_survey.php')));
 }
