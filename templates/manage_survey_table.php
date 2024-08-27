@@ -16,8 +16,9 @@ function build_table_data($survey, $dbhelper, $audienceaccessdbhelper, $USER) {
     $currentDate = date('Y-m-d');
     $issurveyactive = $currentDate >= $survey->start_date && $currentDate <= $survey->end_date;
     $issurveylive = $survey->status == get_string('live', 'local_moodle_survey') && $issurveyactive;
-
-    $surveyname = get_survey_name($survey, $issurveylive, $USER, $dbhelper);
+    $schoolid = get_user_school()->companyid;
+    $schoolsurvey = $audienceaccessdbhelper->get_audience_access_by_school_id_survey_id($survey->id, $schoolid);
+    $surveyname = get_survey_name($survey, $issurveylive, $USER, $dbhelper, $schoolsurvey);
     $surveycategory = $dbhelper->get_category_by_id($survey->category_id);
     $surveycreatedon = new DateTime($survey->created_at);
     $surveycreatedondate = $surveycreatedon->format('Y-m-d');
@@ -49,15 +50,12 @@ function build_table_data($survey, $dbhelper, $audienceaccessdbhelper, $USER) {
     ];
 }
 
-function get_survey_name($survey, $issurveylive, $USER, $dbhelper) {
+function get_survey_name($survey, $issurveylive, $USER, $dbhelper, $schoolsurvey) {
     $editurl = new moodle_url('/local/moodle_survey/edit_survey.php', ['id' => $survey->id]);
     $assignurl = new moodle_url('/local/moodle_survey/assign_survey.php', ['id' => $survey->id]);
     $surveyname = html_writer::link($editurl, $survey->name);
 
     $context = context_system::instance();
-    $schoolid = get_user_school()->companyid;
-    $audienceaccessdbhelper = new \local_moodle_survey\model\audience_access();
-    $schoolsurvey = $audienceaccessdbhelper->get_audience_access_by_school_id_survey_id($survey->id, $schoolid);
     $issurveyassign = false;
 
     if (has_capability('local/moodle_survey:can-assign-survey-to-users', $context)) {
