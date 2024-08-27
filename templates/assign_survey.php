@@ -51,7 +51,7 @@
             <div class="row">
                 <select class="form-control" name="assign_to_students[]" multiple required>
                     <?php
-                        $selectedGrades = json_decode($schoolsurvey->teacher_grade);
+                        $selectedGrades = isset($schoolsurvey->teacher_grade) ? json_decode($schoolsurvey->teacher_grade) : [];
                         for ($grade = 1; $grade <= 12; $grade++) {
                             $selected = in_array($grade, $selectedGrades) ? 'selected' : '';
                             echo '<option value="' . $grade . '" ' . $selected . '>Grade ' . $grade . '</option>';
@@ -71,7 +71,7 @@
             <div class="row">
                 <select class="form-control" name="assign_to_students[]" multiple required>
                     <?php
-                        $selectedGrades = json_decode($schoolsurvey->student_grade);
+                        $selectedGrades = isset($schoolsurvey->student_grade) ? json_decode($schoolsurvey->student_grade) : [];
                         for ($grade = 1; $grade <= 12; $grade++) {
                             $selected = in_array($grade, $selectedGrades) ? 'selected' : '';
                             echo '<option value="' . $grade . '" ' . $selected . '>Grade ' . $grade . '</option>';
