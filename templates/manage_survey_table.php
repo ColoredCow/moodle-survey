@@ -46,7 +46,7 @@ function build_table_data($survey, $dbhelper, $audienceaccessdbhelper, $USER) {
         format_string($surveycreatedondate),
         format_string($surveyschoolcount),
         format_string($surveyresponsescount),
-        get_survey_status($dbhelper, $survey),
+        render_survey_status($schoolsurvey, $dbhelper, $survey),
     ];
 }
 
@@ -81,6 +81,19 @@ function get_survey_name($survey, $issurveylive, $USER, $dbhelper, $schoolsurvey
     }
 
     return $surveyname;
+}
+
+function render_survey_status($schoolsurvey, $dbhelper, $survey) {
+    $context = context_system::instance();
+    $isassignsurveypermission = has_capability('local/moodle_survey:can-assign-survey-to-users', $context);
+    if($isassignsurveypermission && is_counsellor()) {
+        $issurveyassigned = $schoolsurvey->status == 'assigned';
+        $surveystatus = $issurveyassigned ? 'Assigned' :  'Not-Assigned';
+        $surveystatuscolor =  $issurveyassigned ? 'survey-live' :  'survey-draft';
+        return html_writer::span($surveystatus, "badge badge-pill badge-color survey-status $surveystatuscolor");
+    }
+
+    return get_survey_status($dbhelper, $survey);
 }
 
 function get_survey_status($dbhelper, $survey) {
