@@ -123,8 +123,8 @@ $capabilities = array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
-            'counsellor' => CAP_ALLOW,
             'teacher' => CAP_ALLOW,
+            'counsellor' => CAP_ALLOW,
         ),
     ),
     'local/moodle_survey:create-courses' => array(
