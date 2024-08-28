@@ -113,6 +113,20 @@ $capabilities = array(
         'archetypes' => array(
         ),
     ),
+    'local/moodle_survey:assign-course-to-school' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => array(
+        ),
+    ),
+    'local/moodle_survey:assign-course-to-user' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => array(
+            'teacher' => CAP_ALLOW,
+            'counsellor' => CAP_ALLOW,
+        ),
+    ),
     'local/moodle_survey:create-courses' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
