@@ -42,45 +42,59 @@
         </div>
     </div>
 
-    <div class="accordion my-5 active">
-        <div class="accordion-header accordion-header-section">
-            <img src="<?php echo $iconurl; ?>" alt="Icon" class="accordion-icon">
-            <h5>Teacher details</h5>
-        </div>
-        <div class="accordion-body pl-5">
-            <div class="row">
-                <select class="form-control" name="assign_to_teachers[]" multiple required>
-                    <?php
-                        $selectedGrades = isset($schoolsurvey->teacher_grade) ? json_decode($schoolsurvey->teacher_grade) : [];
-                        for ($grade = 1; $grade <= 12; $grade++) {
-                            $selected = in_array($grade, $selectedGrades) ? 'selected' : '';
-                            echo '<option value="' . $grade . '" ' . $selected . '>Grade ' . $grade . '</option>';
-                        }
-                    ?>
-                </select>
-            </div>
-        </div>
-    </div>
+    <?php
+        $targetAudience = json_decode($schoolsurvey->target_audience);
+        if (in_array('teacher', $targetAudience)) {
+            ?>
+                <div class="accordion my-5 active">
+                    <div class="accordion-header accordion-header-section">
+                        <img src="<?php echo $iconurl; ?>" alt="Icon" class="accordion-icon">
+                        <h5>Teacher details</h5>
+                    </div>
+                    <div class="accordion-body pl-5">
+                        <div class="row">
+                            <select class="form-control" name="assign_to_teachers[]" multiple required>
+                                <?php
+                                    $selectedGrades = isset($schoolsurvey->teacher_grade) ? json_decode($schoolsurvey->teacher_grade) : [];
+                                    for ($grade = 1; $grade <= 12; $grade++) {
+                                        $selected = in_array($grade, $selectedGrades) ? 'selected' : '';
+                                        echo '<option value="' . $grade . '" ' . $selected . '>Grade ' . $grade . '</option>';
+                                    }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            <?php
+        }
+    ?>
 
-    <div class="accordion my-5 active">
-        <div class="accordion-header accordion-header-section">
-            <img src="<?php echo $iconurl; ?>" alt="Icon" class="accordion-icon">
-            <h5>Student details</h5>
-        </div>
-        <div class="accordion-body pl-5">
-            <div class="row">
-                <select class="form-control" name="assign_to_students[]" multiple required>
-                    <?php
-                        $selectedGrades = isset($schoolsurvey->student_grade) ? json_decode($schoolsurvey->student_grade) : [];
-                        for ($grade = 1; $grade <= 12; $grade++) {
-                            $selected = in_array($grade, $selectedGrades) ? 'selected' : '';
-                            echo '<option value="' . $grade . '" ' . $selected . '>Grade ' . $grade . '</option>';
-                        }
-                    ?>
-                </select>
+    <?php
+        $targetAudience = json_decode($schoolsurvey->target_audience);
+        if (in_array('student', $targetAudience)) {
+        ?>
+            <div class="accordion my-5 active">
+                <div class="accordion-header accordion-header-section">
+                    <img src="<?php echo $iconurl; ?>" alt="Icon" class="accordion-icon">
+                    <h5>Student details</h5>
+                </div>
+                <div class="accordion-body pl-5">
+                    <div class="row">
+                        <select class="form-control" name="assign_to_students[]" multiple required>
+                            <?php
+                                $selectedGrades = isset($schoolsurvey->student_grade) ? json_decode($schoolsurvey->student_grade) : [];
+                                for ($grade = 1; $grade <= 12; $grade++) {
+                                    $selected = in_array($grade, $selectedGrades) ? 'selected' : '';
+                                    echo '<option value="' . $grade . '" ' . $selected . '>Grade ' . $grade . '</option>';
+                                }
+                            ?>
+                        </select>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
+        <?php
+        }
+    ?>
         
     <div class="custom-form-action-buttons">
         <button name="pressed_button" value="cancel" type="submit" class="custom-question-form-cancel-button">Cancel</button>
