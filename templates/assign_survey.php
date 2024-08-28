@@ -49,7 +49,7 @@
         </div>
         <div class="accordion-body pl-5">
             <div class="row">
-                <select class="form-control" name="assign_to_students[]" multiple required>
+                <select class="form-control" name="assign_to_teachers[]" multiple required>
                     <?php
                         $selectedGrades = isset($schoolsurvey->teacher_grade) ? json_decode($schoolsurvey->teacher_grade) : [];
                         for ($grade = 1; $grade <= 12; $grade++) {
