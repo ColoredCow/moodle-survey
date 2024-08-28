@@ -21,7 +21,7 @@ if (strlen($filters['createcategory']) || $filters['categoryid']) {
 }
 echo generate_page_header($categorytype, $filters);
 echo generate_filter_form($filters);
-echo generate_survey_table($filters, $categorytype, $categories);
+echo generate_category_table($filters, $categorytype, $categories);
 echo add_dynamic_form_script();
 
 require_once('includes/footer.php');
@@ -94,7 +94,7 @@ function generate_filter_form($filters) {
  *
  * @return string HTML content for the survey table.
  */
-function generate_survey_table($filters, $categorytype, $categories) {
+function generate_category_table($filters, $categorytype, $categories) {
     global $PAGE;
     $table = new html_table();
     $deleteicon = new moodle_url('/local/moodle_survey/pix/delete-icon.svg');
@@ -109,7 +109,7 @@ function generate_survey_table($filters, $categorytype, $categories) {
         foreach ($categories as $category) {
             $deleteurl = new moodle_url($PAGE->url, ['categoryid' => $category->id, 'categorytype' => $categorytype]);
             $table->data[] = [
-                html_writer::link(new moodle_url('/local/moodle_survey/create_survey.php', ['category' => $category->id]),  $category->label),
+                html_writer::link('#',  $category->label),
                 date('Y-m-d', strtotime($category->created_at)),
                 html_writer::link($deleteurl, 
                     html_writer::tag('img', '', ['src' => $deleteicon, 'alt' => 'Icon', 'class' => 'plus-icon'])

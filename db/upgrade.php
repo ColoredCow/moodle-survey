@@ -56,6 +56,7 @@ function xmldb_local_moodle_survey_upgrade($oldversion) {
         $table->add_field('updated_at', XMLDB_TYPE_DATETIME, null, null, XMLDB_NOTNULL, null, null);
 
         $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+        $table->add_key('cc_user_fk', XMLDB_KEY_FOREIGN, ['user_id'], 'user', ['id']);
 
         if (!$dbman->table_exists($table)) {
             $dbman->create_table($table);
