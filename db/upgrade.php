@@ -83,6 +83,29 @@ function xmldb_local_moodle_survey_upgrade($oldversion) {
 
         upgrade_plugin_savepoint(true, 2024071715, 'local', 'moodle_survey');
     }
+    if ($oldversion < 2024071718) {
+        // Define table cc_user_grade to be created.
+        $table = new xmldb_table('cc_school_course_grade');
+
+        // Adding fields to table cc_user_grade.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('user_grade', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('course_id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('school_id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('audience_type', XMLDB_TYPE_TEXT, '20', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('created_at', XMLDB_TYPE_DATETIME, null, null, XMLDB_NOTNULL, null, null);
+        $table->add_field('updated_at', XMLDB_TYPE_DATETIME, null, null, XMLDB_NOTNULL, null, null);
+
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+        $table->add_key('cc_school_course_grade_school_fk', XMLDB_KEY_FOREIGN, ['school_id'], 'company', ['id']);
+        $table->add_key('cc_school_course_grade_course_fk', XMLDB_KEY_FOREIGN, ['course_id'], 'course', ['id']);
+
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        upgrade_plugin_savepoint(true, 2024071718, 'local', 'moodle_survey');
+    }
 
     return true;
 }
