@@ -63,6 +63,25 @@ function xmldb_local_moodle_survey_upgrade($oldversion) {
 
         upgrade_plugin_savepoint(true, 2024071714, 'local', 'moodle_survey');
     }
+    if ($oldversion < 2024071715) {
+        // Define table cc_user_grade to be created.
+        $table = new xmldb_table('cc_user_departments');
+
+        // Adding fields to table cc_user_grade.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('user_departments', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('user_id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('created_at', XMLDB_TYPE_DATETIME, null, null, XMLDB_NOTNULL, null, null);
+        $table->add_field('updated_at', XMLDB_TYPE_DATETIME, null, null, XMLDB_NOTNULL, null, null);
+
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        upgrade_plugin_savepoint(true, 2024071715, 'local', 'moodle_survey');
+    }
 
     return true;
 }
