@@ -122,6 +122,7 @@ $string['moodle_survey:create-teacher'] = 'Can create teachers';
 $string['moodle_survey:view-teacher'] = 'Can view list of teachers';
 $string['moodle_survey:create-student'] = 'Can create students';
 $string['moodle_survey:view-student'] = 'Can view list of students';
+$string['local/moodle_survey:assign-course-to-school'] = 'Can assign course to schools';
 $string['moodle_survey:create-courses'] = 'Can create Saishiko Course';
 $string['moodle_survey:view-principal'] = 'Can view list of principal';
 $string['moodle_survey:create-principal'] = 'Can create principal';
