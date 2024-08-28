@@ -178,20 +178,27 @@ class survey {
         ];
     
         $sqlquery = "SELECT survey_id
-                    FROM {cc_survey_audience_access}
-                    WHERE school_id = :schoolid";
-        
+            FROM {cc_survey_audience_access}
+            WHERE school_id = :schoolid";
 
         if (is_student()) {
             $params['role'] = '"' . get_user_role() . '"';
-            $params['studentgrade'] = json_decode(get_user_grade()->user_grade);
-            $sqlquery .= "AND JSON_CONTAINS(assigned_to, :role) AND JSON_CONTAINS(student_grade, :studentgrade)";
+            $user_grade = get_user_grade()->user_grade;
+            $decoded_grade = $user_grade ? json_decode($user_grade) : [];
+
+            $params['grade'] = is_array($decoded_grade) ? json_encode($decoded_grade) : json_encode([$decoded_grade]);
+
+            $sqlquery .= "AND JSON_CONTAINS(assigned_to, :role) AND JSON_CONTAINS(student_grade, :grade)";
         } else if (is_teacher()){
             $params['role'] = '"' . get_user_role() . '"';
-            $params['teachergrade'] = json_decode(get_user_grade()->user_grade);
-            $sqlquery .= "AND JSON_CONTAINS(assigned_to, :role) AND JSON_CONTAINS(teacher_grade, :teachergrade)";
+            $user_grade = get_user_grade()->user_grade;
+            $decoded_grade = $user_grade ? json_decode($user_grade) : [];
+
+            $params['grade'] = is_array($decoded_grade) ? json_encode($decoded_grade) : json_encode([$decoded_grade]);
+
+            $sqlquery .= "AND JSON_CONTAINS(assigned_to, :role) AND JSON_CONTAINS(teacher_grade, :grade)";
         }
-    
+
         return $DB->get_fieldset_sql($sqlquery, $params);
     }
 
