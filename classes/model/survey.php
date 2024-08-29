@@ -183,16 +183,30 @@ class survey {
 
         if (is_student()) {
             $params['role'] = '"' . get_user_role() . '"';
-            $user_grade = get_user_grade()->user_grade;
-            $params['grade'] =  $user_grade;
+            $user_grades = json_decode(get_user_grade()->user_grade, true);
             
-            $sqlquery .= " AND JSON_CONTAINS(assigned_to, :role) AND JSON_CONTAINS(student_grade, :grade)";
+            $gradeConditions = [];
+            foreach ($user_grades as $grade) {
+                $gradeConditions[] = "JSON_CONTAINS(student_grade, :grade_$grade)";
+                $params["grade_$grade"] = '"' . $grade . '"';
+            }
+            
+            $gradeConditionStr = implode(' OR ', $gradeConditions);
+            
+            $sqlquery .= " AND JSON_CONTAINS(assigned_to, :role) AND ($gradeConditionStr)";
         } else if (is_teacher()){
             $params['role'] = '"' . get_user_role() . '"';
-            $user_grade = get_user_grade()->user_grade;
-            $params['grade'] = $user_grade;
-
-            $sqlquery .= "AND JSON_CONTAINS(assigned_to, :role) AND JSON_CONTAINS(teacher_grade, :grade)";
+            $user_grades = json_decode(get_user_grade()->user_grade, true);
+            
+            $gradeConditions = [];
+            foreach ($user_grades as $grade) {
+                $gradeConditions[] = "JSON_CONTAINS(teacher_grade, :grade_$grade)";
+                $params["grade_$grade"] = '"' . $grade . '"';
+            }
+            
+            $gradeConditionStr = implode(' OR ', $gradeConditions);
+            
+            $sqlquery .= " AND JSON_CONTAINS(assigned_to, :role) AND ($gradeConditionStr)";
         }
 
         return $DB->get_fieldset_sql($sqlquery, $params);
