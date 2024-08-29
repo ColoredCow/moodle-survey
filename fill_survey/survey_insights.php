@@ -31,11 +31,13 @@ $table->head = [
 ];
 
 $defaultCategory = reset($surveyinsightsdata->categoriesScores);
+$categorySlugs = [];
 foreach ($surveyinsightsdata->categoriesScores as $categoriesscore) {
     $table->data[] = [
         $categoriesscore->catgororySlug,
         $categoriesscore->score,
     ];
+    $categorySlugs[] = $categoriesscore->catgororySlug;
 }
 
 $interpretationsData = [];
@@ -51,7 +53,9 @@ foreach ($surveyinsightsdata->interpretations as $interpretation) {
 
 $statusoptions = [];
 foreach ($questioncategories as $questioncategorie) {
-    $statusoptions[$questioncategorie->slug] = $questioncategorie->label;
+    if(in_array($questioncategorie->label, $categorySlugs)) {
+        $statusoptions[$questioncategorie->slug] = $questioncategorie->label;
+    }
 }
 ?>
 
