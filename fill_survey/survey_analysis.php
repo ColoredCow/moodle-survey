@@ -14,7 +14,7 @@ $surveydbhelper = $dbhelper = new \local_moodle_survey\model\survey();
 $survey = $surveydbhelper->get_survey_by_id($id);
 
 $statusoptions = get_string('surveyinsighttypes', 'local_moodle_survey');
-$questioncategories = get_question_categories($surveydbhelper);
+$questioncategories = get_question_categories($surveydbhelper, $id);
 $currentinsighttype = optional_param('insighttype', 'teacher', PARAM_ALPHA);
 $questioncategory = optional_param('category', array_key_first($questioncategories), PARAM_ALPHANUMEXT);
 $interpretationdata = $surveydbhelper->get_interpretations_data_by_survey_id_and_question_category_id($id, $currentinsighttype);
@@ -166,8 +166,8 @@ function get_question_category_filter($url, $id, $questioncategories, $questionc
     return $html;
 }
 
-function get_question_categories($surveydbhelper) {
-    $questioncategories = $surveydbhelper->get_all_question_categories();
+function get_question_categories($surveydbhelper, $id) {
+    $questioncategories = $surveydbhelper->get_question_categories_by_survey_id($id);
     $categories = [];
     foreach ($questioncategories as $category) {
         $categories[$category->slug] = $category->label;

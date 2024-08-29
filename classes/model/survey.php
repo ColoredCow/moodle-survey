@@ -71,6 +71,13 @@ class survey {
         return $DB->get_records('cc_categories', array('type' => 'question'));
     }
 
+    public static function get_question_categories_by_survey_id($surveyid) {
+        global $DB;
+        $sql = "SELECT ca.* FROM {cc_survey_questions} sq LEFT JOIN {cc_categories} ca ON ca.id = sq.question_category_id WHERE sq.survey_id = :surveyid GROUP BY ca.id;";
+        $params = ['surveyid' => $surveyid];
+        return $DB->get_records_sql($sql, $params);
+    }
+
     public static function get_active_survey_count() {
         global $DB;
         if (is_sel_admin()) {
@@ -434,11 +441,11 @@ class survey {
                     sr.submitted_by,
                     s.id AS survey_id
                 FROM
-                    mdl_cc_surveys s
-                    LEFT JOIN mdl_cc_survey_responses sr ON sr.survey_id = s.id
-                    LEFT JOIN mdl_user u ON sr.submitted_by = u.id
-                    LEFT JOIN mdl_role_assignments ra ON ra.userid = u.id
-                    LEFT JOIN mdl_role r ON ra.roleid = r.id
+                    {cc_surveys} s
+                    LEFT JOIN {cc_survey_responses} sr ON sr.survey_id = s.id
+                    LEFT JOIN {user} u ON sr.submitted_by = u.id
+                    LEFT JOIN {role_assignments} ra ON ra.userid = u.id
+                    LEFT JOIN {role} r ON ra.roleid = r.id
                 WHERE
                     s.category_id = :categoryid
                     AND s.status = :status
