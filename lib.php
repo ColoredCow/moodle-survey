@@ -20,32 +20,37 @@ function is_sel_admin() {
 
 function is_counsellor() {
     global $USER, $DB;
+    $systemcontextid = \context_system::instance()->id;
     $role = $DB->get_record('role', ['shortname' => 'counsellor'], 'id', MUST_EXIST);
-    return user_has_role_assignment($USER->id, $role->id);
+    return user_has_role_assignment($USER->id, $role->id, $systemcontextid);
 }
 
 function is_teacher() {
     global $USER, $DB;
+    $systemcontextid = \context_system::instance()->id;
     $role = $DB->get_record('role', ['shortname' => 'teacher'], 'id', MUST_EXIST);
-    return user_has_role_assignment($USER->id, $role->id);
+    return user_has_role_assignment($USER->id, $role->id, $systemcontextid);
 }
 
 function is_school_admin() {
     global $USER, $DB;
+    $systemcontextid = \context_system::instance()->id;
     $role = $DB->get_record('role', ['shortname' => 'schooladmin'], 'id', MUST_EXIST);
-    return user_has_role_assignment($USER->id, $role->id);
+    return user_has_role_assignment($USER->id, $role->id, $systemcontextid);
 }
 
 function is_principal() {
     global $USER, $DB;
+    $systemcontextid = \context_system::instance()->id;
     $role = $DB->get_record('role', ['shortname' => 'principal'], 'id', MUST_EXIST);
-    return user_has_role_assignment($USER->id, $role->id);
+    return user_has_role_assignment($USER->id, $role->id, $systemcontextid);
 }
 
 function is_student() {
     global $USER, $DB;
+    $systemcontextid = \context_system::instance()->id;
     $role = $DB->get_record('role', ['shortname' => 'student'], 'id', MUST_EXIST);
-    return user_has_role_assignment($USER->id, $role->id);
+    return user_has_role_assignment($USER->id, $role->id, $systemcontextid);
 }
 
 function get_user_role() {
