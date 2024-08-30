@@ -49,7 +49,7 @@
                 <div class="accordion my-5 active">
                     <div class="accordion-header accordion-header-section">
                         <img src="<?php echo $iconurl; ?>" alt="Icon" class="accordion-icon">
-                        <h5>Teacher details</h5>
+                        <h5>Choose Teacher's Grades&nbsp;</h5><p class="mb-0">(Press Ctrl for Multi-Select)</p>
                     </div>
                     <div class="accordion-body pl-5">
                         <div class="row">
@@ -76,7 +76,7 @@
             <div class="accordion my-5 active">
                 <div class="accordion-header accordion-header-section">
                     <img src="<?php echo $iconurl; ?>" alt="Icon" class="accordion-icon">
-                    <h5>Student details</h5>
+                    <h5>Choose Student's Grades&nbsp;</h5><p class="mb-0">(Press Ctrl for Multi-Select)</p>
                 </div>
                 <div class="accordion-body pl-5">
                     <div class="row">
