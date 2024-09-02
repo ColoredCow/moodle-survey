@@ -446,7 +446,7 @@ class survey {
                     LEFT JOIN {user} u ON sr.submitted_by = u.id
                     LEFT JOIN {role_assignments} ra ON ra.userid = u.id
                     LEFT JOIN {role} r ON ra.roleid = r.id
-                    LEFT JOIN {cc_survey_audience_access} saa ON saa.school_id = s.id
+                    LEFT JOIN {cc_survey_audience_access} saa ON saa.survey_id = s.id
                 WHERE
                     s.category_id = :categoryid
                     AND s.status = :status
