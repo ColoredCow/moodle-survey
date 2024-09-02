@@ -451,7 +451,7 @@ class survey {
                     s.category_id = :categoryid
                     AND s.status = :status
                     AND r.shortname = :roleshortname
-                    AND saa.school_id = :school_id";
+                    AND saa.school_id = :schoolid";
         $params = [
             'status' => 'Live',
             'categoryid' => $categoryid,
