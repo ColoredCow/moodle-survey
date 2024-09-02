@@ -243,8 +243,15 @@ class survey {
     
                 case 'status':
                     if (!empty($value) && $value !== 'all') {
-                        $sql .= " AND status = :status";
-                        $params['status'] = $value;
+                        if($value == "Live") {
+                            $sql .= " AND CURRENT_DATE() >= start_date AND CURRENT_DATE() <= end_date"; // For Live Surveys
+                            $params['status'] = $value;
+                        } else if ($value == "Completed") {
+                            $sql .= " AND CURRENT_DATE() >= start_date AND CURRENT_DATE() >= end_date"; // For Completed Surveys
+                        } else {
+                            $sql .= " AND status = :status";
+                            $params['status'] = $value;
+                        }
                     }
                     continue;
     
@@ -358,24 +365,6 @@ class survey {
             }
         }
         return false;
-    }
-
-    public static function get_all_survey_status() {
-        global $DB;
-    
-        $sql = "SELECT DISTINCT status FROM {cc_surveys}";
-        $records = $DB->get_records_sql($sql);
-    
-        $statusoptions = [
-            'all' => 'Select Status'
-        ];
-    
-        foreach ($records as $record) {
-            $status = $record->status;
-            $statusoptions[$status] = $status;
-        }
-    
-        return $statusoptions;
     }
 
     public static function get_survey_status($survey) {

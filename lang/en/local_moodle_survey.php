@@ -62,7 +62,7 @@ $string['questions'] = 'Questions';
 $string['scores'] = 'Scores';
 $string['audience'] = 'Audience';
 $string['access'] = 'Access';
-$string['surveystatus'] = 'Status';
+$string['surveystatuslabel'] = 'Status';
 $string['active'] = 'Active';
 $string['inactive'] = 'Inactive';
 $string['filter'] = 'Filter';
@@ -183,4 +183,10 @@ $string['chartcolorset'] = ['#F47A29', '#FFB685', '#FFF0E6', '#FFF'];
 $string['surveyinsighttypes'] = [
     'teacher' => 'Teachers Insights',
     'student' => 'Student Insights',
+];
+$string['surveystatus'] = [
+    "all" => "Select Status",
+    'Live' => "Live",
+    "Draft" => "Draft",
+    "Completed" => "Completed",
 ];

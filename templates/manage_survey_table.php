@@ -8,7 +8,7 @@ function generate_table_head() {
         get_string('createdon', 'local_moodle_survey'),
         get_string('schools', 'local_moodle_survey'),
         get_string('responses', 'local_moodle_survey'),
-        get_string('surveystatus', 'local_moodle_survey'),
+        get_string('surveystatuslabel', 'local_moodle_survey'),
     ];
 }
 
