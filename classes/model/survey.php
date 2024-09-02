@@ -443,14 +443,15 @@ class survey {
                 FROM
                     {cc_surveys} s
                     LEFT JOIN {cc_survey_responses} sr ON sr.survey_id = s.id
-                    LEFT JOIN {cc_survey_audience_access} sa ON sa.school_id = :schoolid
                     LEFT JOIN {user} u ON sr.submitted_by = u.id
                     LEFT JOIN {role_assignments} ra ON ra.userid = u.id
                     LEFT JOIN {role} r ON ra.roleid = r.id
+                    LEFT JOIN {cc_survey_audience_access} saa ON saa.school_id = s.id
                 WHERE
                     s.category_id = :categoryid
                     AND s.status = :status
-                    AND r.shortname = :roleshortname";
+                    AND r.shortname = :roleshortname
+                    AND saa.school_id = :school_id";
         $params = [
             'status' => 'Live',
             'categoryid' => $categoryid,
