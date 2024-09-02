@@ -435,8 +435,8 @@ class survey {
 
     public static function get_live_surveys_with_interpretations($categoryid, $rolename) {
         global $DB;
-        $sql = "SELECT
-                    s.category_id,
+        $userschool = get_user_school();
+        $sql = "SELECT DISTINCT s.category_id,
                     sr.response AS survey_responses,
                     sr.submitted_by,
                     s.id AS survey_id
@@ -446,14 +446,17 @@ class survey {
                     LEFT JOIN {user} u ON sr.submitted_by = u.id
                     LEFT JOIN {role_assignments} ra ON ra.userid = u.id
                     LEFT JOIN {role} r ON ra.roleid = r.id
+                    LEFT JOIN {cc_survey_audience_access} saa ON saa.survey_id = s.id
                 WHERE
                     s.category_id = :categoryid
                     AND s.status = :status
-                    AND r.shortname = :roleshortname";
+                    AND r.shortname = :roleshortname
+                    AND saa.school_id = :schoolid";
         $params = [
             'status' => 'Live',
             'categoryid' => $categoryid,
-            'roleshortname' => $rolename
+            'roleshortname' => $rolename,
+            'schoolid' => $userschool->companyid
         ];
         
         return $DB->get_recordset_sql($sql, $params);
