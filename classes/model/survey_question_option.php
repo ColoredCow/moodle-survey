@@ -38,8 +38,8 @@ class survey_question_option {
     
     public static function get_option_ids_for_survey($surveyid) {
         global $DB;
-        $sql = "SELECT option.id FROM {cc_survey_questions} as survey_question
-            JOIN {cc_survey_question_options} as option ON option.survey_question_id = survey_question.id
+        $sql = "SELECT q_option.id FROM {cc_survey_questions} as survey_question
+            JOIN {cc_survey_question_options} as q_option ON q_option.survey_question_id = survey_question.id
             WHERE survey_question.survey_id = :surveyid
         ";
         $params = ['surveyid' => $surveyid];
