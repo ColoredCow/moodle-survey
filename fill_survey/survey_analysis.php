@@ -1,7 +1,11 @@
 <?php
 
 require_once('../../../config.php');
+require_once($CFG->dirroot . '/local/moodle_survey/lib.php');
 require_login();
+if (!has_capability('local/moodle_survey:view-survey-analysis', \context_system::instance())) {
+    redirect(new moodle_url('/'));
+}
 echo $OUTPUT->header();
 
 use core\chart_pie;

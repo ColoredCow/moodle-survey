@@ -225,5 +225,12 @@ $capabilities = array(
         'archetypes' => array(
             'counsellor' => CAP_ALLOW,
         ),
-    )
+    ),
+    'local/moodle_survey:view-survey-analysis' => array(
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => array(
+            'principal' => CAP_ALLOW,
+        ),
+    ),
 );
