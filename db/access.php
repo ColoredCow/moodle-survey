@@ -231,6 +231,7 @@ $capabilities = array(
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
             'principal' => CAP_ALLOW,
+            'counsellor' => CAP_ALLOW,
         ),
     ),
 );
