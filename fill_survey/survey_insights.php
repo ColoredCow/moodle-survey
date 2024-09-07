@@ -1,7 +1,11 @@
 <?php
 
 require_once('../../../config.php');
+require_once($CFG->dirroot . '/local/moodle_survey/lib.php');
 require_login();
+if (!has_capability('local/moodle_survey:view-individual-survey-insights', \context_system::instance())) {
+    redirect(new moodle_url('/'));
+}
 
 $id = required_param('id', PARAM_INT);
 $dbhelper = new \local_moodle_survey\model\survey();
