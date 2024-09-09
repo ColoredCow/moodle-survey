@@ -7,11 +7,23 @@ function local_moodle_survey_extend_navigation(global_navigation $nav) {
 }
 
 function local_moodle_survey_before_http_headers() {
-    global $CFG, $SESSION;
-    $SESSION->wantsurl = $CFG->wwwroot;
+    global $CFG;
+    local_moodle_survey_redirect_homepage();
     $currenturl = $_SERVER['REQUEST_URI'];
     if (strpos($currenturl, '/blocks/iomad_company_admin/index.php') !== false) {
         redirect($CFG->wwwroot . '/theme/academi/moodle_school/manage_school.php');
+    }
+}
+
+function local_moodle_survey_redirect_homepage() {
+    global $SESSION;
+    $isexistinguser = isloggedin() && !isguestuser();
+    if ($isexistinguser) {
+        if (!empty($SESSION->wantsurl)) {
+            $returnurl = new moodle_url('/');
+            unset($SESSION->wantsurl);
+            redirect($returnurl);
+        }
     }
 }
 
